@@ -1,0 +1,22 @@
+{% extends "exams/base.html" %}
+{% load i18n %}
+
+{% block title %}{{ object.title }} - {{ object.exam.title }}{% endblock %}
+
+{% block breadcrumb %}<li><a href="{% url "exams:examination" slug=object.exam.slug %}">{{ object.exam.title }}</a></li><li><a href="">{{ object.title }}</a></li>{% endblock %}
+
+{% block content %}
+<h1>{% trans "Test:" %} {{ object.title }} <small>{{ object.begin }} - {{ object.end }} ({{ object.exam.title }})</small></h1>
+
+<h2>{% trans "Assignments" %}</h2>
+{% if object.assignments.all %}
+<ul>
+{% for a in object.assignments.all %}
+    <li><a href="{% url "exams:assignment" examination_slug=object.exam.slug test_slug=object.slug slug=a.slug %}">{{ a.title }}</a></li>
+{% endfor %}
+</ul>
+{% else %}
+<p>No assignments.</p>
+{% endif %}
+
+{% endblock %}

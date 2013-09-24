@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block breadcrumb %}<li><a href="{% url "exams:examinations" %}">{% trans "Examinations" %}</a></li>{% endblock %}
+
+{% block title %}{% trans "Examination" %} - {{ block.super }}{% endblock %}

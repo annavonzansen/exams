@@ -1,0 +1,30 @@
+{% extends "exams/base.html" %}
+{% load i18n %}
+{% load markup %}
+
+{% block title %}{{ object.title }} - {% trans "Examinations" %} - {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}{{ block.super }}<li class="active"><a href="{% url "exams:examination" slug=object.slug %}">{{ object.title }}</a></li>{% endblock %}
+
+{% block content %}
+    <h1>{% trans "Examination" %} {{ object.title }}{% if object.begin and object.end %} <small>{{ object.begin|date:"d.m.Y" }} - {{ object.end|date:"d.m.Y" }}</small>{% endif %}</h1>
+
+    {% if object.description %}
+    <div class="description">
+        {{ object.description|markdown:"safe" }}
+    </div>
+    {% endif %}
+
+    <h2>{% trans "Tests" %}</h2>
+    {% with tests=object.get_tests %}
+        {% if tests %}
+            <ul>
+            {% for t in tests %}
+                <li><a href="{% url "exams:test" examination_slug=object.slug slug=t.slug %}">{{ t.title }}</a> <small>({{ t.assignment_count }} {% trans "assignments" %}) {{ t.begin }} - {{ t.end }}</small>{% if t.is_now %} <span class="label label-info">{% trans "Now" %}</span>{% endif %}</li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>{% trans "No tests available." %}</p>
+        {% endif %}
+    {% endwith %}
+{% endblock %}

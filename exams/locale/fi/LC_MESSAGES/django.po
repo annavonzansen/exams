@@ -1,0 +1,123 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: exams 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-09-11 12:24+0300\n"
+"PO-Revision-Date: 2013-09-11 12:25+0200\n"
+"Last-Translator: Ville Korhonen <ville.korhonen@ylioppilastutkinto.fi>\n"
+"Language-Team: FINNISH <digabi@ylioppilastutkinto.fi>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Language: Finnish\n"
+"X-Poedit-Country: FINLAND\n"
+
+#: __init__.py:4
+msgid "Exams"
+msgstr "Tutkinnot"
+
+#: models.py:76
+#: templates/exams/base.html:6
+#: templates/exams/examination_detail.html:10
+msgid "Examination"
+msgstr "Tutkinto"
+
+#: models.py:77
+#: templates/exams/base.html:4
+#: templates/exams/examination_detail.html:5
+#: templates/exams/examination_list.html:4
+#: templates/exams/examination_list.html:7
+msgid "Examinations"
+msgstr "Tutkinnot"
+
+#: models.py:111
+msgid "Test"
+msgstr "Koe"
+
+#: models.py:112
+#: templates/exams/examination_detail.html:18
+msgid "Tests"
+msgstr "Kokeet"
+
+#: models.py:120
+#, python-format
+msgid "AnswerOption %(key)s: %(value)s (%(uuid)s)"
+msgstr ""
+
+#: models.py:127
+msgid "Answer Option"
+msgstr "Vastausasetus"
+
+#: models.py:128
+msgid "Answer Options"
+msgstr "Vastausasetukset"
+
+#: models.py:153
+msgid "-- Select --"
+msgstr "-- Valitse --"
+
+#: models.py:173
+#, python-format
+msgid "Assignment %(title)s (%(uuid)s)"
+msgstr ""
+
+#: models.py:179
+#: templates/exams/assignment_detail.html:4
+#: templates/exams/assignment_detail.html:9
+msgid "Assignment"
+msgstr "Tehtävä"
+
+#: models.py:180
+#: templates/exams/test_detail.html:11
+msgid "Assignments"
+msgstr "Tehtävät"
+
+#: models.py:199
+msgid "Answer"
+msgstr "Vastaus"
+
+#: models.py:200
+msgid "Answers"
+msgstr "Vastaukset"
+
+#: templates/exams/assignment_detail.html:19
+msgid "Submit"
+msgstr "Lähetä"
+
+#: templates/exams/assignment_detail.html:19
+msgid "Reset"
+msgstr "Tyhjennä"
+
+#: templates/exams/examination_detail.html:23
+msgid "assignments"
+msgstr "tehtävät"
+
+#: templates/exams/examination_detail.html:23
+#: templates/exams/examination_list.html:10
+msgid "Now"
+msgstr "Nyt"
+
+#: templates/exams/examination_detail.html:27
+msgid "No tests available."
+msgstr "Ei kokeita saatavilla."
+
+#: templates/exams/examination_list.html:12
+msgid "No examinations available."
+msgstr "Ei tutkintoja saatavilla."
+
+#: templates/exams/test_detail.html:9
+msgid "Test:"
+msgstr "Koe:"
+
+#~ msgid "Answer Type"
+#~ msgstr "Vastaustyyppi"
+
+#~ msgid "Answer Types"
+#~ msgstr "Vastaustyypit"

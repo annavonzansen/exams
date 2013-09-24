@@ -1,0 +1,15 @@
+{% extends "exams/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Examinations" %} - {{ block.super }}{% endblock %}
+
+{% block content %}
+<h1>{% trans "Examinations" %}</h1>
+<ul>
+{% for exam in object_list %}
+    <li><a href="{% url "exams:examination" slug=exam.slug %}">{{ exam.title }}</a> {% if exam.begin %}<small>{{ exam.begin }} - {{ exam.end }}</small>{% endif %}{% if exam.is_now %} <span class="label label-info">{% trans "Now" %}</span>{% endif %}</li>
+{% empty %}
+    <li>{% trans "No examinations available." %}</li>
+{% endfor %}
+</ul>
+{% endblock %}

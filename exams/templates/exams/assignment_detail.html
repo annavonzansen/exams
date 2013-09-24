@@ -1,0 +1,32 @@
+{% extends "exams/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Assignment" %} - {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}<li><a href="#">{{ object.title }}</a></li>{% endblock %}
+
+{% block content %}
+<h1>{% trans "Assignment" %}</h1>
+{% if object.instructions %}
+<div class="instructions alert alert-info">
+{{ object.instructions }}
+</div>
+{% endif %}
+
+<form method="post" action="">
+{{ object.format_assignment|safe }}
+<p></p>
+<p><input type="submit" value="{% trans "Submit" %}" class="btn btn-success"/> <input type="reset" value="{% trans "Reset" %}" class="btn btn-danger"/></p>
+</form>
+
+
+{% if object.attached_files.all %}
+<hr/>
+<p>{{ object.attached_files_count }} {% trans "attached files" %}</p>
+<ul>
+    {% for a in object.attached_files.all %}
+    <li>{{ a.title }} {{ a.uuid }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endblock %}
