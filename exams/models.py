@@ -40,6 +40,11 @@ LANGUAGE_TEST_LEVELS = (
     ('L1', _('Latin, high school')),
 )
 
+REGISTRATION_STATUS_CHOICES = (
+    ('E', _('Enabled')),
+    ('D', _('Disabled')),
+)
+
 def get_unique_filename(instance, filename):
     new_filename = 'uploads/%(date)s/%(uuid)s/%(filename)s' % {
         'filename': filename,
@@ -57,6 +62,10 @@ class Examination(models.Model):
     title = models.CharField(max_length=255, unique=True, verbose_name=_('Title'))
     description = models.TextField(blank=True, null=True, verbose_name=_('Description'))
     slug = AutoSlugField(populate_from=['title',])
+
+    registration_begin = models.DateTimeField(blank=True, null=True)
+    registration_end = models.DateTimeField(blank=True, null=True)
+    registration_status = models.CharField(max_length=1, choices=REGISTRATION_STATUS_CHOICES, default='D')
 
     def get_tests(self):
         return Test.objects.filter(exam=self)
