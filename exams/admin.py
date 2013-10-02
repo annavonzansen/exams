@@ -11,6 +11,7 @@ class TestInline(admin.TabularInline):
     model = Test
 
 class TestAdmin(admin.ModelAdmin):
+    list_display = ('subject', 'level', 'examination', 'begin', 'end', 'assignment_count',)
     inlines = [
         #AssignmentInline,
     ]
