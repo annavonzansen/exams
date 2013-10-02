@@ -1,0 +1,31 @@
+{% load i18n %}
+
+<h2 id="#assignment-{{ assignment.uuid }}">{{ assignment.title }}</h2>
+
+{% if assignment.instructions %}
+<div class="instructions alert alert-info">
+{{ assignment.instructions }}
+</div>
+{% endif %}
+
+{% comment %}
+<form method="post" action="">
+{% endcomment %}
+{{ assignment.format_assignment|safe }}
+
+{% comment %}
+<p></p>
+<p><input type="submit" value="{% trans "Submit" %}" class="btn btn-success"/> <input type="reset" value="{% trans "Reset" %}" class="btn btn-danger"/></p>
+</form>
+{% endcomment %}
+
+
+{% if assignment.attached_files.all %}
+<hr/>
+<p>{{ assignment.attached_files_count }} {% trans "attached files" %}</p>
+<ul>
+    {% for a in assignment.attached_files.all %}
+    <li>{{ a.title }} {{ a.uuid }}</li>
+    {% endfor %}
+</ul>
+{% endif %}

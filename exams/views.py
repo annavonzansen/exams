@@ -79,6 +79,9 @@ examination = ExaminationView.as_view()
 
 class TestView(DetailView):
     model = Test
+
+    def get_object(self):
+        return get_object_or_404(Test, uuid=self.request.resolver_match.kwargs['uuid'])
 test = TestView.as_view()
 
 class TestsView(ListView):
@@ -87,6 +90,9 @@ tests = TestsView.as_view()
 
 class AssignmentView(DetailView):
     model = Assignment
+
+    def get_object(self):
+        return get_object_or_404(Assignment, uuid=self.request.resolver_match.kwargs['uuid'])
 assignment = AssignmentView.as_view()
 
 class AssignmentsView(ListView):

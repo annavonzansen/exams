@@ -4,7 +4,7 @@ from django.utils.translation import ugettext as _
 from django.conf import settings
 
 from django_extensions.db.fields import AutoSlugField, CreationDateTimeField, ModificationDateTimeField, UUIDField
-
+from django.core.urlresolvers import reverse
 from django.utils import timezone
 
 import os
@@ -67,6 +67,11 @@ class Examination(models.Model):
     registration_end = models.DateTimeField(blank=True, null=True)
     registration_status = models.CharField(max_length=1, choices=REGISTRATION_STATUS_CHOICES, default='D')
 
+    def get_absolute_url(self):
+        return reverse('exams:examination', kwargs={
+                    'slug': self.slug,
+                })
+
     def get_tests(self):
         return Test.objects.filter(examination=self)
 
@@ -116,22 +121,38 @@ class Test(models.Model):
     #title = models.CharField(max_length=255)
     #slug = AutoSlugField(populate_from=['title',])
 
-    assignments = models.ManyToManyField('Assignment', blank=True, null=True, verbose_name=_('Assignments'))
-
     begin = models.DateTimeField(verbose_name=_('Begin'))
     end = models.DateTimeField(verbose_name=_('End'))
 
     created = CreationDateTimeField()
     modified = ModificationDateTimeField()
 
+    def title(self):
+        return "%(subject)s %(level)s" % {
+            'subject': self.subject.name.capitalize(),
+            'level': self.level or "",
+        }
+    title.short_description = _('Title')
+    title.admin_order_field = 'subject'
+
+    def get_absolute_url(self):
+        return reverse('exams:test', kwargs={
+            'examination_slug': self.examination.slug,
+            'uuid': self.uuid,
+        })
+
     def is_now(self):
         if self.begin < timezone.now() and self.end > timezone.now():
             return True
         return False
 
+    def get_assignments(self):
+        assignments = Assignment.objects.filter(test=self)
+        return assignments
+
     @property
     def assignment_count(self):
-        return self.assignments.count()
+        return self.get_assignments().count()
 
     def __unicode__(self):
         return 'Test %(subject)s (%(level)s) / %(examination)s, %(assignment_count)d assignments' % {
@@ -163,6 +184,7 @@ class AnswerOption(models.Model):
 
 class Assignment(models.Model):
     uuid = UUIDField(verbose_name='UUID')
+    test = models.ForeignKey(Test)
 
     title = models.CharField(max_length=255)
 
@@ -171,7 +193,8 @@ class Assignment(models.Model):
 
     content = models.TextField()
     content_type = models.CharField(max_length=1, choices=CONTENT_TYPE_CHOICES)
-    slug = AutoSlugField(populate_from=['title',])
+
+    order = models.IntegerField(default=0)
 
     attached_files = models.ManyToManyField('File', blank=True, null=True)
 
@@ -179,6 +202,13 @@ class Assignment(models.Model):
 
     created = CreationDateTimeField()
     modified = ModificationDateTimeField()
+
+    def get_absolute_url(self):
+        return reverse('exams:assignment', kwargs={
+            'examination_slug': self.test.examination.slug,
+            'test_uuid': self.test.uuid,
+            'uuid': self.uuid,
+        })
 
     def attached_files_count(self):
         return self.attached_files.count()
@@ -217,6 +247,7 @@ class Assignment(models.Model):
     class Meta:
         verbose_name = _('Assignment')
         verbose_name_plural = _('Assignments')
+        ordering = ('order',)
 
 class Answer(models.Model):
     uuid = UUIDField(verbose_name='UUID')
