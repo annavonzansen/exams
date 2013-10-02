@@ -79,7 +79,7 @@ class Examination(models.Model):
         return False
 
     def __unicode__(self):
-        return _('Examination %s') % (self.title, self.uuid)
+        return _('Examination %s') % (self.title)
     
     class Meta:
         verbose_name = _('Examination')
