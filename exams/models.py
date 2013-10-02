@@ -79,11 +79,11 @@ class Examination(models.Model):
         return False
 
     def __unicode__(self):
-        return "Examination %s (%s)" % (self.title, self.uuid)
+        return _('Examination %s') % (self.title, self.uuid)
     
     class Meta:
-        verbose_name = _("Examination")
-        verbose_name_plural = _("Examinations")
+        verbose_name = _('Examination')
+        verbose_name_plural = _('Examinations')
 
 class Test(models.Model):
     """Test
@@ -114,11 +114,11 @@ class Test(models.Model):
         return self.assignments.count()
 
     def __unicode__(self):
-        return "Test %s (%s), %d assignments" % (self.title, self.uuid, self.assignment_count)
+        return 'Test %s (%s), %d assignments' % (self.title, self.uuid, self.assignment_count)
 
     class Meta:
-        verbose_name = _("Test")
-        verbose_name_plural = _("Tests")
+        verbose_name = _('Test')
+        verbose_name_plural = _('Tests')
 
 class AnswerOption(models.Model):
     uuid = UUIDField(verbose_name='UUID')
@@ -126,15 +126,15 @@ class AnswerOption(models.Model):
     value = models.TextField(max_length=255)
 
     def __unicode__(self):
-        return _("AnswerOption %(key)s: %(value)s (%(uuid)s)") % {
+        return _('AnswerOption %(key)s: %(value)s (%(uuid)s)') % {
             'key': self.key,
             'value': self.value,
             'uuid': uuid,
         }
 
     class Meta:
-        verbose_name = _("Answer Option")
-        verbose_name_plural = _("Answer Options")
+        verbose_name = _('Answer Option')
+        verbose_name_plural = _('Answer Options')
 
 class Assignment(models.Model):
     uuid = UUIDField(verbose_name='UUID')
@@ -162,12 +162,12 @@ class Assignment(models.Model):
         def expand_choices(matchobj):
             opts = matchobj.group(1).split(ASSIGNMENT_SELECT_SEPARATOR)
             num = opts[0].split(' ')[0]
-            opts[0] = " ".join(opts[0].split(' ')[1:])
+            opts[0] = ' '.join(opts[0].split(' ')[1:])
             code = '<select name="assignment-%(uuid)s-%(num)s"><option>%(select)s</option>' % {
                 'select': _("-- Select --"),
                 'uuid': '%%UUID%%',
                 'num': num,
-                } + "".join(["<option>%s</option>" % x.strip() for x in opts]) + '</select>'
+                } + ''.join(['<option>%s</option>' % x.strip() for x in opts]) + '</select>'
             return code
         regexp = r'\[(.*?)\]'
         assignment = re.sub(regexp, expand_choices, self.content)
@@ -184,14 +184,14 @@ class Assignment(models.Model):
         pass
 
     def __unicode__(self):
-        return _("Assignment %(title)s (%(uuid)s)") % {
+        return _('Assignment %(title)s (%(uuid)s)') % {
             'title': self.title,
             'uuid': self.uuid,
         }
     
     class Meta:
-        verbose_name = _("Assignment")
-        verbose_name_plural = _("Assignments")
+        verbose_name = _('Assignment')
+        verbose_name_plural = _('Assignments')
 
 class Answer(models.Model):
     uuid = UUIDField(verbose_name='UUID')
@@ -207,11 +207,11 @@ class Answer(models.Model):
     modified = ModificationDateTimeField()
 
     def __unicode__(self):
-        return "Answer %s to assignment %s by %s" % (self.uuid, self.assignment.title, self.user)
+        return 'Answer %s to assignment %s by %s' % (self.uuid, self.assignment.title, self.user)
 
     class Meta:
-        verbose_name = _("Answer")
-        verbose_name_plural = _("Answers")
+        verbose_name = _('Answer')
+        verbose_name_plural = _('Answers')
 
 class File(models.Model):
     uuid = UUIDField()
@@ -224,7 +224,7 @@ class File(models.Model):
     modified = ModificationDateTimeField()
 
     def __unicode__(self):
-        return _("File: %(title)s, %(filename)s (%(size)d bytes) (%(uuid)s)") % {
+        return _('File: %(title)s, %(filename)s (%(size)d bytes) (%(uuid)s)') % {
                     'title': self.title,
                     'filename': os.path.basename(self.file.path),
                     'uuid': self.uuid,
@@ -232,5 +232,5 @@ class File(models.Model):
                  }
 
     class Meta:
-        verbose_name = _("File")
-        verbose_name_plural = _("Files")
+        verbose_name = _('File')
+        verbose_name_plural = _('Files')
