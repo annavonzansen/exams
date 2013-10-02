@@ -16,11 +16,12 @@ class TestAdmin(admin.ModelAdmin):
     ]
 
 class ExaminationAdmin(MarkdownModelAdmin):
+    list_display = ('title', 'registration_begin', 'registration_end',)
     inlines = [
         TestInline,
     ]
 
-admin.site.register(Examination)
+admin.site.register(Examination, ExaminationAdmin)
 admin.site.register(Test, TestAdmin)
 admin.site.register(Assignment)
 admin.site.register(AnswerOption)
