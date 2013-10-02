@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: exams 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-02 23:03+0300\n"
-"PO-Revision-Date: 2013-10-02 23:04+0200\n"
+"POT-Creation-Date: 2013-10-02 23:50+0300\n"
+"PO-Revision-Date: 2013-10-02 23:50+0200\n"
 "Last-Translator: Ville Korhonen <ville.korhonen@ylioppilastutkinto.fi>\n"
 "Language-Team: FINNISH <digabi@ylioppilastutkinto.fi>\n"
 "Language: \n"
@@ -79,6 +79,15 @@ msgstr "Latina, 7. luokalta"
 msgid "Latin, high school"
 msgstr "Latina, lukiosta"
 
+#: models.py:57
+#: models.py:235
+msgid "Title"
+msgstr "Otsikko"
+
+#: models.py:58
+msgid "Description"
+msgstr "Kuvaus"
+
 #: models.py:90
 #, python-format
 msgid "Examination %s"
@@ -97,6 +106,28 @@ msgstr "Tutkinto"
 #: templates/exams/examination_list.html:7
 msgid "Examinations"
 msgstr "Tutkinnot"
+
+#: models.py:103
+msgid "Subject"
+msgstr "Aine"
+
+#: models.py:105
+msgid "Level"
+msgstr "Taso"
+
+#: models.py:110
+#: models.py:210
+#: templates/exams/test_detail.html:11
+msgid "Assignments"
+msgstr "Tehtävät"
+
+#: models.py:112
+msgid "Begin"
+msgstr "Alkaa"
+
+#: models.py:113
+msgid "End"
+msgstr "Päättyy"
 
 #: models.py:136
 msgid "Test"
@@ -135,11 +166,6 @@ msgstr "Tehtävä %(title)s (%(uuid)s)"
 msgid "Assignment"
 msgstr "Tehtävä"
 
-#: models.py:210
-#: templates/exams/test_detail.html:11
-msgid "Assignments"
-msgstr "Tehtävät"
-
 #: models.py:229
 msgid "Answer"
 msgstr "Vastaus"
@@ -148,14 +174,15 @@ msgstr "Vastaus"
 msgid "Answers"
 msgstr "Vastaukset"
 
+#: models.py:236
+#: models.py:251
+msgid "File"
+msgstr "Tiedosto"
+
 #: models.py:243
 #, python-format
 msgid "File: %(title)s, %(filename)s (%(size)d bytes) (%(uuid)s)"
 msgstr ""
-
-#: models.py:251
-msgid "File"
-msgstr "Tiedosto"
 
 #: models.py:252
 msgid "Files"

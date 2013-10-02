@@ -54,8 +54,8 @@ class Examination(models.Model):
     Examination round (YOS2013)
     """
     uuid = UUIDField(verbose_name='UUID')
-    title = models.CharField(max_length=255, unique=True)
-    description = models.TextField(blank=True, null=True)
+    title = models.CharField(max_length=255, unique=True, verbose_name=_('Title'))
+    description = models.TextField(blank=True, null=True, verbose_name=_('Description'))
     slug = AutoSlugField(populate_from=['title',])
 
     def get_tests(self):
@@ -100,17 +100,17 @@ class Test(models.Model):
     """
     uuid = UUIDField(verbose_name='UUID')
     examination = models.ForeignKey(Examination)
-    subject = models.ForeignKey('education.Subject')
+    subject = models.ForeignKey('education.Subject', verbose_name=_('Subject'))
 
-    level = models.CharField(max_length=2, choices=LANGUAGE_TEST_LEVELS, blank=True, null=True)
+    level = models.CharField(max_length=2, choices=LANGUAGE_TEST_LEVELS, blank=True, null=True, verbose_name=_('Level'))
 
     #title = models.CharField(max_length=255)
     #slug = AutoSlugField(populate_from=['title',])
 
-    assignments = models.ManyToManyField('Assignment', blank=True, null=True)
+    assignments = models.ManyToManyField('Assignment', blank=True, null=True, verbose_name=_('Assignments'))
 
-    begin = models.DateTimeField()
-    end = models.DateTimeField()
+    begin = models.DateTimeField(verbose_name=_('Begin'))
+    end = models.DateTimeField(verbose_name=_('End'))
 
     created = CreationDateTimeField()
     modified = ModificationDateTimeField()
@@ -232,8 +232,8 @@ class Answer(models.Model):
 class File(models.Model):
     uuid = UUIDField()
 
-    title = models.CharField(max_length=255, blank=True, null=True)
-    file = models.FileField(upload_to=get_unique_filename)
+    title = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('Title'))
+    file = models.FileField(upload_to=get_unique_filename, verbose_name=_('File'))
 
 
     created = CreationDateTimeField()
