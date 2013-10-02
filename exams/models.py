@@ -125,10 +125,11 @@ class Test(models.Model):
         return self.assignments.count()
 
     def __unicode__(self):
-        return 'Test %(subject)s (%(level)s), %(assignment_count)d assignments' % {
+        return 'Test %(subject)s (%(level)s) / %(examination)s, %(assignment_count)d assignments' % {
             'subject': self.subject,
             'level': self.level,
             'assignment_count': self.assignment_count,
+            'examination': self.examination.title,
         }
 
     class Meta:
