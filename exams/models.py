@@ -32,6 +32,14 @@ ASSIGNMENT_TYPE_CHOICES = (
 )
 ASSIGNMENT_SELECT_SEPARATOR = '|'
 
+LANGUAGE_TEST_LEVELS = (
+    ('A', _('Long')),
+    ('B', _('Semi')),
+    ('C', _('Short')),
+    ('L7', _('Latin, 7th grade')),
+    ('L1', _('Latin, high school')),
+)
+
 def get_unique_filename(instance, filename):
     new_filename = 'uploads/%(date)s/%(uuid)s/%(filename)s' % {
         'filename': filename,
@@ -94,10 +102,12 @@ class Test(models.Model):
     examination = models.ForeignKey(Examination)
     subject = models.ForeignKey('education.Subject')
 
-    title = models.CharField(max_length=255)
-    slug = AutoSlugField(populate_from=['title',])
+    level = models.CharField(max_length=2, choices=LANGUAGE_TEST_LEVELS, blank=True, null=True)
 
-    assignments = models.ManyToManyField('Assignment')
+    #title = models.CharField(max_length=255)
+    #slug = AutoSlugField(populate_from=['title',])
+
+    assignments = models.ManyToManyField('Assignment', blank=True, null=True)
 
     begin = models.DateTimeField()
     end = models.DateTimeField()
