@@ -16,7 +16,7 @@ class TestAdmin(admin.ModelAdmin):
     ]
 
 class ExaminationAdmin(MarkdownModelAdmin):
-    list_display = ('title', 'registration_begin', 'registration_end',)
+    list_display = ('title', 'registration_begin', 'registration_end', 'registration_status',)
     inlines = [
         TestInline,
     ]
