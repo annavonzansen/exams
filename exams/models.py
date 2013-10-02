@@ -68,7 +68,7 @@ class Examination(models.Model):
     registration_status = models.CharField(max_length=1, choices=REGISTRATION_STATUS_CHOICES, default='D')
 
     def get_tests(self):
-        return Test.objects.filter(exam=self)
+        return Test.objects.filter(examination=self)
 
     @property
     def begin(self):
