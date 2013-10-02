@@ -8,6 +8,87 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
+        # Adding model 'Examination'
+        db.create_table(u'exams_examination', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('uuid', self.gf('django.db.models.fields.CharField')(max_length=36, blank=True)),
+            ('title', self.gf('django.db.models.fields.CharField')(unique=True, max_length=255)),
+            ('description', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
+            ('slug', self.gf('django_extensions.db.fields.AutoSlugField')(allow_duplicates=False, max_length=50, separator=u'-', blank=True, populate_from=['title'], overwrite=False)),
+        ))
+        db.send_create_signal(u'exams', ['Examination'])
+
+        # Adding model 'Test'
+        db.create_table(u'exams_test', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('uuid', self.gf('django.db.models.fields.CharField')(max_length=36, blank=True)),
+            ('exam', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['exams.Examination'])),
+            ('title', self.gf('django.db.models.fields.CharField')(max_length=255)),
+            ('slug', self.gf('django_extensions.db.fields.AutoSlugField')(allow_duplicates=False, max_length=50, separator=u'-', blank=True, populate_from=['title'], overwrite=False)),
+            ('begin', self.gf('django.db.models.fields.DateTimeField')()),
+            ('end', self.gf('django.db.models.fields.DateTimeField')()),
+            ('created', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now, blank=True)),
+            ('modified', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now, blank=True)),
+        ))
+        db.send_create_signal(u'exams', ['Test'])
+
+        # Adding M2M table for field assignments on 'Test'
+        m2m_table_name = db.shorten_name(u'exams_test_assignments')
+        db.create_table(m2m_table_name, (
+            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
+            ('test', models.ForeignKey(orm[u'exams.test'], null=False)),
+            ('assignment', models.ForeignKey(orm[u'exams.assignment'], null=False))
+        ))
+        db.create_unique(m2m_table_name, ['test_id', 'assignment_id'])
+
+        # Adding model 'AnswerOption'
+        db.create_table(u'exams_answeroption', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('uuid', self.gf('django.db.models.fields.CharField')(max_length=36, blank=True)),
+            ('key', self.gf('django.db.models.fields.CharField')(max_length=255)),
+            ('value', self.gf('django.db.models.fields.TextField')(max_length=255)),
+        ))
+        db.send_create_signal(u'exams', ['AnswerOption'])
+
+        # Adding model 'Assignment'
+        db.create_table(u'exams_assignment', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('uuid', self.gf('django.db.models.fields.CharField')(max_length=36, blank=True)),
+            ('title', self.gf('django.db.models.fields.CharField')(max_length=255)),
+            ('assignment_type', self.gf('django.db.models.fields.CharField')(max_length=3)),
+            ('instructions', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
+            ('content', self.gf('django.db.models.fields.TextField')()),
+            ('content_type', self.gf('django.db.models.fields.CharField')(max_length=1)),
+            ('slug', self.gf('django_extensions.db.fields.AutoSlugField')(allow_duplicates=False, max_length=50, separator=u'-', blank=True, populate_from=['title'], overwrite=False)),
+            ('answer_options', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['exams.AnswerOption'], null=True, blank=True)),
+            ('created', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now, blank=True)),
+            ('modified', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now, blank=True)),
+        ))
+        db.send_create_signal(u'exams', ['Assignment'])
+
+        # Adding M2M table for field attached_files on 'Assignment'
+        m2m_table_name = db.shorten_name(u'exams_assignment_attached_files')
+        db.create_table(m2m_table_name, (
+            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
+            ('assignment', models.ForeignKey(orm[u'exams.assignment'], null=False)),
+            ('file', models.ForeignKey(orm[u'exams.file'], null=False))
+        ))
+        db.create_unique(m2m_table_name, ['assignment_id', 'file_id'])
+
+        # Adding model 'Answer'
+        db.create_table(u'exams_answer', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('uuid', self.gf('django.db.models.fields.CharField')(max_length=36, blank=True)),
+            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
+            ('test', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['exams.Test'])),
+            ('assignment', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['exams.Assignment'])),
+            ('content', self.gf('django.db.models.fields.TextField')()),
+            ('status', self.gf('django.db.models.fields.CharField')(max_length=1)),
+            ('created', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now, blank=True)),
+            ('modified', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now, blank=True)),
+        ))
+        db.send_create_signal(u'exams', ['Answer'])
+
         # Adding model 'File'
         db.create_table(u'exams_file', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -21,6 +102,27 @@ class Migration(SchemaMigration):
 
 
     def backwards(self, orm):
+        # Deleting model 'Examination'
+        db.delete_table(u'exams_examination')
+
+        # Deleting model 'Test'
+        db.delete_table(u'exams_test')
+
+        # Removing M2M table for field assignments on 'Test'
+        db.delete_table(db.shorten_name(u'exams_test_assignments'))
+
+        # Deleting model 'AnswerOption'
+        db.delete_table(u'exams_answeroption')
+
+        # Deleting model 'Assignment'
+        db.delete_table(u'exams_assignment')
+
+        # Removing M2M table for field attached_files on 'Assignment'
+        db.delete_table(db.shorten_name(u'exams_assignment_attached_files'))
+
+        # Deleting model 'Answer'
+        db.delete_table(u'exams_answer')
+
         # Deleting model 'File'
         db.delete_table(u'exams_file')
 
@@ -85,6 +187,7 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'Assignment'},
             'answer_options': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['exams.AnswerOption']", 'null': 'True', 'blank': 'True'}),
             'assignment_type': ('django.db.models.fields.CharField', [], {'max_length': '3'}),
+            'attached_files': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'to': u"orm['exams.File']", 'null': 'True', 'blank': 'True'}),
             'content': ('django.db.models.fields.TextField', [], {}),
             'content_type': ('django.db.models.fields.CharField', [], {'max_length': '1'}),
             'created': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now', 'blank': 'True'}),
