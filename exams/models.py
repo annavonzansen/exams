@@ -91,7 +91,8 @@ class Test(models.Model):
     Single test (math, physics, chemistry, languages, ...)
     """
     uuid = UUIDField(verbose_name='UUID')
-    exam = models.ForeignKey(Examination)
+    examination = models.ForeignKey(Examination)
+    subject = models.ForeignKey('education.Subject')
 
     title = models.CharField(max_length=255)
     slug = AutoSlugField(populate_from=['title',])
