@@ -6,8 +6,8 @@
 {% block content %}
 <h1>{% trans "Examinations" %}</h1>
 <ul>
-{% for exam in object_list %}
-    <li><a href="{% url "exams:examination" slug=exam.slug %}">{{ exam.title }}</a> {% if exam.begin %}<small>{{ exam.begin }} - {{ exam.end }}</small>{% endif %}{% if exam.is_now %} <span class="label label-info">{% trans "Now" %}</span>{% endif %}</li>
+{% for o in object_list %}
+    <li><a href="{% url "exams:examination" slug=o.slug %}">{{ o.title }}</a> {% if o.begin %}<small>{{ o.begin }} - {{ o.end }}</small>{% endif %}{% if o.is_now %} <span class="label label-info">{% trans "Now" %}</span>{% endif %}</li>
 {% empty %}
     <li>{% trans "No examinations available." %}</li>
 {% endfor %}
