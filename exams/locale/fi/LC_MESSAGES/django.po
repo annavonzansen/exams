@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: exams 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-11 12:24+0300\n"
-"PO-Revision-Date: 2013-09-11 12:25+0200\n"
+"POT-Creation-Date: 2013-10-02 23:03+0300\n"
+"PO-Revision-Date: 2013-10-02 23:04+0200\n"
 "Last-Translator: Ville Korhonen <ville.korhonen@ylioppilastutkinto.fi>\n"
 "Language-Team: FINNISH <digabi@ylioppilastutkinto.fi>\n"
 "Language: \n"
@@ -23,13 +23,74 @@ msgstr ""
 msgid "Exams"
 msgstr "Tutkinnot"
 
-#: models.py:76
+#: models.py:14
+msgid "Markdown"
+msgstr "Markdown"
+
+#: models.py:15
+msgid "HTML"
+msgstr "HTML"
+
+#: models.py:16
+msgid "Plaintext"
+msgstr "Pelkkä teksti"
+
+#: models.py:22
+msgid "Draft"
+msgstr "Luonnos"
+
+#: models.py:23
+msgid "Final"
+msgstr "Lopullinen"
+
+#: models.py:28
+msgid "Text field"
+msgstr "Tekstikenttä"
+
+#: models.py:29
+msgid "Textarea"
+msgstr "Tekstialue"
+
+#: models.py:30
+msgid "Select multiple"
+msgstr "Valitse useita"
+
+#: models.py:31
+msgid "Select one"
+msgstr "Valitse yksi"
+
+#: models.py:36
+msgid "Long"
+msgstr "Pitkä"
+
+#: models.py:37
+msgid "Semi"
+msgstr "Keskipitkä"
+
+#: models.py:38
+msgid "Short"
+msgstr "Lyhyt"
+
+#: models.py:39
+msgid "Latin, 7th grade"
+msgstr "Latina, 7. luokalta"
+
+#: models.py:40
+msgid "Latin, high school"
+msgstr "Latina, lukiosta"
+
+#: models.py:90
+#, python-format
+msgid "Examination %s"
+msgstr "Tutkinto %s"
+
+#: models.py:93
 #: templates/exams/base.html:6
 #: templates/exams/examination_detail.html:10
 msgid "Examination"
 msgstr "Tutkinto"
 
-#: models.py:77
+#: models.py:94
 #: templates/exams/base.html:4
 #: templates/exams/examination_detail.html:5
 #: templates/exams/examination_list.html:4
@@ -37,55 +98,68 @@ msgstr "Tutkinto"
 msgid "Examinations"
 msgstr "Tutkinnot"
 
-#: models.py:111
+#: models.py:136
 msgid "Test"
 msgstr "Koe"
 
-#: models.py:112
+#: models.py:137
 #: templates/exams/examination_detail.html:18
 msgid "Tests"
 msgstr "Kokeet"
 
-#: models.py:120
+#: models.py:145
 #, python-format
 msgid "AnswerOption %(key)s: %(value)s (%(uuid)s)"
 msgstr ""
 
-#: models.py:127
+#: models.py:152
 msgid "Answer Option"
 msgstr "Vastausasetus"
 
-#: models.py:128
+#: models.py:153
 msgid "Answer Options"
 msgstr "Vastausasetukset"
 
-#: models.py:153
+#: models.py:183
 msgid "-- Select --"
 msgstr "-- Valitse --"
 
-#: models.py:173
+#: models.py:203
 #, python-format
 msgid "Assignment %(title)s (%(uuid)s)"
-msgstr ""
+msgstr "Tehtävä %(title)s (%(uuid)s)"
 
-#: models.py:179
+#: models.py:209
 #: templates/exams/assignment_detail.html:4
 #: templates/exams/assignment_detail.html:9
 msgid "Assignment"
 msgstr "Tehtävä"
 
-#: models.py:180
+#: models.py:210
 #: templates/exams/test_detail.html:11
 msgid "Assignments"
 msgstr "Tehtävät"
 
-#: models.py:199
+#: models.py:229
 msgid "Answer"
 msgstr "Vastaus"
 
-#: models.py:200
+#: models.py:230
 msgid "Answers"
 msgstr "Vastaukset"
+
+#: models.py:243
+#, python-format
+msgid "File: %(title)s, %(filename)s (%(size)d bytes) (%(uuid)s)"
+msgstr ""
+
+#: models.py:251
+msgid "File"
+msgstr "Tiedosto"
+
+#: models.py:252
+msgid "Files"
+msgstr "Tiedostot"
 
 #: templates/exams/assignment_detail.html:19
 msgid "Submit"
@@ -94,6 +168,10 @@ msgstr "Lähetä"
 #: templates/exams/assignment_detail.html:19
 msgid "Reset"
 msgstr "Tyhjennä"
+
+#: templates/exams/assignment_detail.html:25
+msgid "attached files"
+msgstr "liitetyt tiedostot"
 
 #: templates/exams/examination_detail.html:23
 msgid "assignments"
