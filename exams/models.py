@@ -24,9 +24,10 @@ CONTENT_STATUS_CHOICES = (
 )
 
 ASSIGNMENT_TYPE_SELECT_ONE = 's'
+ASSIGNMENT_TYPE_TEXTAREA = 'T'
 ASSIGNMENT_TYPE_CHOICES = (
     ('t', _('Text field')),
-    ('T', _('Textarea')),
+    (ASSIGNMENT_TYPE_TEXTAREA, _('Textarea')),
     ('S', _('Select multiple')),
     (ASSIGNMENT_TYPE_SELECT_ONE, _('Select one')),
 )
@@ -230,9 +231,15 @@ class Assignment(models.Model):
         assignment = re.sub(regexp, expand_choices, self.content)
         return assignment
 
+    def format_assignment_textarea(self):
+        textarea_code = '[textarea]'
+        return self.content.replace(textarea_code, '<textarea rows="5" cols="60"></textarea>')
+
     def format_assignment(self):
         if self.assignment_type == ASSIGNMENT_TYPE_SELECT_ONE:
             return self.format_assignment_select()
+        elif self.assignment_type == ASSIGNMENT_TYPE_TEXTAREA:
+            return self.format_assignment_textarea()
         else:
             return self.content
 
