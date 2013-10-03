@@ -147,7 +147,7 @@ class Test(models.Model):
         return False
 
     def get_assignments(self):
-        assignments = Assignment.objects.filter(test=self)
+        assignments = Assignment.objects.filter(test=self, status=CONTENT_STATUS_FINAL)
         return assignments
 
     @property
@@ -199,6 +199,8 @@ class Assignment(models.Model):
     attached_files = models.ManyToManyField('File', blank=True, null=True)
 
     answer_options = models.ForeignKey(AnswerOption, blank=True, null=True)
+
+    status = models.CharField(max_length=1, choices=CONTENT_STATUS_CHOICES)
 
     created = CreationDateTimeField()
     modified = ModificationDateTimeField()
