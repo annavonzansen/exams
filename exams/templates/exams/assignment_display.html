@@ -21,11 +21,11 @@
 
 
 {% if assignment.attached_files.all %}
-<hr/>
-<p>{{ assignment.attached_files_count }} {% trans "attached files" %}</p>
+<h3>{% trans "Attached files" %}</h3>
+<p>{{ assignment.attached_files_count }} {% trans "attached file(s)." %}</p>
 <ul>
     {% for a in assignment.attached_files.all %}
-    <li>{{ a.title }} {{ a.uuid }}</li>
+    <li><a href="#">{{ a.title }} {{ a.uuid }}</a></li>
     {% endfor %}
 </ul>
 {% endif %}
