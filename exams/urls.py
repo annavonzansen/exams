@@ -10,5 +10,5 @@ urlpatterns = patterns('exams.views',
     url(r'^(?P<examination_slug>[A-Za-z0-9-_]{1,})/(?P<uuid>[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/$', 'test', name='test'),
     url(r'^(?P<examination_slug>[A-Za-z0-9-_]{1,})/(?P<test_uuid>[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/(?P<uuid>[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/$', 'assignment', name='assignment'),
 
-    url(r'^file/(?P<uuid>\w+)/$', 'download', name='download'),
+    url(r'^file/(?P<uuid>[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/$', 'download', name='download'),
 )

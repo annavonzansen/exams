@@ -281,6 +281,11 @@ class File(models.Model):
     created = CreationDateTimeField()
     modified = ModificationDateTimeField()
 
+    def get_absolute_url(self):
+        return reverse('exams:download', kwargs={
+            'uuid': self.uuid,
+        })
+
     def __unicode__(self):
         return _('File: %(title)s, %(filename)s (%(size)d bytes) (%(uuid)s)') % {
                     'title': self.title,

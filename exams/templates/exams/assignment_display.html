@@ -25,7 +25,7 @@
 <p>{{ assignment.attached_files_count }} {% trans "attached file(s)." %}</p>
 <ul>
     {% for a in assignment.attached_files.all %}
-    <li><a href="#">{{ a.title }} {{ a.uuid }}</a></li>
+    <li><a href="{% url "exams:download" uuid=a.uuid %}">{{ a.title }} {{ a.uuid }}</a></li>
     {% endfor %}
 </ul>
 {% endif %}

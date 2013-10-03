@@ -104,6 +104,9 @@ class FileDownloadView(SingleObjectMixin, DownloadView):
     use_xsendfile = False
     mimetype = 'application/octet-stream'
 
+    def get_object(self):
+        return get_object_or_404(File, uuid=self.request.resolver_match.kwargs['uuid'])
+
     def get_contents(self):
         return self.get_object().file.read()
 
