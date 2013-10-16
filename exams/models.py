@@ -131,7 +131,7 @@ class Test(models.Model):
     """
     uuid = UUIDField(verbose_name='UUID')
     examination = models.ForeignKey(Examination)
-    subject = models.ForeignKey('education.Subject', verbose_name=_('Subject'))
+    subject = models.ForeignKey('exams.Subject', verbose_name=_('Subject'))
 
     level = models.CharField(max_length=2, choices=LANGUAGE_TEST_LEVELS, blank=True, null=True, verbose_name=_('Level'))
 
