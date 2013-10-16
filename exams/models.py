@@ -6,6 +6,7 @@ from django.conf import settings
 from django_extensions.db.fields import AutoSlugField, CreationDateTimeField, ModificationDateTimeField, UUIDField
 
 from django.utils import timezone
+from django.utils.timezone import utc
 
 import os
 import re
@@ -94,8 +95,7 @@ class Examination(models.Model):
         return Test.objects.filter(exam=self)
 
     def is_registration_enabled(self):
-        now = datetime.datetime.now()
-
+        now = datetime.datetime.utcnow().replace(tzinfo=utc)
         if self.registration_begin <= now and self.registration_end >= now and self.registration_status == 'E':
             return True
         else:
