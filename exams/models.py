@@ -53,6 +53,28 @@ def get_unique_filename(instance, filename):
     }
     return new_filename
 
+class Subject(models.Model):
+    uuid = UUIDField(verbose_name='UUID')
+    name = models.CharField(max_length=255, unique=True, verbose_name=_('Name'))
+    short = models.CharField(max_length=3, unique=True, verbose_name=_('Short'))
+
+    #subject_type = models.CharField(max_length=1, choices=SUBJECT_TYPE_CHOICES, verbose_name=_('Subject Type'))
+
+    created = CreationDateTimeField()
+    modified = ModificationDateTimeField()
+    def __str__(self):
+        return "%(name)s (%(short)s)" % {
+            'name': self.name,
+            'short': self.short,
+        }
+
+    def __unicode__(self):
+        return self.__str__()
+
+    class Meta:
+        verbose_name = _('Subject')
+        verbose_name_plural = _('Subjects')
+
 class Examination(models.Model):
     """Examination
 
@@ -162,6 +184,7 @@ class AnswerOption(models.Model):
         verbose_name_plural = _('Answer Options')
 
 class Assignment(models.Model):
+    """Assignment"""
     uuid = UUIDField(verbose_name='UUID')
 
     title = models.CharField(max_length=255)
