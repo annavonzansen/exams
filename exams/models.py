@@ -9,6 +9,7 @@ from django.utils import timezone
 
 import os
 import re
+import datetime
 
 CONTENT_TYPE_CHOICES = (
     ('M', _('Markdown')),
@@ -91,6 +92,14 @@ class Examination(models.Model):
 
     def get_tests(self):
         return Test.objects.filter(exam=self)
+
+    def is_registration_enabled(self):
+        now = datetime.datetime.now()
+
+        if self.registration_begin <= now and self.registration_end >= now and self.registration_status == 'E':
+            return True
+        else:
+            return False
 
     @property
     def begin(self):
