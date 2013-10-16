@@ -20,7 +20,7 @@
         {% if tests %}
             <ul>
             {% for t in tests %}
-                <li><a href="{% url "exams:test" examination_slug=object.slug slug=t.slug %}">{{ t.title }}</a> <small>({{ t.assignment_count }} {% trans "assignments" %}) {{ t.begin }} - {{ t.end }}</small>{% if t.is_now %} <span class="label label-info">{% trans "Now" %}</span>{% endif %}</li>
+                <li><a href="{% url "exams:test" examination_slug=object.slug uuid=t.uuid %}">{{ t.subject }}</a> <small>({{ t.assignment_count }} {% trans "assignments" %}) {{ t.begin }} - {{ t.end }}</small>{% if t.is_now %} <span class="label label-info">{% trans "Now" %}</span>{% endif %}</li>
             {% endfor %}
             </ul>
         {% else %}

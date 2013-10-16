@@ -13,7 +13,7 @@ class TestInline(admin.TabularInline):
 class TestAdmin(admin.ModelAdmin):
     list_display = ('subject', 'examination', 'begin', 'end', 'assignment_count',)
     inlines = [
-        #AssignmentInline,
+        AssignmentInline,
     ]
 
 class ExaminationAdmin(MarkdownModelAdmin):
@@ -24,7 +24,7 @@ class ExaminationAdmin(MarkdownModelAdmin):
 
 admin.site.register(Examination, ExaminationAdmin)
 admin.site.register(Test, TestAdmin)
-admin.site.register(Assignment)
+#admin.site.register(Assignment)
 admin.site.register(AnswerOption)
 admin.site.register(Answer)
 admin.site.register(File)

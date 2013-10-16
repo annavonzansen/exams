@@ -4,7 +4,7 @@ from django.utils.translation import ugettext as _
 from django.conf import settings
 
 from django_extensions.db.fields import AutoSlugField, CreationDateTimeField, ModificationDateTimeField, UUIDField
-
+from django.core.urlresolvers import reverse
 from django.utils import timezone
 from django.utils.timezone import utc
 
@@ -26,9 +26,10 @@ CONTENT_STATUS_CHOICES = (
 )
 
 ASSIGNMENT_TYPE_SELECT_ONE = 's'
+ASSIGNMENT_TYPE_TEXTAREA = 'T'
 ASSIGNMENT_TYPE_CHOICES = (
     ('t', _('Text field')),
-    ('T', _('Textarea')),
+    (ASSIGNMENT_TYPE_TEXTAREA, _('Textarea')),
     ('S', _('Select multiple')),
     (ASSIGNMENT_TYPE_SELECT_ONE, _('Select one')),
 )
@@ -91,8 +92,13 @@ class Examination(models.Model):
     registration_end = models.DateTimeField(blank=True, null=True)
     registration_status = models.CharField(max_length=1, choices=REGISTRATION_STATUS_CHOICES, default='D')
 
+    def get_absolute_url(self):
+        return reverse('exams:examination', kwargs={
+                    'slug': self.slug,
+                })
+
     def get_tests(self):
-        return Test.objects.filter(exam=self)
+        return Test.objects.filter(examination=self)
 
     def is_registration_enabled(self):
         now = datetime.datetime.utcnow().replace(tzinfo=utc)
@@ -147,22 +153,38 @@ class Test(models.Model):
     #title = models.CharField(max_length=255)
     #slug = AutoSlugField(populate_from=['title',])
 
-    assignments = models.ManyToManyField('Assignment', blank=True, null=True, verbose_name=_('Assignments'))
-
     begin = models.DateTimeField(verbose_name=_('Begin'))
     end = models.DateTimeField(verbose_name=_('End'))
 
     created = CreationDateTimeField()
     modified = ModificationDateTimeField()
 
+    def title(self):
+        return "%(subject)s %(level)s" % {
+            'subject': self.subject.name.capitalize(),
+            'level': self.level or "",
+        }
+    title.short_description = _('Title')
+    title.admin_order_field = 'subject'
+
+    def get_absolute_url(self):
+        return reverse('exams:test', kwargs={
+            'examination_slug': self.examination.slug,
+            'uuid': self.uuid,
+        })
+
     def is_now(self):
         if self.begin < timezone.now() and self.end > timezone.now():
             return True
         return False
 
+    def get_assignments(self):
+        assignments = Assignment.objects.filter(test=self, status=CONTENT_STATUS_FINAL)
+        return assignments
+
     @property
     def assignment_count(self):
-        return self.assignments.count()
+        return self.get_assignments().count()
 
     def __unicode__(self):
         return 'Test %(subject)s / %(examination)s, %(assignment_count)d assignments' % {
@@ -194,6 +216,7 @@ class AnswerOption(models.Model):
 class Assignment(models.Model):
     """Assignment"""
     uuid = UUIDField(verbose_name='UUID')
+    test = models.ForeignKey(Test)
 
     title = models.CharField(max_length=255)
 
@@ -202,14 +225,24 @@ class Assignment(models.Model):
 
     content = models.TextField()
     content_type = models.CharField(max_length=1, choices=CONTENT_TYPE_CHOICES)
-    slug = AutoSlugField(populate_from=['title',])
+
+    order = models.IntegerField(default=0)
 
     attached_files = models.ManyToManyField('File', blank=True, null=True)
 
     answer_options = models.ForeignKey(AnswerOption, blank=True, null=True)
 
+    status = models.CharField(max_length=1, choices=CONTENT_STATUS_CHOICES)
+
     created = CreationDateTimeField()
     modified = ModificationDateTimeField()
+
+    def get_absolute_url(self):
+        return reverse('exams:assignment', kwargs={
+            'examination_slug': self.test.examination.slug,
+            'test_uuid': self.test.uuid,
+            'uuid': self.uuid,
+        })
 
     def attached_files_count(self):
         return self.attached_files.count()
@@ -229,9 +262,15 @@ class Assignment(models.Model):
         assignment = re.sub(regexp, expand_choices, self.content)
         return assignment
 
+    def format_assignment_textarea(self):
+        textarea_code = '[textarea]'
+        return self.content.replace(textarea_code, '<textarea rows="5" cols="60"></textarea>')
+
     def format_assignment(self):
         if self.assignment_type == ASSIGNMENT_TYPE_SELECT_ONE:
             return self.format_assignment_select()
+        elif self.assignment_type == ASSIGNMENT_TYPE_TEXTAREA:
+            return self.format_assignment_textarea()
         else:
             return self.content
 
@@ -248,6 +287,7 @@ class Assignment(models.Model):
     class Meta:
         verbose_name = _('Assignment')
         verbose_name_plural = _('Assignments')
+        ordering = ('order',)
 
 class Answer(models.Model):
     uuid = UUIDField(verbose_name='UUID')
@@ -278,6 +318,11 @@ class File(models.Model):
 
     created = CreationDateTimeField()
     modified = ModificationDateTimeField()
+
+    def get_absolute_url(self):
+        return reverse('exams:download', kwargs={
+            'uuid': self.uuid,
+        })
 
     def __unicode__(self):
         return _('File: %(title)s, %(filename)s (%(size)d bytes) (%(uuid)s)') % {

@@ -1,6 +1,16 @@
 {% extends "base.html" %}
 {% load i18n %}
-
+{% load static %}
 {% block breadcrumb %}<li><a href="{% url "exams:examinations" %}">{% trans "Examinations" %}</a></li>{% endblock %}
 
 {% block title %}{% trans "Examination" %} - {{ block.super }}{% endblock %}
+
+{% block extrascripts %}
+{{ block.super }}
+<script src="{% static "js/jqmath/jqmath-etc-0.4.0.min.js" %}"></script>
+{% endblock %}
+
+{% block extendstyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static "js/jqmath/jqmath-0.4.0.css" %}"/>
+{% endblock %}
