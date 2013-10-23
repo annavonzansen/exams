@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: exams 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-23 16:06+0300\n"
-"PO-Revision-Date: 2013-10-23 16:09+0200\n"
+"POT-Creation-Date: 2013-10-23 18:26+0300\n"
+"PO-Revision-Date: 2013-10-23 18:27+0200\n"
 "Last-Translator: Ville Korhonen <ville.korhonen@ylioppilastutkinto.fi>\n"
 "Language-Team: FINNISH <digabi@ylioppilastutkinto.fi>\n"
 "Language: \n"
@@ -68,7 +68,7 @@ msgid "Semi"
 msgstr "Keskipitkä"
 
 #: models.py:41
-#: models.py:63
+#: models.py:71
 msgid "Short"
 msgstr "Lyhyt"
 
@@ -92,73 +92,105 @@ msgstr "Poissa käytöstä"
 msgid "Scheduled"
 msgstr "Ajastettu"
 
-#: models.py:62
+#: models.py:53
+msgid "Real"
+msgstr "Reaali"
+
+#: models.py:54
+msgid "Language"
+msgstr "Kieli"
+
+#: models.py:55
+msgid "Math"
+msgstr "Matematiikka"
+
+#: models.py:70
 msgid "Name"
 msgstr "Nimi"
 
-#: models.py:79
-#: models.py:152
+#: models.py:73
+msgid "Subject Type"
+msgstr "Aineen tyyppi"
+
+#: models.py:75
+msgid "Material for written exams"
+msgstr "Materiaalia kirjallisiin kokeisiin"
+
+#: models.py:75
+msgid "Does this subject include written assignments"
+msgstr "Sisältääkö aine kirjallisia tehtäviä?"
+
+#: models.py:76
+msgid "Material for listening exams"
+msgstr "Materiaalia kuuntelukokeisiin"
+
+#: models.py:76
+msgid "Does this subject include listening assignments"
+msgstr "Sisältääkö aine kuullunymmärtämistehtäviä?"
+
+#: models.py:90
+#: models.py:163
 msgid "Subject"
 msgstr "Aine"
 
-#: models.py:80
+#: models.py:91
 msgid "Subjects"
 msgstr "Aineet"
 
-#: models.py:88
-#: models.py:170
-#: models.py:318
+#: models.py:99
+#: models.py:181
+#: models.py:329
 msgid "Title"
 msgstr "Otsikko"
 
-#: models.py:88
+#: models.py:99
 msgid "Unique name for this examination, \"2013S\", for example."
 msgstr "Uniikki tunniste tälle tutkinnolle, esimerkiksi \"2013S\"."
 
-#: models.py:89
+#: models.py:100
 msgid "Description"
 msgstr "Kuvaus"
 
-#: models.py:89
+#: models.py:100
 msgid "Optional description for this examination."
 msgstr "Valinnainen, vapaamuotoinen kuvaus tutkinnolle."
 
-#: models.py:92
+#: models.py:103
 msgid "Registration Begin"
 msgstr "Ilmoittautuminen alkaa"
 
-#: models.py:92
+#: models.py:103
 msgid "Date + time when registration begins, ie. when schools can register students and order materials"
 msgstr "Päivämäärä ja aika jolloin ilmoittautuminen tutkintoon alkaa, eli ajankohta jolloin koulut voivat rekisteröidä oppilaita ja tilata materiaalia."
 
-#: models.py:93
+#: models.py:104
 msgid "Registration End"
 msgstr "Ilmoittautuminen päättyy"
 
-#: models.py:93
+#: models.py:104
 msgid "Date + time when registration begins, ie. when schools can no longer register students and order materials"
 msgstr "Päivämäärä ja aika jolloin ilmoittautuminen tutkintoon päättyy, eli ajankohta jolloin koulut eivät voi enää rekisteröidä oppilaita ja tilata materiaalia."
 
-#: models.py:94
+#: models.py:105
 msgid "Registration Status"
 msgstr "Ilmoittautumisen tila"
 
-#: models.py:94
+#: models.py:105
 msgid "Current registration mode. Enabled = schools can register students and order material, disabled = schools can not register students, scheduled = depends on registration begin/end times."
 msgstr "Tämänhetkinen ilmoittautumisen tila. Käytössä = koulut voivat lähettää ilmoittautumistietoja ja tilata materiaalia, poissa käytöstä = koulut eivät voi lähettää tietoja tai tilata materiaalia. Ajastettu = riippuu ilmoittautumisen alkamis- ja päättymisajankohdasta, ks. yllä."
 
-#: models.py:139
+#: models.py:150
 #, python-format
 msgid "Examination %s"
 msgstr "Tutkinto %s"
 
-#: models.py:142
+#: models.py:153
 #: templates/exams/base.html:6
 #: templates/exams/examination_detail.html:10
 msgid "Examination"
 msgstr "Tutkinto"
 
-#: models.py:143
+#: models.py:154
 #: templates/exams/base.html:4
 #: templates/exams/examination_detail.html:5
 #: templates/exams/examination_list.html:4
@@ -166,74 +198,74 @@ msgstr "Tutkinto"
 msgid "Examinations"
 msgstr "Tutkinnot"
 
-#: models.py:159
+#: models.py:170
 msgid "Begin"
 msgstr "Alkaa"
 
-#: models.py:160
+#: models.py:171
 msgid "End"
 msgstr "Päättyy"
 
-#: models.py:200
+#: models.py:211
 msgid "Test"
 msgstr "Koe"
 
-#: models.py:201
+#: models.py:212
 #: templates/exams/examination_detail.html:18
 msgid "Tests"
 msgstr "Kokeet"
 
-#: models.py:209
+#: models.py:220
 #, python-format
 msgid "AnswerOption %(key)s: %(value)s (%(uuid)s)"
 msgstr ""
 
-#: models.py:216
+#: models.py:227
 msgid "Answer Option"
 msgstr "Vastausasetus"
 
-#: models.py:217
+#: models.py:228
 msgid "Answer Options"
 msgstr "Vastausasetukset"
 
-#: models.py:259
+#: models.py:270
 msgid "-- Select --"
 msgstr "-- Valitse --"
 
-#: models.py:285
+#: models.py:296
 #, python-format
 msgid "Assignment %(title)s (%(uuid)s)"
 msgstr "Tehtävä %(title)s (%(uuid)s)"
 
-#: models.py:291
+#: models.py:302
 #: templates/exams/assignment_detail.html:4
 #: templates/exams/assignment_detail.html:9
 msgid "Assignment"
 msgstr "Tehtävä"
 
-#: models.py:292
+#: models.py:303
 msgid "Assignments"
 msgstr "Tehtävät"
 
-#: models.py:312
+#: models.py:323
 msgid "Answer"
 msgstr "Vastaus"
 
-#: models.py:313
+#: models.py:324
 msgid "Answers"
 msgstr "Vastaukset"
 
-#: models.py:319
-#: models.py:339
+#: models.py:330
+#: models.py:350
 msgid "File"
 msgstr "Tiedosto"
 
-#: models.py:331
+#: models.py:342
 #, python-format
 msgid "File: %(title)s, %(filename)s (%(size)d bytes) (%(uuid)s)"
 msgstr ""
 
-#: models.py:340
+#: models.py:351
 msgid "Files"
 msgstr "Tiedostot"
 

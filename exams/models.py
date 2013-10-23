@@ -65,14 +65,15 @@ def get_unique_filename(instance, filename):
 
 
 class Subject(models.Model):
+    """Test Subject"""
     uuid = UUIDField(verbose_name='UUID')
     name = models.CharField(max_length=255, unique=True, verbose_name=_('Name'))
     short = models.CharField(max_length=3, unique=True, verbose_name=_('Short'))
 
     subject_type = models.CharField(max_length=1, choices=SUBJECT_TYPE_CHOICES, verbose_name=_('Subject Type'))
 
-    material_writing = models.BooleanField(default=True)
-    material_listening = models.BooleanField(default=False)
+    material_writing = models.BooleanField(default=True, verbose_name=_('Material for written exams'), help_text=_('Does this subject include written assignments'))
+    material_listening = models.BooleanField(default=False, verbose_name=_('Material for listening exams'), help_text=_('Does this subject include listening assignments'))
 
     created = CreationDateTimeField()
     modified = ModificationDateTimeField()
