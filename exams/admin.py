@@ -22,6 +22,7 @@ class ExaminationAdmin(MarkdownModelAdmin):
         TestInline,
     ]
 
+
 admin.site.register(Examination, ExaminationAdmin)
 admin.site.register(Test, TestAdmin)
 #admin.site.register(Assignment)
