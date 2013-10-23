@@ -73,7 +73,6 @@ class Subject(models.Model):
 
     material_writing = models.BooleanField(default=True)
     material_listening = models.BooleanField(default=False)
-    material_cd = models.BooleanField(default=False)
 
     created = CreationDateTimeField()
     modified = ModificationDateTimeField()
