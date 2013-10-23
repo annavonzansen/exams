@@ -49,6 +49,12 @@ REGISTRATION_STATUS_CHOICES = (
     ('S', _('Scheduled')),
 )
 
+SUBJECT_TYPE_CHOICES = (
+    ('R', _('Real')),
+    ('L', _('Language')),
+    ('M', _('Math')),
+)
+
 def get_unique_filename(instance, filename):
     new_filename = 'uploads/%(date)s/%(uuid)s/%(filename)s' % {
         'filename': filename,
@@ -57,12 +63,17 @@ def get_unique_filename(instance, filename):
     }
     return new_filename
 
+
 class Subject(models.Model):
     uuid = UUIDField(verbose_name='UUID')
     name = models.CharField(max_length=255, unique=True, verbose_name=_('Name'))
     short = models.CharField(max_length=3, unique=True, verbose_name=_('Short'))
 
-    #subject_type = models.CharField(max_length=1, choices=SUBJECT_TYPE_CHOICES, verbose_name=_('Subject Type'))
+    subject_type = models.CharField(max_length=1, choices=SUBJECT_TYPE_CHOICES, verbose_name=_('Subject Type'))
+
+    material_writing = models.BooleanField(default=True)
+    material_listening = models.BooleanField(default=False)
+    material_cd = models.BooleanField(default=False)
 
     created = CreationDateTimeField()
     modified = ModificationDateTimeField()
