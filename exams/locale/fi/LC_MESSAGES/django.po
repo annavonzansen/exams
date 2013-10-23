@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: exams 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-23 18:26+0300\n"
+"POT-Creation-Date: 2013-10-24 01:38+0300\n"
 "PO-Revision-Date: 2013-10-23 18:27+0200\n"
 "Last-Translator: Ville Korhonen <ville.korhonen@ylioppilastutkinto.fi>\n"
 "Language-Team: FINNISH <digabi@ylioppilastutkinto.fi>\n"
@@ -67,8 +67,7 @@ msgstr "Pitkä"
 msgid "Semi"
 msgstr "Keskipitkä"
 
-#: models.py:41
-#: models.py:71
+#: models.py:41 models.py:71
 msgid "Short"
 msgstr "Lyhyt"
 
@@ -128,8 +127,7 @@ msgstr "Materiaalia kuuntelukokeisiin"
 msgid "Does this subject include listening assignments"
 msgstr "Sisältääkö aine kuullunymmärtämistehtäviä?"
 
-#: models.py:90
-#: models.py:163
+#: models.py:90 models.py:163
 msgid "Subject"
 msgstr "Aine"
 
@@ -137,9 +135,7 @@ msgstr "Aine"
 msgid "Subjects"
 msgstr "Aineet"
 
-#: models.py:99
-#: models.py:181
-#: models.py:329
+#: models.py:99 models.py:181 models.py:329
 msgid "Title"
 msgstr "Otsikko"
 
@@ -160,38 +156,52 @@ msgid "Registration Begin"
 msgstr "Ilmoittautuminen alkaa"
 
 #: models.py:103
-msgid "Date + time when registration begins, ie. when schools can register students and order materials"
-msgstr "Päivämäärä ja aika jolloin ilmoittautuminen tutkintoon alkaa, eli ajankohta jolloin koulut voivat rekisteröidä oppilaita ja tilata materiaalia."
+msgid ""
+"Date + time when registration begins, ie. when schools can register students "
+"and order materials"
+msgstr ""
+"Päivämäärä ja aika jolloin ilmoittautuminen tutkintoon alkaa, eli ajankohta "
+"jolloin koulut voivat rekisteröidä oppilaita ja tilata materiaalia."
 
 #: models.py:104
 msgid "Registration End"
 msgstr "Ilmoittautuminen päättyy"
 
 #: models.py:104
-msgid "Date + time when registration begins, ie. when schools can no longer register students and order materials"
-msgstr "Päivämäärä ja aika jolloin ilmoittautuminen tutkintoon päättyy, eli ajankohta jolloin koulut eivät voi enää rekisteröidä oppilaita ja tilata materiaalia."
+msgid ""
+"Date + time when registration begins, ie. when schools can no longer "
+"register students and order materials"
+msgstr ""
+"Päivämäärä ja aika jolloin ilmoittautuminen tutkintoon päättyy, eli "
+"ajankohta jolloin koulut eivät voi enää rekisteröidä oppilaita ja tilata "
+"materiaalia."
 
 #: models.py:105
 msgid "Registration Status"
 msgstr "Ilmoittautumisen tila"
 
 #: models.py:105
-msgid "Current registration mode. Enabled = schools can register students and order material, disabled = schools can not register students, scheduled = depends on registration begin/end times."
-msgstr "Tämänhetkinen ilmoittautumisen tila. Käytössä = koulut voivat lähettää ilmoittautumistietoja ja tilata materiaalia, poissa käytöstä = koulut eivät voi lähettää tietoja tai tilata materiaalia. Ajastettu = riippuu ilmoittautumisen alkamis- ja päättymisajankohdasta, ks. yllä."
+msgid ""
+"Current registration mode. Enabled = schools can register students and order "
+"material, disabled = schools can not register students, scheduled = depends "
+"on registration begin/end times."
+msgstr ""
+"Tämänhetkinen ilmoittautumisen tila. Käytössä = koulut voivat lähettää "
+"ilmoittautumistietoja ja tilata materiaalia, poissa käytöstä = koulut eivät "
+"voi lähettää tietoja tai tilata materiaalia. Ajastettu = riippuu "
+"ilmoittautumisen alkamis- ja päättymisajankohdasta, ks. yllä."
 
 #: models.py:150
 #, python-format
 msgid "Examination %s"
 msgstr "Tutkinto %s"
 
-#: models.py:153
-#: templates/exams/base.html:6
+#: models.py:153 templates/exams/base.html:6
 #: templates/exams/examination_detail.html:10
 msgid "Examination"
 msgstr "Tutkinto"
 
-#: models.py:154
-#: templates/exams/base.html:4
+#: models.py:154 templates/exams/base.html:4
 #: templates/exams/examination_detail.html:5
 #: templates/exams/examination_list.html:4
 #: templates/exams/examination_list.html:7
@@ -210,8 +220,7 @@ msgstr "Päättyy"
 msgid "Test"
 msgstr "Koe"
 
-#: models.py:212
-#: templates/exams/examination_detail.html:18
+#: models.py:212 templates/exams/examination_detail.html:18
 msgid "Tests"
 msgstr "Kokeet"
 
@@ -237,8 +246,7 @@ msgstr "-- Valitse --"
 msgid "Assignment %(title)s (%(uuid)s)"
 msgstr "Tehtävä %(title)s (%(uuid)s)"
 
-#: models.py:302
-#: templates/exams/assignment_detail.html:4
+#: models.py:302 templates/exams/assignment_detail.html:4
 #: templates/exams/assignment_detail.html:9
 msgid "Assignment"
 msgstr "Tehtävä"
@@ -255,8 +263,7 @@ msgstr "Vastaus"
 msgid "Answers"
 msgstr "Vastaukset"
 
-#: models.py:330
-#: models.py:350
+#: models.py:330 models.py:350
 msgid "File"
 msgstr "Tiedosto"
 
