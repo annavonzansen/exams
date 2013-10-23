@@ -11,7 +11,7 @@ def current_examination(request):
     if len(current) > 0:
         current = current[0]
     else:
-        return None
+        current = None
 
     return {
         'current_examination': current,
