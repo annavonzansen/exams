@@ -46,6 +46,7 @@ LANGUAGE_TEST_LEVELS = (
 REGISTRATION_STATUS_CHOICES = (
     ('E', _('Enabled')),
     ('D', _('Disabled')),
+    ('S', _('Scheduled')),
 )
 
 def get_unique_filename(instance, filename):
@@ -101,11 +102,13 @@ class Examination(models.Model):
         return Test.objects.filter(examination=self)
 
     def is_registration_enabled(self):
-        now = datetime.datetime.utcnow().replace(tzinfo=utc)
-        if self.registration_begin <= now and self.registration_end >= now and self.registration_status == 'E':
+        if self.registration_status == 'E':
             return True
-        else:
-            return False
+        elif self.registration_status == 'S':
+            now = datetime.datetime.utcnow().replace(tzinfo=utc)
+            if self.registration_begin <= now and self.registration_end >= now and self.registration_status == 'E':
+                return True
+        return False
 
     @property
     def begin(self):
