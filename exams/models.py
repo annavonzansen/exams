@@ -89,9 +89,9 @@ class Examination(models.Model):
     description = models.TextField(blank=True, null=True, verbose_name=_('Description'))
     slug = AutoSlugField(populate_from=['title',])
 
-    registration_begin = models.DateTimeField(blank=True, null=True)
-    registration_end = models.DateTimeField(blank=True, null=True)
-    registration_status = models.CharField(max_length=1, choices=REGISTRATION_STATUS_CHOICES, default='D')
+    registration_begin = models.DateTimeField(blank=True, null=True, verbose_name=_('Registration Begin'))
+    registration_end = models.DateTimeField(blank=True, null=True, verbose_name=_('Registration End'))
+    registration_status = models.CharField(max_length=1, choices=REGISTRATION_STATUS_CHOICES, default='D', verbose_name=_('Registration Status'))
 
     def get_absolute_url(self):
         return reverse('exams:examination', kwargs={
