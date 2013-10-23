@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: exams 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-23 15:32+0300\n"
-"PO-Revision-Date: 2013-10-23 15:33+0200\n"
+"POT-Creation-Date: 2013-10-23 16:06+0300\n"
+"PO-Revision-Date: 2013-10-23 16:09+0200\n"
 "Last-Translator: Ville Korhonen <ville.korhonen@ylioppilastutkinto.fi>\n"
 "Language-Team: FINNISH <digabi@ylioppilastutkinto.fi>\n"
 "Language: \n"
@@ -111,21 +111,41 @@ msgstr "Aineet"
 msgid "Title"
 msgstr "Otsikko"
 
+#: models.py:88
+msgid "Unique name for this examination, \"2013S\", for example."
+msgstr "Uniikki tunniste tälle tutkinnolle, esimerkiksi \"2013S\"."
+
 #: models.py:89
 msgid "Description"
 msgstr "Kuvaus"
+
+#: models.py:89
+msgid "Optional description for this examination."
+msgstr "Valinnainen, vapaamuotoinen kuvaus tutkinnolle."
 
 #: models.py:92
 msgid "Registration Begin"
 msgstr "Ilmoittautuminen alkaa"
 
+#: models.py:92
+msgid "Date + time when registration begins, ie. when schools can register students and order materials"
+msgstr "Päivämäärä ja aika jolloin ilmoittautuminen tutkintoon alkaa, eli ajankohta jolloin koulut voivat rekisteröidä oppilaita ja tilata materiaalia."
+
 #: models.py:93
 msgid "Registration End"
 msgstr "Ilmoittautuminen päättyy"
 
+#: models.py:93
+msgid "Date + time when registration begins, ie. when schools can no longer register students and order materials"
+msgstr "Päivämäärä ja aika jolloin ilmoittautuminen tutkintoon päättyy, eli ajankohta jolloin koulut eivät voi enää rekisteröidä oppilaita ja tilata materiaalia."
+
 #: models.py:94
 msgid "Registration Status"
 msgstr "Ilmoittautumisen tila"
+
+#: models.py:94
+msgid "Current registration mode. Enabled = schools can register students and order material, disabled = schools can not register students, scheduled = depends on registration begin/end times."
+msgstr "Tämänhetkinen ilmoittautumisen tila. Käytössä = koulut voivat lähettää ilmoittautumistietoja ja tilata materiaalia, poissa käytöstä = koulut eivät voi lähettää tietoja tai tilata materiaalia. Ajastettu = riippuu ilmoittautumisen alkamis- ja päättymisajankohdasta, ks. yllä."
 
 #: models.py:139
 #, python-format

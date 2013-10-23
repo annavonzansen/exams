@@ -85,13 +85,13 @@ class Examination(models.Model):
     Examination round (YOS2013)
     """
     uuid = UUIDField(verbose_name='UUID')
-    title = models.CharField(max_length=255, unique=True, verbose_name=_('Title'))
-    description = models.TextField(blank=True, null=True, verbose_name=_('Description'))
+    title = models.CharField(max_length=255, unique=True, verbose_name=_('Title'), help_text=_('Unique name for this examination, "2013S", for example.'))
+    description = models.TextField(blank=True, null=True, verbose_name=_('Description'), help_text=_('Optional description for this examination.'))
     slug = AutoSlugField(populate_from=['title',])
 
-    registration_begin = models.DateTimeField(blank=True, null=True, verbose_name=_('Registration Begin'))
-    registration_end = models.DateTimeField(blank=True, null=True, verbose_name=_('Registration End'))
-    registration_status = models.CharField(max_length=1, choices=REGISTRATION_STATUS_CHOICES, default='D', verbose_name=_('Registration Status'))
+    registration_begin = models.DateTimeField(blank=True, null=True, verbose_name=_('Registration Begin'), help_text=_('Date + time when registration begins, ie. when schools can register students and order materials'))
+    registration_end = models.DateTimeField(blank=True, null=True, verbose_name=_('Registration End'), help_text=_('Date + time when registration begins, ie. when schools can no longer register students and order materials'))
+    registration_status = models.CharField(max_length=1, choices=REGISTRATION_STATUS_CHOICES, default='D', verbose_name=_('Registration Status'), help_text=_('Current registration mode. Enabled = schools can register students and order material, disabled = schools can not register students, scheduled = depends on registration begin/end times.'))
 
     def get_absolute_url(self):
         return reverse('exams:examination', kwargs={
