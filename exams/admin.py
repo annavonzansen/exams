@@ -22,6 +22,8 @@ class ExaminationAdmin(MarkdownModelAdmin):
         TestInline,
     ]
 
+class SubjectAdmin(admin.ModelAdmin):
+    list_display = ('name', 'short',)
 
 admin.site.register(Examination, ExaminationAdmin)
 admin.site.register(Test, TestAdmin)
@@ -29,4 +31,4 @@ admin.site.register(Test, TestAdmin)
 admin.site.register(AnswerOption)
 admin.site.register(Answer)
 admin.site.register(File)
-admin.site.register(Subject)
+admin.site.register(Subject, SubjectAdmin)
