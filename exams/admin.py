@@ -23,7 +23,7 @@ class ExaminationAdmin(MarkdownModelAdmin):
     ]
 
 class SubjectAdmin(admin.ModelAdmin):
-    list_display = ('name', 'short', 'subject_type', 'material_writing', 'material_listening', 'material_cd',)
+    list_display = ('name', 'short', 'subject_type', 'material_writing', 'material_listening',)
 
 admin.site.register(Examination, ExaminationAdmin)
 admin.site.register(Test, TestAdmin)
