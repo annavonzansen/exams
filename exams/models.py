@@ -106,7 +106,7 @@ class Examination(models.Model):
             return True
         elif self.registration_status == 'S':
             now = datetime.datetime.utcnow().replace(tzinfo=utc)
-            if self.registration_begin <= now and self.registration_end >= now and self.registration_status == 'E':
+            if self.registration_begin <= now and self.registration_end >= now:
                 return True
         return False
 
