@@ -414,6 +414,8 @@ class Candidate(Person):
     candidate_number = models.PositiveIntegerField(verbose_name=_('Candidate Number'), help_text=_('School-specific identification number for candidate (incrementing)'))
     candidate_type = models.ForeignKey(CandidateType, verbose_name=_('Candidate Type'), help_text=_('What sort of candidate this person is?'))
 
+    retrying = models.BooleanField(default=False)
+
     # TODO: Validate identity number
     # TODO: Gender from identity number
     # TODO: Age
@@ -429,7 +431,7 @@ class Candidate(Person):
     get_school_id.admin_order_field = 'candidate_number'
 
     def get_examination(self):
-        return "%s" % self.examination.title
+        return "%s" % self.examination
     get_examination.short_description = _('Examination')
     get_examination.admin_order_field = 'examination'
 
@@ -640,84 +642,76 @@ class OrderItem(models.Model):
         verbose_name = _('Order Item')
         verbose_name_plural = _('Order Items')
 
-def import_candidates(filename, *args, **kwargs):
-    """Imports candidates from XML file"""
-    if not os.path.exists(filename):
-        return -1
 
-    xml_mapping = {
-        'examination_id': 'MAS_TKETUNNUS',
-        'school_id': 'MAS_LUKIONRO',
-        'candidate_id': 'MAS_KOKELASNUMERO',
-        'candidate_type': 'MAS_KOLKOODI',
-        'person_id': 'MAS_KKEHETU',
-        'retrying': 'MAS_UUSIJA',
-        'gender': 'MAS_SUKUPUOLI',
-        'batch_id': 'MAS_ERA',
+
+def import_candidates(filename, allowed_schools=None):
+    stats = {
+        'candidates_created': 0,
+        'candidates_updated': 0,
+        'examregistrations': 0,
     }
 
-    subject_fields = (
-        'MAS_PAK1', # äidinkieli A, O, I, Z, W | A5
-        'MAS_PAK2', # pakollinen
-        'MAS_PAK3', # pakollinen
-        'MAS_PAK4', # pakollinen
-        'MAS_YAK1', # ylimääräinen
-        'MAS_YAK2',
-        'MAS_YAK3',
-        'MAS_YAK4',
-        'MAS_YAK5',
-        'MAS_YAK6',
-    )
+    try:
+        from exams.importers import parse_candidate_xml
+        from education.models import School
 
-    candidates = []
+        candidates = parse_candidate_xml(filename)
 
-    from exams.models import Examination, Subject as Subj
-    from people.models import GENDER_MALE, GENDER_FEMALE
+        for c in candidates:
+            examination_year = c.examination[0:4]
+            examination_season = c.examination[4:5]
+            
+            examination = Examination.objects.get(year=examination_year, season=examination_season)
+            # TODO: Raise error, if no Examination found
 
-    with open(filename, 'r') as source:
-        root = etree.parse(source)
+            school = School.objects.get(school_id=c.school)
+            # TODO: Raise error, if no School found
+            # TODO: Check that school is in allowed_schools (if defined, else raise PermissionDenied or something like that)
+            ctype = CandidateType.objects.get(code=c.ctype)
 
-        rows = root.xpath('/ROWSET/ROW')
+            cand, created = Candidate.objects.get_or_create(candidate_number=c.id, examination=examination, school=school, candidate_type=ctype)
+            cand.identity_number = c.identity_number
 
-        
-        for row in rows:
-            candidate = {}
-            for k in xml_mapping:
-                candidate[k] = row.xpath(xml_mapping[k])[0].text
+            #cand.candidate_type = ctype
 
-            if candidate['retrying'] == 'U':
-                candidate['retrying'] = True
-            else:
-                candidate['retrying'] = False
+            cand.gender = c.gender
+            cand.retrying = c.retrying
 
-            candidate['gender'] = int(candidate['gender'])
-            candidate['type'] = CandidateType.objects.get(code=int(candidate['candidate_type']))
-
-            tmp = candidate['batch_id'].split('_')
-            candidate['examination'], created = Examination.objects.get_or_create(title=tmp[1].strip(), defaults={
-                'registration_status': 'D',
-            })
-            candidate['school'] = School.objects.get(school_id=int(tmp[2]))
-            # TODO: Validate identity number
+            cand.save()
 
             if created:
-                candidate['examination'].save()
+                stats['candidates_created'] += 1
+            else:
+                stats['candidates_updated'] += 1
 
-            cand, created = Candidate.objects.get_or_create(candidate_number=int(candidate['candidate_id']), identity_number=candidate['person_id'], examination=candidate['examination'], school=candidate['school'], candidate_type=candidate['type'], gender=candidate['gender'])
-            cand.save()
-            # TODO: Raise error if candidate already exists / handle the situation
-
-
-            # TODO: Raise error if Subj not found
-            subjects = []
-            for f in subject_fields:
-                subj = row.xpath(f)
-                if len(subj) > 0:
-                    s = subj[0].text.strip()
-                    subj = Subj.objects.get(short=s)
-                    e = ExamRegistration(candidate=cand, subject=subj)
-                    e.save()
-
+            for s in c.subjects:
+                subj = Subject.objects.get(short=s)
+                e, created = ExamRegistration.objects.get_or_create(candidate=cand, subject=subj)
+                e.save()
+                stats['examregistrations'] += 1
+    except Examination.DoesNotExist:
+        print _("Cannot import candidate %(candidate)s, specified examination %(examination)s does not exist!") % {
+            'candidate': c,
+            'examination': c.examination,
+        }
+    except School.DoesNotExist:
+        print _("Cannot import candidate %(candidate)s, specified school %(school)s does not exist!") % {
+            'candidate': c,
+            'school': c.school,
+        }
+    except CandidateType.DoesNotExist:
+        print _("Cannot import candidate %(candidate)s, specified type %(type)s does not exist!") % {
+            'candidate': c,
+            'type': c.ctype,
+        }      
+    except Subject.DoesNotExist:
+        print _("Cannot import candidate %(candidate)s, specified subject %(subject)s does not exist!") % {
+            'candidate': c,
+            'subject': c.subjects,
+        }      
+      
+    #finally:
+    return stats
 
 def export_orders(filename):
     """Exports orders to XLS file"""
