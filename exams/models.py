@@ -18,8 +18,8 @@ import datetime
 from people.models import Person
 
 EXAMINATION_SEASON_CHOICES = (
-    ('S', _('Spring')),
-    ('A', _('Autumn')),
+    ('K', _('Spring')),
+    ('S', _('Autumn')),
 )
 
 CONTENT_TYPE_CHOICES = (
@@ -125,13 +125,11 @@ class Examination(models.Model):
     Examination round (YOS2013)
     """
     uuid = UUIDField(verbose_name='UUID')
-    title = models.CharField(max_length=255, unique=True, blank=True, null=True, verbose_name=_('Title'), help_text=_('Unique name for this examination, "2013S", for example.'))
-    description = models.TextField(blank=True, null=True, verbose_name=_('Description'), help_text=_('Optional description for this examination.'))
 
     year = models.IntegerField(max_length=4, choices=YEAR_CHOICES, default=datetime.datetime.now().year)
     season = models.CharField(max_length=1, choices=EXAMINATION_SEASON_CHOICES)
 
-    slug = AutoSlugField(populate_from=['title',])
+    slug = AutoSlugField(populate_from=['year', 'season',])
 
     registration_begin = models.DateTimeField(blank=True, null=True, verbose_name=_('Registration Begin'), help_text=_('Date + time when registration begins, ie. when schools can register students and order materials'))
     registration_end = models.DateTimeField(blank=True, null=True, verbose_name=_('Registration End'), help_text=_('Date + time when registration begins, ie. when schools can no longer register students and order materials'))
@@ -139,8 +137,8 @@ class Examination(models.Model):
 
     def get_absolute_url(self):
         return reverse('exams:examination', kwargs={
-                    'slug': self.slug,
-                })
+            'slug': self.slug,
+        })
 
     def get_tests(self):
         return Test.objects.filter(examination=self)
@@ -180,11 +178,7 @@ class Examination(models.Model):
         return False
 
     def __str__(self):
-        if self.title:
-            title = self.title
-        else:
-            title = "%s %d" % (self.season, self.year)
-        return title
+        return "%d%s" % (self.year, self.season)
 
     def __unicode__(self):
         return self.__str__()
