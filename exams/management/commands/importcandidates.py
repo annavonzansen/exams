@@ -19,6 +19,6 @@ class Command(BaseCommand):
         imported = import_candidates(filename=filename)
 
         if type(imported) == dict:
-            print _("Import completed! Imported candidates %(candidates_created)d new and %(candidates_updated)d updated, with %(examregistrations)d registrations to exams.") % imported
+            print _("Import finished! Imported candidates %(candidates_created)d new and %(candidates_updated)d updated, with %(examregistrations)d registrations to exams.") % imported
         else:
             print _("Unknown failure?!")
