@@ -10,10 +10,12 @@ from django.utils.timezone import utc
 from django.core import serializers
 from django.core.urlresolvers import reverse
 from django.conf import settings
+from django.db.models import Q
 
 import os
 import re
 import datetime
+from simple_history.models import HistoricalRecords
 
 from people.models import Person
 
@@ -85,6 +87,9 @@ class Subject(models.Model):
     material_writing = models.BooleanField(default=True, verbose_name=_('Material for written exams'), help_text=_('Does this subject include written assignments'))
     material_listening = models.BooleanField(default=False, verbose_name=_('Material for listening exams'), help_text=_('Does this subject include listening assignments'))
 
+    history = HistoricalRecords()
+
+
     created = CreationDateTimeField()
     modified = ModificationDateTimeField()
     def __str__(self):
@@ -119,6 +124,18 @@ def year_choices(min=None, max=None):
 # TODO: Django 1.6 supports choices which are functions
 YEAR_CHOICES = year_choices(min=2005, max=2020)
 
+# class ExaminationQuerySet(models.Model):
+#     def registration_active(self):
+#         now = datetime.datetime.utcnow().replace(tzinfo=utc)
+#         return self.filter(Q(registration_begin__lte=now, registration_end__gte=now) | Q(registration_status='E'))
+
+# class ExaminationManager(models.Manager):
+#     #def get_queryset(self):
+#     #    return ExaminationQuerySet()
+
+#     def registration_active(self):
+#         return self.get_queryset().registration_active()
+
 class Examination(models.Model):
     """Examination
 
@@ -134,6 +151,9 @@ class Examination(models.Model):
     registration_begin = models.DateTimeField(blank=True, null=True, verbose_name=_('Registration Begin'), help_text=_('Date + time when registration begins, ie. when schools can register students and order materials'))
     registration_end = models.DateTimeField(blank=True, null=True, verbose_name=_('Registration End'), help_text=_('Date + time when registration begins, ie. when schools can no longer register students and order materials'))
     registration_status = models.CharField(max_length=1, choices=REGISTRATION_STATUS_CHOICES, default='D', verbose_name=_('Registration Status'), help_text=_('Current registration mode. Enabled = schools can register students and order material, disabled = schools can not register students, scheduled = depends on registration begin/end times.'))
+    history = HistoricalRecords()
+
+#    objects = ExaminationManager()
 
     def get_absolute_url(self):
         return reverse('exams:examination', kwargs={
@@ -204,6 +224,7 @@ class Test(models.Model):
 
     begin = models.DateTimeField(verbose_name=_('Begin'))
     end = models.DateTimeField(verbose_name=_('End'))
+    history = HistoricalRecords()
 
     created = CreationDateTimeField()
     modified = ModificationDateTimeField()
@@ -389,6 +410,7 @@ class CandidateType(models.Model):
     uuid = UUIDField(verbose_name='UUID')
     title = models.CharField(max_length=255, unique=True)
     code = models.IntegerField(unique=True)
+    history = HistoricalRecords()
 
     def __str__(self):
         return "%02d %s" % (self.code, self.title)
@@ -404,6 +426,7 @@ class CandidateType(models.Model):
 class Candidate(Person):
     #uuid = UUIDField(verbose_name='UUID')
     examination = models.ForeignKey('exams.Examination', verbose_name=_('Examination'))
+    history = HistoricalRecords()
 
     #person = models.ForeignKey('people.Person', verbose_name=_('Person'))
 
@@ -522,6 +545,7 @@ class SpecialArrangement(models.Model):
     uuid = UUIDField(verbose_name='UUID')
     title = models.CharField(max_length=255, unique=True, verbose_name=_('Title'))
     short = models.CharField(max_length=5, unique=True, verbose_name=_('Short'))
+    history = HistoricalRecords()
 
     created = CreationDateTimeField()
     modified = ModificationDateTimeField()
@@ -576,6 +600,7 @@ ORDER_STATUSES = (
 class Order(models.Model):
     uuid = UUIDField(verbose_name='UUID')
     site = models.ForeignKey('education.SchoolSite')
+    history = HistoricalRecords()
 
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('Created by'))
 
@@ -629,6 +654,7 @@ class Order(models.Model):
 class OrderItem(models.Model):
     uuid = UUIDField(verbose_name='UUID')
     order = models.ForeignKey(Order)
+    history = HistoricalRecords()
 
     subject = models.ForeignKey('exams.Subject')
     amount = models.PositiveIntegerField()
@@ -650,6 +676,7 @@ class OrderItem(models.Model):
 
 
 def import_candidates(filename, allowed_schools=None):
+    # TODO: Django development version has update_or_create()
     stats = {
         'candidates_created': 0,
         'candidates_updated': 0,
