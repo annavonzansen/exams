@@ -15,7 +15,7 @@ from django.utils.decorators import method_decorator
 
 from exams.models import Examination, Test, Assignment, File, Order, Candidate
 #from exams.forms import CandidateFormset
-from exams.forms import OrderForm, CandidateForm
+from exams.forms import OrderForm, CandidateForm, OrderFormset, CandidateRegistrationFormset
 
 class DownloadView(View):
     '''

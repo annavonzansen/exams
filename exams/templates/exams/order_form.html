@@ -1,0 +1,25 @@
+{% extends "education/school_base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block breadcrumb %}{{ block.super }}
+    {% comment %}<li><a href="{% url "education:candidates" uuid=school.uuid %}">{% trans "Candidates" %}</a></li>{% endcomment %}
+    <li>{% if object.pk %}{% trans "Edit order" %} {{ object }}{% else %}{% trans "Create new order" %}{% endif %}</li>
+{% endblock %}
+
+{% block content %}
+<h1>{% if object.pk %}{% trans "Edit order" %} {{ object }}{% else %}{% trans "Create new order" %}{% endif %} <small>{{ school.name }}</small></h1>
+<form method="post" action="">
+    {% csrf_token %}
+    {% comment %}
+    {% crispy form %}
+
+    {% crispy registration_form %}
+    {% endcomment %}
+
+    {{ form|crispy }}
+    {{ order_form|crispy }}
+
+    <p><input type="submit" value="{% trans "Submit" %}"/> <input type="reset" value="{% trans "Reset" %}"/></p>
+</form>
+{% endblock %}
