@@ -422,6 +422,10 @@ class Candidate(Person):
     #created = CreationDateTimeField()
     #modified = ModificationDateTimeField()
 
+    def add_registration(self, subject):
+        er = ExamRegistration.objects.get_or_create(candidate=self, subject=subject)
+        return True
+
     def get_school_id(self):
         return _('%(candidate_number)s / %(school)s') % {
             'candidate_number': self.candidate_number,
@@ -560,6 +564,7 @@ class ExamRegistration(models.Model):
     class Meta:
         verbose_name = _('Exam Registration')
         verbose_name_plural = _('Exam Registrations')
+        unique_together = (('subject', 'candidate',))
 
 
 ORDER_STATUSES = (
@@ -650,6 +655,12 @@ def import_candidates(filename, allowed_schools=None):
         'candidates_updated': 0,
         'examregistrations': 0,
     }
+    _cache = {
+        'examinations': {},
+        'schools': {},
+        'subjects': {},
+        'candidate_types': {},
+    }
 
     try:
         from exams.importers import parse_candidate_xml
@@ -658,21 +669,33 @@ def import_candidates(filename, allowed_schools=None):
         candidates = parse_candidate_xml(filename)
 
         for c in candidates:
-            examination_year = c.examination[0:4]
-            examination_season = c.examination[4:5]
+            if _cache['examinations'].has_key(c.examination):
+                examination = _cache['examinations'][c.examination]
+            else:
+                examination_year = c.examination[0:4]
+                examination_season = c.examination[4:5]
             
-            examination = Examination.objects.get(year=examination_year, season=examination_season)
-            # TODO: Raise error, if no Examination found
+                examination = Examination.objects.get(year=examination_year, season=examination_season)
+                _cache['examinations'][c.examination] = examination
 
-            school = School.objects.get(school_id=c.school)
-            # TODO: Raise error, if no School found
+            if _cache['schools'].has_key(c.school):
+                school = _cache['schools'][c.school]
+            else:
+                school = School.objects.get(school_id=c.school)
+                _cache['schools'][c.school] = school
+
+            if allowed_schools and school not in allowed_schools:
+                raise PermissionDenied
             # TODO: Check that school is in allowed_schools (if defined, else raise PermissionDenied or something like that)
-            ctype = CandidateType.objects.get(code=c.ctype)
+
+            if _cache['candidate_types'].has_key(c.ctype):
+                ctype = _cache['candidate_types'][c.ctype]
+            else:
+                ctype = CandidateType.objects.get(code=c.ctype)
+                _cache['candidate_types'][c.ctype] = ctype
 
             cand, created = Candidate.objects.get_or_create(candidate_number=c.id, examination=examination, school=school, candidate_type=ctype)
             cand.identity_number = c.identity_number
-
-            #cand.candidate_type = ctype
 
             cand.gender = c.gender
             cand.retrying = c.retrying
@@ -685,9 +708,12 @@ def import_candidates(filename, allowed_schools=None):
                 stats['candidates_updated'] += 1
 
             for s in c.subjects:
-                subj = Subject.objects.get(short=s)
-                e, created = ExamRegistration.objects.get_or_create(candidate=cand, subject=subj)
-                e.save()
+                if _cache['subjects'].has_key(s):
+                    subj = _cache['subjects'][s]
+                else:
+                    subj = Subject.objects.get(short=s)
+                    _cache['subjects'][s] = subj
+                cand.add_registration(subj)
                 stats['examregistrations'] += 1
     except Examination.DoesNotExist:
         print _("Cannot import candidate %(candidate)s, specified examination %(examination)s does not exist!") % {
