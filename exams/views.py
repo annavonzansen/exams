@@ -6,9 +6,16 @@ from django.views.generic.base import View
 from django.views.generic.detail import SingleObjectMixin
 from django.shortcuts import get_object_or_404
 
+from django.contrib.auth.decorators import user_passes_test
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.core.urlresolvers import reverse_lazy
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
-
-from exams.models import Examination, Test, Assignment, File
+from exams.models import Examination, Test, Assignment, File, Order, Candidate
+#from exams.forms import CandidateFormset
+from exams.forms import OrderForm, CandidateForm
 
 class DownloadView(View):
     '''
@@ -117,3 +124,226 @@ class FileDownloadView(SingleObjectMixin, DownloadView):
             'filename': obj.file.path,
         }
 download = FileDownloadView.as_view()
+
+from exams.context_processors import current_examination
+
+from education.models import School
+
+class OrdersView(ListView):
+    model = Order
+orders = OrdersView.as_view()
+
+class OrderCreateView(CreateView):
+    model = Order
+    form_class = OrderForm
+    def get_context_data(self, **kwargs):
+        context = super(OrderCreateView, self).get_context_data(**kwargs)
+        school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
+        context['school'] = school
+        if self.request.POST:
+            context['order_form'] = OrderFormset(self.request.POST)
+        else:
+            context['order_form'] = OrderFormset()
+        return context    
+
+    def get_initial(self):
+        initial = super(OrderCreateView, self).get_initial()
+        school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
+        initial['examination'] = current_examination(request=self.request)['current_examination']
+        initial['created_by'] = self.request.user
+        return initial
+
+    def is_valid(self, form):
+        form.cleaned_data['created_by'] = self.request.user
+
+        return super(OrderCreateView, self).is_valid(form)
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        order_form = context['order_form']
+        if order_form.is_valid():
+            self.object = form.save()
+            order_form.instance = self.object
+            order_form.save()
+            return super(OrderCreateView, self).form_valid(form)
+        else:
+            return super(OrderCreateView, self).form_valid(form)
+
+    # TODO: Verify, that user is allowed to modify orders for this school
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(OrderCreateView, self).dispatch(*args, **kwargs)
+ordercreate = OrderCreateView.as_view()
+
+class OrderEditView(UpdateView):
+    model = Order
+    form_class = OrderForm
+    def get_context_data(self, **kwargs):
+        context = super(OrderEditView, self).get_context_data(**kwargs)
+        school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
+        context['school'] = school
+        if self.request.POST:
+            context['order_form'] = OrderFormset(self.request.POST)
+        else:
+            context['order_form'] = OrderFormset()
+        return context    
+
+    # def get_initial(self):
+    #     initial = super(OrderEditView, self).get_initial()
+    #     school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
+    #     initial['examination'] = current_examination(request=self.request)['current_examination']
+    #     initial['created_by'] = self.request.user
+    #     return initial
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        order_form = context['order_form']
+        if order_form.is_valid():
+            self.object = form.save()
+            order_form.instance = self.object
+            order_form.save()
+            return super(OrderEditView, self).form_valid(form)
+        else:
+            return super(OrderEditView, self).form_valid(form)
+
+    def is_valid(self, form):
+        form.cleaned_data['created_by'] = self.request.user
+
+        return super(OrderEditView, self).is_valid(form)
+
+    # TODO: Verify, that user is allowed to modify orders for this school
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(OrderEditView, self).dispatch(*args, **kwargs)
+
+    def get_object(self):
+        order = Order.objects.get(uuid=self.request.resolver_match.kwargs['order_uuid'])
+        return order
+orderedit = OrderEditView.as_view()
+
+class CandidatesView(ListView):
+    model = Candidate
+
+    def get_queryset(self):
+        examination = current_examination(self.request)['current_examination']
+        school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
+        candidates = Candidate.objects.filter(school=school, examination=examination)
+        return candidates
+
+    def get_context_data(self, **kwargs):
+        context = super(CandidatesView, self).get_context_data(**kwargs)
+        school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
+        context['school'] = school
+        return context
+
+    # TODO: Require management rights
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(CandidatesView, self).dispatch(*args, **kwargs)
+candidates = CandidatesView.as_view()
+
+class CandidateView(DetailView):
+    model = Candidate
+
+    def get_object(self):
+        candidate = Candidate.objects.get(uuid=self.request.resolver_match.kwargs['candidate_uuid'])
+        return candidate        
+
+    def get_context_data(self, **kwargs):
+        context = super(CandidateView, self).get_context_data(**kwargs)
+        school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
+        context['school'] = school
+        return context
+
+    # TODO: Require management rights
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(CandidateView, self).dispatch(*args, **kwargs)
+candidate = CandidateView.as_view()
+
+
+class CandidateCreateView(CreateView):
+    model = Candidate
+    form_class = CandidateForm
+    #inline_model = ExamRegistration
+    #inlines = [ExamRegistrationInline]
+
+    def get_context_data(self, **kwargs):
+        context = super(CandidateCreateView, self).get_context_data(**kwargs)
+        school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
+        context['school'] = school
+        if self.request.POST:
+            context['registration_form'] = CandidateRegistrationFormset(self.request.POST)
+        else:
+            context['registration_form'] = CandidateRegistrationFormset()
+        return context        
+    
+    def form_valid(self, form):
+        context = self.get_context_data()
+        registration_form = context['registration_form']
+        if registration_form.is_valid():
+            self.object = form.save()
+            registration_form.instance = self.object
+            registration_form.save()
+            return super(CandidateCreateView, self).form_valid(form)
+        else:
+            return super(CandidateCreateView, self).form_valid(form)
+
+
+    def get_initial(self):
+        from exams.context_processors import current_examination
+        initial = super(CandidateCreateView, self).get_initial()
+        school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
+        #initial['id_school'] = school.pk
+        initial['school'] = school
+        initial['examination'] = current_examination(self.request)['current_examination']
+        return initial
+
+    # TODO: Require management rights
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(CandidateCreateView, self).dispatch(*args, **kwargs)
+candidatecreate = CandidateCreateView.as_view()
+
+class CandidateEditView(UpdateView):
+    model = Candidate
+    form_class = CandidateForm
+    #inlines = [ExamRegistrationInline]
+
+
+    def get_context_data(self, **kwargs):
+        context = super(CandidateEditView, self).get_context_data(**kwargs)
+        school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
+        context['school'] = school
+        if self.request.POST:
+            context['registration_form'] = CandidateRegistrationFormset(self.request.POST)
+        else:
+            context['registration_form'] = CandidateRegistrationFormset()
+        return context        
+    
+    def form_valid(self, form):
+        context = self.get_context_data()
+        registration_form = context['registration_form']
+        if registration_form.is_valid():
+            self.object = form.save()
+            registration_form.instance = self.object
+            registration_form.save()
+            return super(CandidateEditView, self).form_valid(form)
+        else:
+            return super(CandidateEditView, self).form_valid(form)
+
+
+    def get_object(self):
+        candidate = Candidate.objects.get(uuid=self.request.resolver_match.kwargs['candidate_uuid'])
+        return candidate
+
+    # TODO: Require management rights
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(CandidateEditView, self).dispatch(*args, **kwargs)
+candidateedit = CandidateEditView.as_view()        
+
+orders = OrdersView.as_view()
+
+ordercreate = OrderCreateView.as_view()
+orderedit = OrderEditView.as_view()
