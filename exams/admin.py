@@ -76,22 +76,22 @@ class SubjectAdmin(admin.ModelAdmin):
 class ExamRegistrationInline(admin.TabularInline):
     model = ExamRegistration
 
-class SpecialArrangementFilter(admin.SimpleListFilter):
-    title = _('Special Arrangement')
-    parameter_name = 'special_arrangement'
+# class SpecialArrangementFilter(admin.SimpleListFilter):
+#     title = _('Special Arrangement')
+#     parameter_name = 'special_arrangement'
 
-    def lookups(self, request, model_admin):
-        sas = SpecialArrangement.objects.all()
+#     def lookups(self, request, model_admin):
+#         sas = SpecialArrangement.objects.all()
 
-        opts = []
-        for special in sas:
-            opts.append((special.short, special.title))
-        return opts
+#         opts = []
+#         for special in sas:
+#             opts.append((special.short, special.title))
+#         return opts
 
-    def queryset(self, request, queryset):
-        sas = SpecialArrangement.objects.get(short=self.value())
-        regs = ExamRegistration.objects.filter(special_arrangement=sas)
-        objs = queryset.filter()
+#     def queryset(self, request, queryset):
+#         sas = SpecialArrangement.objects.get(short=self.value())
+#         regs = ExamRegistration.objects.filter(special_arrangement=sas)
+#         objs = queryset.filter()
 
 # TODO: Allow filtering by school, show as dropdown <https://docs.djangoproject.com/en/1.4/ref/contrib/admin/#django.contrib.admin.ModelAdmin.list_filter>
 #class FilterWithCustomTemplate(SimpleListFilter):
@@ -99,7 +99,7 @@ class SpecialArrangementFilter(admin.SimpleListFilter):
 
 class CandidateAdmin(admin.ModelAdmin):
     list_display = ('identity_number', 'gender', 'candidate_type', 'get_examination', 'get_exams_names', 'get_school_id', 'get_last_updated',)
-    list_filter = ('examination', 'gender', 'candidate_type', 'school', SpecialArrangementFilter,)
+    list_filter = ('examination', 'gender', 'candidate_type', 'school',)
 
     ordering = ('examination', 'school', 'candidate_number',)
     search_fields = ('identity_number', 'candidate_number',)
