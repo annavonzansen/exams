@@ -541,6 +541,40 @@ class Candidate(Person):
 
         unique_together = (('examination', 'school', 'candidate_number',),)
 
+class CandidateUpload(models.Model):
+    UPLOADED_FILE_CHOICES = (
+        ('U', _('Uploaded')),
+        ('P', _('Processed')),
+        ('A', _('Archived')),
+        ('R', _('Removed')),
+        ('I', _('Invalid')),
+    )
+    uuid = UUIDField(verbose_name=_('UUID'))
+    examination = models.ForeignKey(Examination)
+    school = models.ForeignKey('education.School')
+
+    file = models.FileField(upload_to='candidates/%Y%m%d%H%M%S/')
+
+    by_user = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
+
+    status = models.CharField(max_length=1, choices=UPLOADED_FILE_CHOICES, default='U')
+
+    history = HistoricalRecords()
+
+    created = CreationDateTimeField()
+    modified = ModificationDateTimeField()
+
+    def process_file(self):
+        if self.status == 'U':
+            return import_candidates(self.file.path, allowed_schools=[self.school,])
+        else:
+            return False
+
+    def get_absolute_url(self):
+        return reverse('education:candidates', kwargs={
+            'uuid': self.school.uuid,
+        })
+
 class SpecialArrangement(models.Model):
     uuid = UUIDField(verbose_name='UUID')
     title = models.CharField(max_length=255, unique=True, verbose_name=_('Title'))

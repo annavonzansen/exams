@@ -1,0 +1,10 @@
+{% extends "education/school_base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% block breadcrumb %}{{ block.super }}
+<li>{% trans "Upload Candidates" %}</li>{% endblock %}
+
+{% block content %}
+<h1>{% trans "Upload Candidates" %} <small>{{ school.name }}</small></h1>
+{% crispy form %}
+{% endblock %}

@@ -5,7 +5,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Reset, Div, Fieldset, Layout, ButtonHolder
 from django.utils.translation import ugettext as _
 
-from exams.models import Order, OrderItem, Candidate, ExamRegistration
+from exams.models import Order, OrderItem, Candidate, ExamRegistration, CandidateUpload
 from django.forms.models import inlineformset_factory
 # from crispy_extensions.layout import InlineFormSet
 # from crispy_extensions.forms import ModelFormWithFormsets
@@ -51,6 +51,22 @@ class CandidateForm(ModelForm):
     class Meta:
         model = Candidate
         exclude = ['merge_with', 'gender', 'first_name', 'birthday',]
+
+class CandidateUploadForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(CandidateUploadForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'
+        self.helper.form_action = ''
+        self.helper.form_tag = True
+
+
+
+        self.helper.add_input(Submit('submit', _('Upload')))
+        self.helper.add_input(Reset('reset', _('Reset')))
+
+    class Meta:
+        model = CandidateUpload
 
 ExamRegistrationFormset = inlineformset_factory(Candidate, ExamRegistration)
 ExamRegistrationFormset.form = ExamRegistrationForm

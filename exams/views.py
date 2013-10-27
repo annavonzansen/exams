@@ -13,9 +13,9 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
-from exams.models import Examination, Test, Assignment, File, Order, Candidate
+from exams.models import Examination, Test, Assignment, File, Order, Candidate, CandidateUpload
 #from exams.forms import CandidateFormset
-from exams.forms import OrderForm, CandidateForm, OrderFormset, ExamRegistrationFormset
+from exams.forms import OrderForm, CandidateForm, OrderFormset, ExamRegistrationFormset, CandidateUploadForm
 
 class DownloadView(View):
     '''
@@ -384,3 +384,29 @@ orders = OrdersView.as_view()
 
 ordercreate = OrderCreateView.as_view()
 orderedit = OrderEditView.as_view()
+
+class CandidateUploadView(CreateView):
+    model = CandidateUpload
+    form_class = CandidateUploadForm
+
+    def get_context_data(self, **kwargs):
+        context = super(CandidateUploadView, self).get_context_data(**kwargs)
+        school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
+        context['school'] = school
+        return context   
+
+    def get_initial(self):
+        from exams.context_processors import current_examination
+        initial = super(CandidateUploadView, self).get_initial()
+        school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
+        #initial['id_school'] = school.pk
+        initial['school'] = school
+        initial['examination'] = current_examination(self.request)['current_examination']
+        initial['by_user'] = self.request.user
+        return initial
+
+    # TODO: Require management rights
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(CandidateUploadView, self).dispatch(*args, **kwargs)
+candidateupload = CandidateUploadView.as_view()

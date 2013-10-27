@@ -5,11 +5,11 @@
 {% block title %}{% trans "Candidates" %} - {{ school.name }} - {{ block.super }}{% endblock %}
 
 {% block breadcrumb %}{{ block.super }}
-<li><a href="{% url "education:candidates" uuid=school.uuid %}">{% trans "Candidates" %}</a></li>{% endblock %}
+<li>{% trans "Candidates" %}</li>{% endblock %}
 
 
 {% block content %}
-<h1>{% trans "List of Candidates" %} <small>{{ school.name }}</small> <a href="{% url "education:candidatecreate" uuid=school.uuid %}" class="btn btn-success">{% trans "Add new" %}</a> <a href="#" class="btn btn-default">{% trans "Upload XML file" %}</a></h1>
+<h1>{% trans "List of Candidates" %} <small>{{ school.name }}</small> <a href="{% url "education:candidatecreate" uuid=school.uuid %}" class="btn btn-success">{% trans "Add new" %}</a> <a href="{% url "education:candidateupload" uuid=school.uuid %}" class="btn btn-default">{% trans "Upload XML file" %}</a></h1>
 {% url "education:school" uuid=school.uuid as school_url %}
 <p>{% blocktrans with school_name=school.name examination=current_examination total=object_list|count %}Below is a list of all candidates in <a href="{{ school_url }}">{{ school_name }}</a>, registered for examination <strong>{{ examination }}</strong>. A total of {{ total }} candidates.{% endblocktrans %}</p>
 
