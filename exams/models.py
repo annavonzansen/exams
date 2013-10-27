@@ -11,12 +11,12 @@ from django.core import serializers
 from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.db.models import Q
-
+from django.core.exceptions import PermissionDenied
 import os
 import re
 import datetime
 from simple_history.models import HistoricalRecords
-
+from django.db.models.signals import post_save
 from people.models import Person
 
 EXAMINATION_SEASON_CHOICES = (
@@ -548,6 +548,7 @@ class CandidateUpload(models.Model):
         ('A', _('Archived')),
         ('R', _('Removed')),
         ('I', _('Invalid')),
+        ('p', _('Permissions failed')),
     )
     uuid = UUIDField(verbose_name=_('UUID'))
     examination = models.ForeignKey(Examination)
@@ -555,7 +556,7 @@ class CandidateUpload(models.Model):
 
     file = models.FileField(upload_to='candidates/%Y%m%d%H%M%S/')
 
-    by_user = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
+    by_user = models.ForeignKey(settings.AUTH_USER_MODEL)
 
     status = models.CharField(max_length=1, choices=UPLOADED_FILE_CHOICES, default='U')
 
@@ -564,9 +565,20 @@ class CandidateUpload(models.Model):
     created = CreationDateTimeField()
     modified = ModificationDateTimeField()
 
+
     def process_file(self):
         if self.status == 'U':
-            return import_candidates(self.file.path, allowed_schools=[self.school,])
+            if self.by_user in self.school.managers.all():
+                try:
+                    stats = import_candidates(self.file.path, allowed_schools=[self.school,])
+                    self.status = 'P'
+                except PermissionDenied:
+                    self.status = 'I'
+                self.save()
+            else:
+                self.status = 'p'
+                self.save()
+                return False
         else:
             return False
 
@@ -574,6 +586,14 @@ class CandidateUpload(models.Model):
         return reverse('education:candidates', kwargs={
             'uuid': self.school.uuid,
         })
+
+    def __str__(self):
+        return "%s, %s, %s, %s" % (self.examination, self.school, self.by_user, self.file.path)
+
+def process_candidateupload(sender, instance, **kwargs):
+    instance.process_file()
+post_save.connect(process_candidateupload, sender=CandidateUpload, dispatch_uid='process_candidateupload')
+
 
 class SpecialArrangement(models.Model):
     uuid = UUIDField(verbose_name='UUID')

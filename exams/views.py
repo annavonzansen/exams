@@ -388,6 +388,7 @@ orderedit = OrderEditView.as_view()
 class CandidateUploadView(CreateView):
     model = CandidateUpload
     form_class = CandidateUploadForm
+    fields = ['file',]
 
     def get_context_data(self, **kwargs):
         context = super(CandidateUploadView, self).get_context_data(**kwargs)
@@ -404,6 +405,23 @@ class CandidateUploadView(CreateView):
         initial['examination'] = current_examination(self.request)['current_examination']
         initial['by_user'] = self.request.user
         return initial
+
+    # def post(self, request, *args, **kwargs):
+    #     self.object = None
+    #     form_class = self.get_form_class()
+    #     form = self.get_form(form_class)
+    #     formset = ExamRegistrationFormset(self.request.POST)
+        
+    #     if (form.is_valid() and formset.is_valid()):
+    #         return self.form_valid(form, formset)
+    #     else:
+    #         return self.form_invalid(form, formset)
+    
+    def form_valid(self, form):
+        form.instance.by_user = self.request.user
+        form.instance.school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
+        form.instance.examination = current_examination(self.request)['current_examination']
+        return super(CandidateUploadView, self).form_valid(form)
 
     # TODO: Require management rights
     @method_decorator(login_required)
