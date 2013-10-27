@@ -1,0 +1,41 @@
+{% extends "education/school_base.html" %}
+{% load i18n %}
+{% load education %}
+
+{% block title %}{% trans "Candidates" %} - {{ school.name }} - {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}{{ block.super }}
+<li><a href="{% url "education:candidates" uuid=school.uuid %}">{% trans "Candidates" %}</a></li>{% endblock %}
+
+
+{% block content %}
+<h1>{% trans "List of Candidates" %} <small>{{ school.name }}</small> <a href="{% url "education:candidatecreate" uuid=school.uuid %}" class="btn btn-success">{% trans "Add new" %}</a> <a href="#" class="btn btn-default">{% trans "Upload XML file" %}</a></h1>
+{% url "education:school" uuid=school.uuid as school_url %}
+<p>{% blocktrans with school_name=school.name examination=current_examination total=object_list|count %}Below is a list of all candidates in <a href="{{ school_url }}">{{ school_name }}</a>, registered for examination <strong>{{ examination }}</strong>. A total of {{ total }} candidates.{% endblocktrans %}</p>
+
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>{% trans "Candidate" %}</th>
+            <th>{% trans "Exam Registrations" %}</th>
+            <th>{% trans "Site" %}</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for object in object_list %}
+        <tr>
+            <td><strong><a href="{% url "education:candidateedit" uuid=school.uuid candidate_uuid=object.uuid %}">{{ object }}</a></strong><br/>
+            {{ object.candidate_type }}
+            </td>
+            <td><ul>{% for e in object.get_exams %}
+                <li>{{ e.subject }}{% if e.special_arrangements.all %} <small><strong>{% trans "Special arrangements:" %}</strong> {{ e.special_arrangements.all|join:", " }}</small>{% endif %}</li>
+            {% endfor %}
+            </ul></td>
+            <td>{{ o.site }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

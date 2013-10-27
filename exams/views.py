@@ -15,7 +15,7 @@ from django.utils.decorators import method_decorator
 
 from exams.models import Examination, Test, Assignment, File, Order, Candidate
 #from exams.forms import CandidateFormset
-from exams.forms import OrderForm, CandidateForm, OrderFormset, CandidateRegistrationFormset
+from exams.forms import OrderForm, CandidateForm, OrderFormset, ExamRegistrationFormset
 
 class DownloadView(View):
     '''
@@ -183,7 +183,7 @@ class OrderEditView(UpdateView):
         school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
         context['school'] = school
         if self.request.POST:
-            context['order_form'] = OrderFormset(self.request.POST)
+            context['order_form'] = OrderFormset(self.request.POST, instance=self.get_object())
         else:
             context['order_form'] = OrderFormset()
         return context    
@@ -265,30 +265,40 @@ candidate = CandidateView.as_view()
 class CandidateCreateView(CreateView):
     model = Candidate
     form_class = CandidateForm
-    #inline_model = ExamRegistration
-    #inlines = [ExamRegistrationInline]
 
     def get_context_data(self, **kwargs):
         context = super(CandidateCreateView, self).get_context_data(**kwargs)
         school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
         context['school'] = school
-        if self.request.POST:
-            context['registration_form'] = CandidateRegistrationFormset(self.request.POST)
-        else:
-            context['registration_form'] = CandidateRegistrationFormset()
         return context        
     
-    def form_valid(self, form):
-        context = self.get_context_data()
-        registration_form = context['registration_form']
-        if registration_form.is_valid():
-            self.object = form.save()
-            registration_form.instance = self.object
-            registration_form.save()
-            return super(CandidateCreateView, self).form_valid(form)
-        else:
-            return super(CandidateCreateView, self).form_valid(form)
+    def get(self, request, *args, **kwargs):
+        self.object = None
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        formset = ExamRegistrationFormset()
+        return self.render_to_response(self.get_context_data(form=form, formset=formset))
 
+    def post(self, request, *args, **kwargs):
+        self.object = None
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        formset = ExamRegistrationFormset(self.request.POST)
+        
+        if (form.is_valid() and formset.is_valid()):
+            return self.form_valid(form, formset)
+        else:
+            return self.form_invalid(form, formset)
+
+    def form_valid(self, form, formset):
+        self.object = form.save()
+        formset.instance = self.object
+        formset.save()
+        return super(CandidateCreateView, self).form_valid(form)
+        #return HttpResponseRedirect(self.get_success_url())
+
+    def form_invalid(self, form, formset):
+        return self.render_to_response(self.get_context_data(form=form, formset=formset))
 
     def get_initial(self):
         from exams.context_processors import current_examination
@@ -310,27 +320,54 @@ class CandidateEditView(UpdateView):
     form_class = CandidateForm
     #inlines = [ExamRegistrationInline]
 
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        formset = ExamRegistrationFormset(instance=self.object)
+        return self.render_to_response(self.get_context_data(form=form, formset=formset))
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        formset = ExamRegistrationFormset(self.request.POST)
+        
+        if (form.is_valid() and formset.is_valid()):
+            return self.form_valid(form, formset)
+        else:
+            return self.form_invalid(form, formset)
+
+    def form_valid(self, form, formset):
+        self.object = form.save()
+        formset.instance = self.object
+        formset.save()
+        return super(CandidateEditView, self).form_valid(form)
+        #return HttpResponseRedirect(self.get_success_url())
+
+    def form_invalid(self, form, formset):
+        return self.render_to_response(self.get_context_data(form=form, formset=formset))
 
     def get_context_data(self, **kwargs):
         context = super(CandidateEditView, self).get_context_data(**kwargs)
         school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
         context['school'] = school
-        if self.request.POST:
-            context['registration_form'] = CandidateRegistrationFormset(self.request.POST)
-        else:
-            context['registration_form'] = CandidateRegistrationFormset()
+        # if self.request.POST:
+        #     context['formset'] = CandidateRegistrationFormset(self.request.POST, instance=self.get_object())
+        # else:
+        #     context['formset'] = CandidateRegistrationFormset()
         return context        
     
-    def form_valid(self, form):
-        context = self.get_context_data()
-        registration_form = context['registration_form']
-        if registration_form.is_valid():
-            self.object = form.save()
-            registration_form.instance = self.object
-            registration_form.save()
-            return super(CandidateEditView, self).form_valid(form)
-        else:
-            return super(CandidateEditView, self).form_valid(form)
+    # def form_valid(self, form):
+    #     context = self.get_context_data()
+    #     formset = context['formset']
+    #     if formset.is_valid():
+    #         self.object = form.save()
+    #         formset.instance = self.object
+    #         formset.save()
+    #         return super(CandidateEditView, self).form_valid(form)
+    #     else:
+    #         return super(CandidateEditView, self).form_valid(form)
 
 
     def get_object(self):

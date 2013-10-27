@@ -437,7 +437,7 @@ class Candidate(Person):
     candidate_number = models.PositiveIntegerField(verbose_name=_('Candidate Number'), help_text=_('School-specific identification number for candidate (incrementing)'))
     candidate_type = models.ForeignKey(CandidateType, verbose_name=_('Candidate Type'), help_text=_('What sort of candidate this person is?'))
 
-    retrying = models.BooleanField(default=False)
+    retrying = models.BooleanField(default=False, verbose_name=_('Candidate is retrying full exam'), help_text=_('Is candidate starting the examination from begin?'))
 
     # TODO: Validate identity number
     # TODO: Gender from identity number
@@ -565,7 +565,7 @@ class ExamRegistration(models.Model):
     uuid = UUIDField(verbose_name='UUID')
 
     
-    subject = models.ForeignKey('exams.Subject')
+    subject = models.ForeignKey('exams.Subject', verbose_name=_('Subject'))
     candidate = models.ForeignKey(Candidate)
 
     special_arrangements = models.ManyToManyField(SpecialArrangement, blank=True, null=True, verbose_name=_('Special Arrangements'))

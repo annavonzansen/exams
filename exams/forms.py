@@ -2,12 +2,14 @@
 from django import forms
 from django.forms import ModelForm
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit, Reset
+from crispy_forms.layout import Submit, Reset, Div, Fieldset, Layout, ButtonHolder
 from django.utils.translation import ugettext as _
 
 from exams.models import Order, OrderItem, Candidate, ExamRegistration
 from django.forms.models import inlineformset_factory
-
+# from crispy_extensions.layout import InlineFormSet
+# from crispy_extensions.forms import ModelFormWithFormsets
+from django.forms.formsets import formset_factory
 class OrderForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(OrderForm, self).__init__(*args, **kwargs)
@@ -24,6 +26,14 @@ class OrderForm(ModelForm):
 
 OrderFormset = inlineformset_factory(Order, OrderItem, extra=3)
 
+class ExamRegistrationForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ExamRegistrationForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+
+    class Meta:
+        model = ExamRegistration
 
 class CandidateForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -31,13 +41,16 @@ class CandidateForm(ModelForm):
         self.helper = FormHelper()
         self.helper.form_method = 'post'
         self.helper.form_action = ''
+        self.helper.form_tag = False
 
-        self.helper.add_input(Submit('submit', _('Save')))
-        self.helper.add_input(Reset('reset', _('Reset')))
+
+
+        #self.helper.add_input(Submit('submit', _('Save')))
+        #self.helper.add_input(Reset('reset', _('Reset')))
 
     class Meta:
         model = Candidate
         exclude = ['merge_with', 'gender', 'first_name', 'birthday',]
 
-#CandidateFormSet = formset_factory(CandidateForm)
-CandidateRegistrationFormset = inlineformset_factory(Candidate, ExamRegistration, extra=5)
+ExamRegistrationFormset = inlineformset_factory(Candidate, ExamRegistration)
+ExamRegistrationFormset.form = ExamRegistrationForm

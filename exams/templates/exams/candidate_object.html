@@ -1,0 +1,17 @@
+{% load i18n %}
+<a href="{% url "education:candidateedit" uuid=school.uuid candidate_uuid=object.uuid %}">{{ object }}</a> {% if object.site %}<small>{{ object.site.name }}</small>{% endif %}<ul>
+    {% if object.get_exams %}
+        {% for e in object.get_exams %}
+        <li>
+            {{ e.subject }}
+            {% if e.special_arrangements.all %}
+            <ul>
+            {% for sa in e.special_arrangements.all %}
+                <li><small>{{ sa.title }}</small></li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+        </li>
+        {% endfor %}
+    {% endif %}
+</ul>

@@ -3,23 +3,31 @@
 {% load crispy_forms_tags %}
 
 {% block breadcrumb %}{{ block.super }}
-    {% comment %}<li><a href="{% url "education:candidates" uuid=school.uuid %}">{% trans "Candidates" %}</a></li>{% endcomment %}
-    <li>{% if object.pk %}{% trans "Edit candidate" %} {{ object }}{% else %}{% trans "Create new candidate" %}{% endif %}</li>
-{% endblock %}
+<li><a href="{% url "education:candidates" uuid=school.uuid %}">{% trans "Candidates" %}</a></li>
+<li>{% if object.pk %}{% trans "Edit candidate" %} {{ object }}{% else %}{% trans "Create new candidate" %}{% endif %}</li>{% endblock %}
 
 {% block content %}
 <h1>{% if object.pk %}{% trans "Edit candidate" %} {{ object }}{% else %}{% trans "Create new candidate" %}{% endif %} <small>{{ school.name }}</small></h1>
 <form method="post" action="">
-    {% csrf_token %}
-    {% comment %}
-    {% crispy form %}
 
-    {% crispy registration_form %}
-    {% endcomment %}
+    {% crispy form form.helper %}
 
-    {{ form|crispy }}
-    {{ registration_form|crispy }}
+    {{ formset.management_form }}
+    
+{% comment %}
+        {% for formset_form in formset %}
+        <fieldset>
+            <legend>{% trans "Exam Registration" %}</legend>
+            {% crispy formset_form %}
+        </fieldset>
+    {% endfor %}
+{% endcomment %}
+    {% for er_form in formset %}
+        <fieldset>
+        {{ er_form.as_table }}
+        </fieldset>
+    {% endfor %}
 
-    <p><input type="submit" value="{% trans "Submit" %}"/> <input type="reset" value="{% trans "Reset" %}"/></p>
+    <p><input type="submit" value="{% trans "Submit" %}" class="btn btn-success"/> <input type="reset" value="{% trans "Reset" %}" class="btn btn-danger"/></p>
 </form>
 {% endblock %}
