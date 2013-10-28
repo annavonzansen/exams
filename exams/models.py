@@ -126,8 +126,13 @@ YEAR_CHOICES = year_choices(min=2005, max=2020)
 
 class ExaminationManager(models.Manager):
     def get_active(self):
+        """Returns currently active examinations"""
         now = datetime.datetime.utcnow().replace(tzinfo=utc)
         return super(ExaminationManager, self).get_queryset().filter(Q(registration_begin__lte=now, registration_end__gte=now, registration_status='S') | Q(registration_status='E'))
+
+    def get_latest(self):
+        """Returns latest examination ("current"), determined by which has latest registration_begin time and is currently active"""
+        return self.get_active().latest('registration_begin')
 
 class Examination(models.Model):
     """Examination
