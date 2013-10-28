@@ -507,7 +507,7 @@ class Candidate(Person):
             parts.append(self.first_name)
 
         if self.identity_number:
-            parts.append("(%s-)" % self.identity_number[:6])
+            parts.append("(%s)" % self.identity_number[:7])
         elif self.birthday:
             parts.append("(%s)" % self.birthday)
 
