@@ -409,6 +409,7 @@ class CandidateUploadView(CreateView):
     #     else:
     #         return self.form_invalid(form, formset)
     
+    # TODO: Show feedback/message, based on importer results
     def form_valid(self, form):
         form.instance.by_user = self.request.user
         form.instance.school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
