@@ -339,6 +339,9 @@ class CandidateEditView(UpdateView):
             return self.form_invalid(form, formset)
 
     def form_valid(self, form, formset):
+        form.instance.school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
+        form.instance.examination = current_examination(self.request)['current_examination']
+
         self.object = form.save()
         formset.instance = self.object
         formset.save()

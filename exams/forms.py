@@ -50,7 +50,7 @@ class CandidateForm(ModelForm):
 
     class Meta:
         model = Candidate
-        exclude = ['merge_with', 'gender', 'first_name', 'birthday',]
+        exclude = ['merge_with', 'gender', 'first_name', 'birthday', 'school', 'examination',]
 
 class CandidateUploadForm(ModelForm):
     def __init__(self, *args, **kwargs):

@@ -591,7 +591,7 @@ class CandidateUpload(models.Model):
         return "%s, %s, %s, %s" % (self.examination, self.school, self.by_user, self.file.path)
 
 def process_candidateupload(sender, instance, **kwargs):
-    instance.process_file()
+    instance.process_file() 
 post_save.connect(process_candidateupload, sender=CandidateUpload, dispatch_uid='process_candidateupload')
 
 
