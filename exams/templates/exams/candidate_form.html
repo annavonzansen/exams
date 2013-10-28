@@ -14,14 +14,6 @@
 
     {{ formset.management_form }}
     
-{% comment %}
-        {% for formset_form in formset %}
-        <fieldset>
-            <legend>{% trans "Exam Registration" %}</legend>
-            {% crispy formset_form %}
-        </fieldset>
-    {% endfor %}
-{% endcomment %}
     {% for er_form in formset %}
         <fieldset>
         {{ er_form.as_table }}

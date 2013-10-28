@@ -12,6 +12,8 @@ from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.contrib import messages
+from django.utils.translation import ugettext as _
 
 from exams.models import Examination, Test, Assignment, File, Order, Candidate, CandidateUpload
 #from exams.forms import CandidateFormset
@@ -294,10 +296,12 @@ class CandidateCreateView(CreateView):
         self.object = form.save()
         formset.instance = self.object
         formset.save()
+        messages.success(self.request, _('Candidate created successfully!'))
         return super(CandidateCreateView, self).form_valid(form)
         #return HttpResponseRedirect(self.get_success_url())
 
     def form_invalid(self, form, formset):
+        messages.error(self.request, _('Failed to save candidate!'))
         return self.render_to_response(self.get_context_data(form=form, formset=formset))
 
     def get_initial(self):
@@ -331,7 +335,7 @@ class CandidateEditView(UpdateView):
         self.object = self.get_object()
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-        formset = ExamRegistrationFormset(self.request.POST)
+        formset = ExamRegistrationFormset(self.request.POST, instance=form.instance)
         
         if (form.is_valid() and formset.is_valid()):
             return self.form_valid(form, formset)
@@ -343,12 +347,13 @@ class CandidateEditView(UpdateView):
         form.instance.examination = current_examination(self.request)['current_examination']
 
         self.object = form.save()
-        formset.instance = self.object
+        #formset.instance = self.object
         formset.save()
+        messages.success(self.request, _('Candidate updated!'))
         return super(CandidateEditView, self).form_valid(form)
-        #return HttpResponseRedirect(self.get_success_url())
 
     def form_invalid(self, form, formset):
+        messages.error(self.request, _('Candidate update failed!'))
         return self.render_to_response(self.get_context_data(form=form, formset=formset))
 
     def get_context_data(self, **kwargs):
