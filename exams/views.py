@@ -355,24 +355,8 @@ class CandidateEditView(UpdateView):
         context = super(CandidateEditView, self).get_context_data(**kwargs)
         school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
         context['school'] = school
-        # if self.request.POST:
-        #     context['formset'] = CandidateRegistrationFormset(self.request.POST, instance=self.get_object())
-        # else:
-        #     context['formset'] = CandidateRegistrationFormset()
         return context        
     
-    # def form_valid(self, form):
-    #     context = self.get_context_data()
-    #     formset = context['formset']
-    #     if formset.is_valid():
-    #         self.object = form.save()
-    #         formset.instance = self.object
-    #         formset.save()
-    #         return super(CandidateEditView, self).form_valid(form)
-    #     else:
-    #         return super(CandidateEditView, self).form_valid(form)
-
-
     def get_object(self):
         candidate = Candidate.objects.get(uuid=self.request.resolver_match.kwargs['candidate_uuid'])
         return candidate
