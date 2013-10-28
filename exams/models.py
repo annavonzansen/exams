@@ -450,7 +450,12 @@ class Candidate(Person):
     get_examination.short_description = _('Examination')
     get_examination.admin_order_field = 'examination'
 
-
+    def _hide_identity(self):
+        if self.identity_number:
+            self.identity_number = self.identity_number[:7]
+            self.save()
+            return True
+        return False
 
     def get_candidate(self):
         return _('%(last_name)s, %(first_names)s (%(identity_number)s)') % {
