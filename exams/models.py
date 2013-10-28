@@ -124,17 +124,6 @@ def year_choices(min=None, max=None):
 # TODO: Django 1.6 supports choices which are functions
 YEAR_CHOICES = year_choices(min=2005, max=2020)
 
-# class ExaminationQuerySet(models.Model):
-#     def registration_active(self):
-#         now = datetime.datetime.utcnow().replace(tzinfo=utc)
-#         return self.filter(Q(registration_begin__lte=now, registration_end__gte=now) | Q(registration_status='E'))
-
-# class ExaminationManager(models.Manager):
-#     #def get_queryset(self):
-#     #    return ExaminationQuerySet()
-
-#     def registration_active(self):
-#         return self.get_queryset().registration_active()
 
 class Examination(models.Model):
     """Examination
@@ -152,8 +141,7 @@ class Examination(models.Model):
     registration_end = models.DateTimeField(blank=True, null=True, verbose_name=_('Registration End'), help_text=_('Date + time when registration begins, ie. when schools can no longer register students and order materials'))
     registration_status = models.CharField(max_length=1, choices=REGISTRATION_STATUS_CHOICES, default='D', verbose_name=_('Registration Status'), help_text=_('Current registration mode. Enabled = schools can register students and order material, disabled = schools can not register students, scheduled = depends on registration begin/end times.'))
     history = HistoricalRecords()
-
-#    objects = ExaminationManager()
+    # TODO: Allow only one active Examination registration
 
     def get_absolute_url(self):
         return reverse('exams:examination', kwargs={
