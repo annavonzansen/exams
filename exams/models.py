@@ -124,6 +124,10 @@ def year_choices(min=None, max=None):
 # TODO: Django 1.6 supports choices which are functions
 YEAR_CHOICES = year_choices(min=2005, max=2020)
 
+class ExaminationManager(models.Manager):
+    def get_active(self):
+        now = datetime.datetime.utcnow().replace(tzinfo=utc)
+        return super(ExaminationManager, self).get_queryset().filter(Q(registration_begin__lte=now, registration_end__gte=now, registration_status='S') | Q(registration_status='E'))
 
 class Examination(models.Model):
     """Examination
@@ -137,12 +141,14 @@ class Examination(models.Model):
 
     slug = AutoSlugField(populate_from=['year', 'season',])
 
+    # TODO: Allow only one active Examination registration
     registration_begin = models.DateTimeField(blank=True, null=True, verbose_name=_('Registration Begin'), help_text=_('Date + time when registration begins, ie. when schools can register students and order materials'))
     registration_end = models.DateTimeField(blank=True, null=True, verbose_name=_('Registration End'), help_text=_('Date + time when registration begins, ie. when schools can no longer register students and order materials'))
     registration_status = models.CharField(max_length=1, choices=REGISTRATION_STATUS_CHOICES, default='D', verbose_name=_('Registration Status'), help_text=_('Current registration mode. Enabled = schools can register students and order material, disabled = schools can not register students, scheduled = depends on registration begin/end times.'))
+    
     history = HistoricalRecords()
-    # TODO: Allow only one active Examination registration
-
+    objects = ExaminationManager()
+    
     def get_absolute_url(self):
         return reverse('exams:examination', kwargs={
             'slug': self.slug,
@@ -152,6 +158,7 @@ class Examination(models.Model):
         return Test.objects.filter(examination=self)
 
     def is_registration_enabled(self):
+        # TODO: Deprecated
         if self.registration_status == 'E':
             return True
         elif self.registration_status == 'S':
