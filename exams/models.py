@@ -572,6 +572,7 @@ class CandidateUpload(models.Model):
 
 
     def process_file(self):
+        stats = {}
         if self.status == 'U':
             if self.by_user in self.school.managers.all():
                 try:
@@ -580,6 +581,7 @@ class CandidateUpload(models.Model):
                 except PermissionDenied:
                     self.status = 'I'
                 self.save()
+                return stats
             else:
                 self.status = 'p'
                 self.save()
@@ -596,7 +598,7 @@ class CandidateUpload(models.Model):
         return "%s, %s, %s, %s" % (self.examination, self.school, self.by_user, self.file.path)
 
 def process_candidateupload(sender, instance, **kwargs):
-    instance.process_file() 
+    instance.process_file()
 post_save.connect(process_candidateupload, sender=CandidateUpload, dispatch_uid='process_candidateupload')
 
 
@@ -740,6 +742,7 @@ def import_candidates(filename, allowed_schools=None):
         'candidates_created': 0,
         'candidates_updated': 0,
         'examregistrations': 0,
+        'messages': [],
     }
     _cache = {
         'examinations': {},
@@ -802,28 +805,28 @@ def import_candidates(filename, allowed_schools=None):
                 cand.add_registration(subj)
                 stats['examregistrations'] += 1
     except Examination.DoesNotExist:
-        print _("Cannot import candidate %(candidate)s, specified examination %(examination)s does not exist!") % {
-            'candidate': c,
-            'examination': c.examination,
-        }
+        stats['messages'].append(_("Cannot import candidate %(candidate)s, specified examination %(examination)s does not exist!") % {
+                    'candidate': c,
+                    'examination': c.examination,
+                })
     except School.DoesNotExist:
-        print _("Cannot import candidate %(candidate)s, specified school %(school)s does not exist!") % {
-            'candidate': c,
-            'school': c.school,
-        }
+        stats['messages'].append(_("Cannot import candidate %(candidate)s, specified school %(school)s does not exist!") % {
+                    'candidate': c,
+                    'school': c.school,
+                })
     except CandidateType.DoesNotExist:
-        print _("Cannot import candidate %(candidate)s, specified type %(type)s does not exist!") % {
-            'candidate': c,
-            'type': c.ctype,
-        }      
+        stats['messages'].append(_("Cannot import candidate %(candidate)s, specified type %(type)s does not exist!") % {
+                    'candidate': c,
+                    'type': c.ctype,
+                })
     except Subject.DoesNotExist:
-        print _("Cannot import candidate %(candidate)s, specified subject %(subject)s does not exist!") % {
-            'candidate': c,
-            'subject': c.subjects,
-        }      
+        stats['messages'].append(_("Cannot import candidate %(candidate)s, specified subject %(subject)s does not exist!") % {
+                    'candidate': c,
+                    'subject': c.subjects,
+                })      
       
-    #finally:
-    return stats
+    finally:
+        return stats
 
 def export_orders(filename):
     """Exports orders to XLS file"""
