@@ -535,7 +535,7 @@ class Candidate(Person):
         return self.__str__()
 
     def get_absolute_url(self):
-        return reverse('education:school', kwargs={
+        return reverse('education:candidates', kwargs={
             'uuid': self.school.uuid,
             #'candidate_uuid': self.uuid,
         })

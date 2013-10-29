@@ -9,8 +9,14 @@
 {% block content %}
 <h1>{% if object.pk %}{% trans "Edit candidate" %} {{ object }}{% else %}{% trans "Create new candidate" %}{% endif %} <small>{{ school.name }}</small></h1>
 <form method="post" action="">
+    {% csrf_token %}
+    {{ form }}
+    {% for i in inlines %}
+        {{ i }}
+    {% endfor %}
+    {{ inlines.management_form }}
 
-    {% crispy form form.helper %}
+{% comment %}     {% crispy form form.helper %}
 
     {{ formset.management_form }}
     
@@ -18,8 +24,9 @@
         <fieldset>
         {{ er_form.as_table }}
         </fieldset>
-    {% endfor %}
-
+    {% endfor %} #}
+{% endcomment %}
     <p><input type="submit" value="{% trans "Submit" %}" class="btn btn-success"/> <input type="reset" value="{% trans "Reset" %}" class="btn btn-danger"/></p>
+
 </form>
 {% endblock %}

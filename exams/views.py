@@ -15,9 +15,17 @@ from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.utils.translation import ugettext as _
 
-from exams.models import Examination, Test, Assignment, File, Order, Candidate, CandidateUpload
+from exams.models import Examination, Test, Assignment, File, Order, Candidate, CandidateUpload, ExamRegistration
 #from exams.forms import CandidateFormset
 from exams.forms import OrderForm, CandidateForm, OrderFormset, ExamRegistrationFormset, CandidateUploadForm
+from django.http import HttpResponseRedirect
+
+
+from exams.context_processors import current_examination
+
+from education.models import School
+from extra_views import CreateWithInlinesView, UpdateWithInlinesView, InlineFormSet, NamedFormsetsMixin
+from extra_views.generic import GenericInlineFormSet
 
 class DownloadView(View):
     '''
@@ -127,9 +135,7 @@ class FileDownloadView(SingleObjectMixin, DownloadView):
         }
 download = FileDownloadView.as_view()
 
-from exams.context_processors import current_examination
 
-from education.models import School
 
 class OrdersView(ListView):
     model = Order
@@ -264,54 +270,33 @@ class CandidateView(DetailView):
 candidate = CandidateView.as_view()
 
 
-class CandidateCreateView(CreateView):
+
+class ExamRegistrationInline(InlineFormSet):
+    model = ExamRegistration
+
+class CandidateCreateView(CreateWithInlinesView):
     model = Candidate
-    form_class = CandidateForm
+    inlines = [ExamRegistrationInline]
+    fields = ['last_name', 'first_names', 'identity_number', 'candidate_number', 'candidate_type', 'retrying', 'site',]
+    #inlines_names = ['exam_form']
+    #form_class = CandidateForm
 
     def get_context_data(self, **kwargs):
         context = super(CandidateCreateView, self).get_context_data(**kwargs)
         school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
         context['school'] = school
-        return context        
-    
-    def get(self, request, *args, **kwargs):
-        self.object = None
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-        formset = ExamRegistrationFormset()
-        return self.render_to_response(self.get_context_data(form=form, formset=formset))
+        return context
 
-    def post(self, request, *args, **kwargs):
-        self.object = None
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-        formset = ExamRegistrationFormset(self.request.POST)
-        
-        if (form.is_valid() and formset.is_valid()):
-            return self.form_valid(form, formset)
-        else:
-            return self.form_invalid(form, formset)
-
-    def form_valid(self, form, formset):
+    def forms_valid(self, form, inlines):
+        """
+        If the form and formsets are valid, save the associated models.
+        """
+        form.instance.school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
+        form.instance.examination = Examination.objects.get_latest()
         self.object = form.save()
-        formset.instance = self.object
-        formset.save()
-        messages.success(self.request, _('Candidate created successfully!'))
-        return super(CandidateCreateView, self).form_valid(form)
-        #return HttpResponseRedirect(self.get_success_url())
-
-    def form_invalid(self, form, formset):
-        messages.error(self.request, _('Failed to save candidate!'))
-        return self.render_to_response(self.get_context_data(form=form, formset=formset))
-
-    def get_initial(self):
-        from exams.context_processors import current_examination
-        initial = super(CandidateCreateView, self).get_initial()
-        school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
-        #initial['id_school'] = school.pk
-        initial['school'] = school
-        initial['examination'] = current_examination(self.request)['current_examination']
-        return initial
+        for formset in inlines:
+            formset.save()
+        return HttpResponseRedirect(self.get_success_url())
 
     # TODO: Require management rights
     @method_decorator(login_required)
@@ -319,42 +304,21 @@ class CandidateCreateView(CreateView):
         return super(CandidateCreateView, self).dispatch(*args, **kwargs)
 candidatecreate = CandidateCreateView.as_view()
 
-class CandidateEditView(UpdateView):
+class CandidateEditView(UpdateWithInlinesView):
     model = Candidate
-    form_class = CandidateForm
-    #inlines = [ExamRegistrationInline]
+    inlines = [ExamRegistrationInline]
+    fields = ['last_name', 'first_names', 'identity_number', 'candidate_number', 'candidate_type', 'retrying', 'site',]
 
-    def get(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-        formset = ExamRegistrationFormset(instance=self.object)
-        return self.render_to_response(self.get_context_data(form=form, formset=formset))
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-        formset = ExamRegistrationFormset(self.request.POST, instance=form.instance)
-        
-        if (form.is_valid() and formset.is_valid()):
-            return self.form_valid(form, formset)
-        else:
-            return self.form_invalid(form, formset)
-
-    def form_valid(self, form, formset):
+    def forms_valid(self, form, inlines):
+        """
+        If the form and formsets are valid, save the associated models.
+        """
         form.instance.school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
-        form.instance.examination = current_examination(self.request)['current_examination']
-
+        form.instance.examination = Examination.objects.get_latest()
         self.object = form.save()
-        #formset.instance = self.object
-        formset.save()
-        messages.success(self.request, _('Candidate updated!'))
-        return super(CandidateEditView, self).form_valid(form)
-
-    def form_invalid(self, form, formset):
-        messages.error(self.request, _('Candidate update failed!'))
-        return self.render_to_response(self.get_context_data(form=form, formset=formset))
+        for formset in inlines:
+            formset.save()
+        return HttpResponseRedirect(self.get_success_url())
 
     def get_context_data(self, **kwargs):
         context = super(CandidateEditView, self).get_context_data(**kwargs)
