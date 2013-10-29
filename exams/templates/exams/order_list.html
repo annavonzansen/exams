@@ -1,0 +1,42 @@
+{% extends "education/school_base.html" %}
+{% load i18n %}
+{% load education %}
+
+{% block title %}{% trans "Orders" %} - {{ school.name }} - {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}{{ block.super }}
+<li>{% trans "Orders" %}</li>{% endblock %}
+
+
+{% block content %}
+<h1>{% trans "List of Orders" %} <small>{{ school.name }}</small> <a href="{% url "education:ordercreate" uuid=school.uuid %}" class="btn btn-success">{% trans "Add new" %}</a></h1>
+{% url "education:school" uuid=school.uuid as school_url %}
+<p>{% blocktrans with school_name=school.name examination=current_examination total=object_list|count %}Below is a list of all material orders in <a href="{{ school_url }}">{{ school_name }}</a>, for examination <strong>{{ examination }}</strong>. A total of {{ total }} orders.{% endblocktrans %}</p>
+
+<h2>{% trans "Current Order" %}</h2>
+<p>Below is the current order.</p>
+{% for o in object_list %}
+{% if not forloop.counter0 %}
+    <li>{% trans "Order" %} {{ o.date }} ({{ o.uuid }}), {% trans "by" %} {{ o.created_by }}<ul>
+    {% for i in o.get_items %}
+        <li>{{ i.amount }} {% trans "pcs" %} <strong>{{ i.subject.name }}</strong> ({{ i.subject.short }})</li>
+    {% endfor %}
+    </ul></li>
+{% endif %}
+{% endfor %}
+
+<h2>{% trans "Previous Orders" %}</h2>
+<ul>
+{% for o in object_list %}
+{% if forloop.counter0 %}
+    <li>{% trans "Order" %} {{ o.date }} ({{ o.uuid }}), {% trans "by" %} {{ o.created_by }}<ul>
+    {% for i in o.get_items %}
+        <li>{{ i.amount }} {% trans "pcs" %} <strong>{{ i.subject.name }}</strong> ({{ i.subject.short }})</li>
+    {% endfor %}
+    </ul></li>
+{% endif %}
+{% empty %}
+    <li>{% trans "None" %}</li>
+{% endfor %}
+</ul>
+{% endblock %}

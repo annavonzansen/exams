@@ -11,15 +11,26 @@
 <h1>{% if object.pk %}{% trans "Edit order" %} {{ object }}{% else %}{% trans "Create new order" %}{% endif %} <small>{{ school.name }}</small></h1>
 <form method="post" action="">
     {% csrf_token %}
-    {% comment %}
-    {% crispy form %}
+    {{ form|crispy }}
+    {% for i in inlines %}
+    <fieldset>
+        <legend>{% trans "Tests and CDs to be ordered" %}</legend>
+        {{ i|crispy }}
+    </fieldset>
+    {% endfor %}
+    {{ inlines.management_form }}
 
-    {% crispy registration_form %}
-    {% endcomment %}
+{% comment %}     {% crispy form form.helper %}
 
-    {{ form|crispy }}
-    {{ order_form|crispy }}
+    {{ formset.management_form }}
+    
+    {% for er_form in formset %}
+        <fieldset>
+        {{ er_form.as_table }}
+        </fieldset>
+    {% endfor %} #}
+{% endcomment %}
+    <p><input type="submit" value="{% trans "Submit" %}" class="btn btn-success"/> <input type="reset" value="{% trans "Reset" %}" class="btn btn-danger"/></p>
 
-    <p><input type="submit" value="{% trans "Submit" %}"/> <input type="reset" value="{% trans "Reset" %}"/></p>
 </form>
 {% endblock %}

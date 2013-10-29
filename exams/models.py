@@ -678,9 +678,12 @@ class Order(models.Model):
 
     parent = models.ForeignKey('self', blank=True, null=True, verbose_name=_('Parent Order'), help_text=_('Which order is an older version of this (parent)'))
 
-    def get_order(self):
+    def get_items(self):
         items = OrderItem.objects.filter(order=self).order_by('subject')
-        return items
+        return items        
+
+    def get_order(self):
+        return self.get_items()
 
     def get_order_json(self):
         items = self.get_order()

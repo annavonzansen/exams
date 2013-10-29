@@ -15,7 +15,7 @@ from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.utils.translation import ugettext as _
 
-from exams.models import Examination, Test, Assignment, File, Order, Candidate, CandidateUpload, ExamRegistration
+from exams.models import Examination, Test, Assignment, File, Order, Candidate, CandidateUpload, ExamRegistration, OrderItem
 #from exams.forms import CandidateFormset
 from exams.forms import OrderForm, CandidateForm, OrderFormset, ExamRegistrationFormset, CandidateUploadForm
 from django.http import HttpResponseRedirect
@@ -139,45 +139,43 @@ download = FileDownloadView.as_view()
 
 class OrdersView(ListView):
     model = Order
+    def get_context_data(self, **kwargs):
+        context = super(OrdersView, self).get_context_data(**kwargs)
+        school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
+        context['school'] = school
+        return context    
+    # TODO: Verify, that user is allowed to modify orders for this school
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(OrdersView, self).dispatch(*args, **kwargs)
 orders = OrdersView.as_view()
 
-class OrderCreateView(CreateView):
+class OrderItemInline(InlineFormSet):
+    model = OrderItem
+
+class OrderCreateView(CreateWithInlinesView):
     model = Order
+    inlines = [OrderItem]
     form_class = OrderForm
+
     def get_context_data(self, **kwargs):
         context = super(OrderCreateView, self).get_context_data(**kwargs)
         school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
         context['school'] = school
-        if self.request.POST:
-            context['order_form'] = OrderFormset(self.request.POST)
-        else:
-            context['order_form'] = OrderFormset()
         return context    
 
-    def get_initial(self):
-        initial = super(OrderCreateView, self).get_initial()
-        school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
-        initial['examination'] = current_examination(request=self.request)['current_examination']
-        initial['created_by'] = self.request.user
-        return initial
+    def forms_valid(self, form, inlines):
+        """
+        If the form and formsets are valid, save the associated models.
+        """
+        form.instance.school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
+        form.instance.examination = Examination.objects.get_latest()
+        form.instance.created_by = self.request.user
+        self.object = form.save()
+        for formset in inlines:
+            formset.save()
+        return HttpResponseRedirect(self.get_success_url())
 
-    def is_valid(self, form):
-        form.cleaned_data['created_by'] = self.request.user
-
-        return super(OrderCreateView, self).is_valid(form)
-
-    def form_valid(self, form):
-        context = self.get_context_data()
-        order_form = context['order_form']
-        if order_form.is_valid():
-            self.object = form.save()
-            order_form.instance = self.object
-            order_form.save()
-            return super(OrderCreateView, self).form_valid(form)
-        else:
-            return super(OrderCreateView, self).form_valid(form)
-
-    # TODO: Verify, that user is allowed to modify orders for this school
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(OrderCreateView, self).dispatch(*args, **kwargs)
@@ -278,7 +276,6 @@ class CandidateCreateView(CreateWithInlinesView):
     model = Candidate
     inlines = [ExamRegistrationInline]
     fields = ['last_name', 'first_names', 'identity_number', 'candidate_number', 'candidate_type', 'retrying', 'site',]
-    #inlines_names = ['exam_form']
     form_class = CandidateForm
 
     def get_context_data(self, **kwargs):
