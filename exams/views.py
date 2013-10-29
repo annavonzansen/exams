@@ -279,7 +279,7 @@ class CandidateCreateView(CreateWithInlinesView):
     inlines = [ExamRegistrationInline]
     fields = ['last_name', 'first_names', 'identity_number', 'candidate_number', 'candidate_type', 'retrying', 'site',]
     #inlines_names = ['exam_form']
-    #form_class = CandidateForm
+    form_class = CandidateForm
 
     def get_context_data(self, **kwargs):
         context = super(CandidateCreateView, self).get_context_data(**kwargs)
@@ -308,6 +308,7 @@ class CandidateEditView(UpdateWithInlinesView):
     model = Candidate
     inlines = [ExamRegistrationInline]
     fields = ['last_name', 'first_names', 'identity_number', 'candidate_number', 'candidate_type', 'retrying', 'site',]
+    form_class = CandidateForm
 
     def forms_valid(self, form, inlines):
         """

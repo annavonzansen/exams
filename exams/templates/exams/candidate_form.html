@@ -10,9 +10,12 @@
 <h1>{% if object.pk %}{% trans "Edit candidate" %} {{ object }}{% else %}{% trans "Create new candidate" %}{% endif %} <small>{{ school.name }}</small></h1>
 <form method="post" action="">
     {% csrf_token %}
-    {{ form }}
+    {{ form|crispy }}
     {% for i in inlines %}
-        {{ i }}
+    <fieldset>
+        <legend>{% trans "Exam Registrations" %}</legend>
+        {{ i|crispy }}
+    </fieldset>
     {% endfor %}
     {{ inlines.management_form }}
 
