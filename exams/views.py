@@ -17,7 +17,7 @@ from django.utils.translation import ugettext as _
 
 from exams.models import Examination, Test, Assignment, File, Order, Candidate, CandidateUpload, ExamRegistration, OrderItem
 #from exams.forms import CandidateFormset
-from exams.forms import OrderForm, CandidateForm, OrderFormset, ExamRegistrationFormset, CandidateUploadForm
+from exams.forms import OrderForm, CandidateForm, OrderFormset, ExamRegistrationFormset, CandidateUploadForm, ExamRegistrationForm
 from django.http import HttpResponseRedirect
 
 
@@ -199,50 +199,64 @@ class OrderCreateView(CreateWithInlinesView):
         return super(OrderCreateView, self).dispatch(*args, **kwargs)
 ordercreate = OrderCreateView.as_view()
 
-class OrderEditView(UpdateView):
+class OrderEditView(UpdateWithInlinesView):
     model = Order
+    inlines = [OrderItemInline]
     form_class = OrderForm
+    fields = ['site', 'email', 'additional_details',]
+
     def get_context_data(self, **kwargs):
         context = super(OrderEditView, self).get_context_data(**kwargs)
         school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
         context['school'] = school
-        if self.request.POST:
-            context['order_form'] = OrderFormset(self.request.POST, instance=self.get_object())
-        else:
-            context['order_form'] = OrderFormset()
         return context    
 
     # def get_initial(self):
     #     initial = super(OrderEditView, self).get_initial()
     #     school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
-    #     initial['examination'] = current_examination(request=self.request)['current_examination']
-    #     initial['created_by'] = self.request.user
+    #     old_order = School.objects.get(uuid=self.request.resolver_match.kwargs['order_uuid'])
+    #     initial['site'] = school.get_default_site()
+
+    #     # TODO: Load specified order
     #     return initial
 
-    def form_valid(self, form):
-        context = self.get_context_data()
-        order_form = context['order_form']
-        if order_form.is_valid():
-            self.object = form.save()
-            order_form.instance = self.object
-            order_form.save()
-            return super(OrderEditView, self).form_valid(form)
-        else:
-            return super(OrderEditView, self).form_valid(form)
+    def forms_valid(self, form, inlines):
+        """
+        If the form and formsets are valid, save the associated models.
+        """
+        school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
+        
+        form.instance.examination = Examination.objects.get_latest()
+        form.instance.created_by = self.request.user
 
-    def is_valid(self, form):
-        form.cleaned_data['created_by'] = self.request.user
+        self.object = form.save()
+        for formset in inlines:
+            formset.save()
+        return HttpResponseRedirect(self.get_success_url())
 
-        return super(OrderEditView, self).is_valid(form)
+    def get_object(self):
+        old = Order.objects.get(uuid=self.request.resolver_match.kwargs['order_uuid'])
+        old_items = OrderItem.objects.filter(order=old)
+        new = old
+        new.pk = None
+        new.uuid = None
+        new.parent = old
+        new.save()
 
-    # TODO: Verify, that user is allowed to modify orders for this school
+        old.status = 'u'
+        old.save()
+
+        for i in old_items:
+            new_i = i
+            new_i.pk = None
+            new_i.order = new
+            new_i.save()
+
+        return new
+
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(OrderEditView, self).dispatch(*args, **kwargs)
-
-    def get_object(self):
-        order = Order.objects.get(uuid=self.request.resolver_match.kwargs['order_uuid'])
-        return order
 orderedit = OrderEditView.as_view()
 
 class CandidatesView(ListView):
@@ -289,6 +303,7 @@ candidate = CandidateView.as_view()
 
 class ExamRegistrationInline(InlineFormSet):
     model = ExamRegistration
+    #form_class = ExamRegistrationForm
 
 class CandidateCreateView(CreateWithInlinesView):
     model = Candidate

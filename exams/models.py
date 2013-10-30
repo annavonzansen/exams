@@ -738,7 +738,7 @@ class Order(models.Model):
     get_order_text.short_description = _('Order Content')
 
     def get_absolute_url(self):
-        return reverse('education:school', kwargs={
+        return reverse('education:orders', kwargs={
             'uuid': self.site.school.uuid,
             #'order_uuid': self.uuid,
         })
