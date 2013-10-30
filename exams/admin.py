@@ -3,7 +3,7 @@ from django.contrib import admin
 from django_markdown.admin import MarkdownModelAdmin
 from django.utils.translation import ugettext as _
 
-from exams.models import Examination, Test, Assignment, AnswerOption, Answer, File, Subject, Order, OrderItem, ExamRegistration, Candidate, SpecialArrangement, CandidateUpload
+from exams.models import Examination, Test, Assignment, AnswerOption, Answer, File, Subject, Order, OrderItem, ExamRegistration, Candidate, SpecialArrangement, CandidateUpload, MaterialType
 
 import csv
 from django.http import HttpResponse
@@ -50,6 +50,7 @@ class OrderAdmin(SimpleHistoryAdmin):
     inlines = [
         OrderItemInline,
     ]
+    actions = [export_as_csv_action('CSV Export',)]
 
 admin.site.register(Order, OrderAdmin)
 
@@ -132,3 +133,4 @@ admin.site.register(Subject, SubjectAdmin)
 admin.site.register(Candidate, CandidateAdmin)
 admin.site.register(SpecialArrangement, SpecialArrangementAdmin)
 #admin.site.register(CandidateUpload)
+admin.site.register(MaterialType)

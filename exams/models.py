@@ -741,6 +741,17 @@ class Order(models.Model):
         verbose_name = _('Order')
         verbose_name_plural = _('Orders')
 
+class MaterialType(models.Model):
+    uuid = UUIDField(verbose_name='UUID')
+    title = models.CharField(max_length=255, unique=True)
+    short = models.CharField(max_length=2, unique=True)
+
+    def __str__(self):
+        return self.title
+
+    def __unicode__(self):
+        return self.__str__()
+
 class OrderItem(models.Model):
     uuid = UUIDField(verbose_name='UUID')
     order = models.ForeignKey(Order)
@@ -748,7 +759,8 @@ class OrderItem(models.Model):
 
     subject = models.ForeignKey('exams.Subject')
     amount = models.PositiveIntegerField()
-
+    material_type = models.ForeignKey(MaterialType)
+    special_arrangement = models.ForeignKey(SpecialArrangement, blank=True, null=True)
 
     created = CreationDateTimeField()
     modified = ModificationDateTimeField()
