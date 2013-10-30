@@ -763,6 +763,7 @@ class Order(models.Model):
     class Meta:
         verbose_name = _('Order')
         verbose_name_plural = _('Orders')
+        ordering = ('-date', 'site', 'examination',)
 
 class OrderItem(models.Model):
     uuid = UUIDField(verbose_name='UUID')
