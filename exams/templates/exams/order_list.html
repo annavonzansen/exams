@@ -15,10 +15,12 @@
 
 <h2>{% trans "Current Order" %}</h2>
 <p>{% trans "Below is the current order." %}</p>
-<ul>
+<ul class="list-group">
 {% for o in object_list %}
 {% if not forloop.counter0 %}
-    <li><strong>{% trans "Order" %} {{ o.date }},</strong> {% trans "to site " %} <strong>{{ o.site.name }}</strong> (<small>{% trans "ID" %} {{ o.uuid }}</small>), {% trans "by" %} {{ o.created_by }} <span class="label label-default">{{ o.get_status_display }}</span><ul>
+    <li class="list-group-item"><h4 class="list-group-item-heading">{% trans "Order" %} {{ o.date }} <small>{% trans "to site " %} <strong>{{ o.site.name }}</strong></small> <span class="label label-info">{{ o.get_status_display }}</span></h4>
+    <p><a href="#" class="btn btn-success pull-right">{% trans "Update order" %}</a><strong>{% trans "Order ID:" %}</strong> {{ o.uuid }}, {% trans "by" %} {{ o.created_by }}</p>
+    <ul>
     {% for i in o.get_items %}
         <li>{{ i.amount }} {% trans "pcs" %} <strong>{{ i.subject.name }}</strong> ({{ i.subject.short }})</li>
     {% endfor %}
@@ -30,10 +32,12 @@
 </ul>
 
 <h2>{% trans "Previous Orders" %}</h2>
-<ul>
+<ul class="list-group">
 {% for o in object_list %}
-{% if forloop.counter0 %}
-    <li><strong>{% trans "Order" %} {{ o.date }},</strong> {% trans "to site " %} <strong>{{ o.site.name }}</strong> (<small>{% trans "ID" %} {{ o.uuid }}</small>), {% trans "by" %} {{ o.created_by }} <span class="label label-default">{{ o.get_status_display }}</span><ul>
+{% if not forloop.counter0 %}
+    <li class="list-group-item"><h4 class="list-group-item-heading">{% trans "Order" %} {{ o.date }} <small>{% trans "to site " %} <strong>{{ o.site.name }}</strong></small> <span class="label label-info">{{ o.get_status_display }}</span></h4>
+    <p><a href="#" class="btn btn-success pull-right">{% trans "Update order" %}</a><strong>{% trans "Order ID:" %}</strong> {{ o.uuid }}, {% trans "by" %} {{ o.created_by }}</p>
+    <ul>
     {% for i in o.get_items %}
         <li>{{ i.amount }} {% trans "pcs" %} <strong>{{ i.subject.name }}</strong> ({{ i.subject.short }})</li>
     {% endfor %}
