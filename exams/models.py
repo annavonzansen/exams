@@ -107,8 +107,8 @@ class Subject(models.Model):
 
     subject_type = models.CharField(max_length=1, choices=SUBJECT_TYPE_CHOICES, verbose_name=_('Subject Type'))
 
-    material_writing = models.BooleanField(default=True, verbose_name=_('Material for written exams'), help_text=_('Does this subject include written assignments'))
-    material_listening = models.BooleanField(default=False, verbose_name=_('Material for listening exams'), help_text=_('Does this subject include listening assignments'))
+    #material_writing = models.BooleanField(default=True, verbose_name=_('Material for written exams'), help_text=_('Does this subject include written assignments'))
+    #material_listening = models.BooleanField(default=False, verbose_name=_('Material for listening exams'), help_text=_('Does this subject include listening assignments'))
     material_types = models.ManyToManyField(MaterialType, verbose_name=_('Material Types'))
 
     history = HistoricalRecords()
