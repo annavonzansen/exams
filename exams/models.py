@@ -770,10 +770,10 @@ class OrderItem(models.Model):
     order = models.ForeignKey(Order)
     history = HistoricalRecords()
 
-    subject = models.ForeignKey('exams.Subject')
-    amount = models.PositiveIntegerField()
-    material_type = models.ForeignKey(MaterialType)
-    special_arrangement = models.ForeignKey(SpecialArrangement, blank=True, null=True)
+    subject = models.ForeignKey('exams.Subject', verbose_name=_('Subject'))
+    amount = models.PositiveIntegerField(verbose_name=_('Amount'))
+    material_type = models.ForeignKey(MaterialType, verbose_name=_('Material Type'))
+    special_arrangement = models.ForeignKey(SpecialArrangement, blank=True, null=True, verbose_name=_('Special Arrangement'))
 
     created = CreationDateTimeField()
     modified = ModificationDateTimeField()

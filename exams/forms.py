@@ -22,7 +22,7 @@ class OrderForm(ModelForm):
 
     class Meta:
         model = Order
-        exclude = ['status', 'date', 'parent',]
+        exclude = ['status', 'date', 'parent', 'examination', 'created_by',]
 
 OrderFormset = inlineformset_factory(Order, OrderItem, extra=3)
 

@@ -164,8 +164,9 @@ class OrderItemInline(InlineFormSet):
 
 class OrderCreateView(CreateWithInlinesView):
     model = Order
-    inlines = [OrderItem]
+    inlines = [OrderItemInline]
     form_class = OrderForm
+    fields = ['site', 'email', 'additional_details',]
 
     def get_context_data(self, **kwargs):
         context = super(OrderCreateView, self).get_context_data(**kwargs)
@@ -173,13 +174,21 @@ class OrderCreateView(CreateWithInlinesView):
         context['school'] = school
         return context    
 
+    def get_initial(self):
+        initial = super(OrderCreateView, self).get_initial()
+        school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
+        initial['site'] = school.get_default_site()
+        return initial
+
     def forms_valid(self, form, inlines):
         """
         If the form and formsets are valid, save the associated models.
         """
-        form.instance.school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
+        school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
+        
         form.instance.examination = Examination.objects.get_latest()
         form.instance.created_by = self.request.user
+
         self.object = form.save()
         for formset in inlines:
             formset.save()

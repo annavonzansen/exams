@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: exams 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-30 11:11+0200\n"
-"PO-Revision-Date: 2013-10-30 11:12+0200\n"
+"POT-Creation-Date: 2013-10-30 11:52+0200\n"
+"PO-Revision-Date: 2013-10-30 11:53+0200\n"
 "Last-Translator: Ville Korhonen <ville.korhonen@ylioppilastutkinto.fi>\n"
 "Language-Team: FINNISH <digabi@ylioppilastutkinto.fi>\n"
 "Language: \n"
@@ -159,6 +159,7 @@ msgid "Title"
 msgstr "Otsikko"
 
 #: models.py:99
+#: models.py:775
 msgid "Material Type"
 msgstr "Materiaalityyppi"
 
@@ -179,6 +180,7 @@ msgstr "Aineen tyyppi"
 #: models.py:137
 #: models.py:250
 #: models.py:661
+#: models.py:773
 #: models.py:900
 msgid "Subject"
 msgstr "Aine"
@@ -403,6 +405,7 @@ msgid "UUID"
 msgstr "UUID"
 
 #: models.py:653
+#: models.py:776
 msgid "Special Arrangement"
 msgstr "Erityisjärjestely"
 
@@ -460,6 +463,10 @@ msgstr "Tilaus"
 #: templates/exams/order_list.html.py:8
 msgid "Orders"
 msgstr "Tilaukset"
+
+#: models.py:774
+msgid "Amount"
+msgstr "Määrä"
 
 #: models.py:792
 msgid "Order Item"
