@@ -84,6 +84,20 @@ def get_unique_filename(instance, filename):
     }
     return new_filename
 
+class MaterialType(models.Model):
+    uuid = UUIDField(verbose_name='UUID')
+    title = models.CharField(max_length=255, unique=True, verbose_name=_('Title'))
+    short = models.CharField(max_length=2, unique=True, verbose_name=_('Short'))
+
+    def __str__(self):
+        return self.title
+
+    def __unicode__(self):
+        return self.__str__()
+
+    class Meta:
+        verbose_name = _('Material Type')
+        verbose_name_plural = _('Material Types')
 
 class Subject(models.Model):
     """Test Subject"""
@@ -95,6 +109,7 @@ class Subject(models.Model):
 
     material_writing = models.BooleanField(default=True, verbose_name=_('Material for written exams'), help_text=_('Does this subject include written assignments'))
     material_listening = models.BooleanField(default=False, verbose_name=_('Material for listening exams'), help_text=_('Does this subject include listening assignments'))
+    material_types = models.ManyToManyField(MaterialType, verbose_name=_('Material Types'))
 
     history = HistoricalRecords()
 
@@ -740,17 +755,6 @@ class Order(models.Model):
     class Meta:
         verbose_name = _('Order')
         verbose_name_plural = _('Orders')
-
-class MaterialType(models.Model):
-    uuid = UUIDField(verbose_name='UUID')
-    title = models.CharField(max_length=255, unique=True)
-    short = models.CharField(max_length=2, unique=True)
-
-    def __str__(self):
-        return self.title
-
-    def __unicode__(self):
-        return self.__str__()
 
 class OrderItem(models.Model):
     uuid = UUIDField(verbose_name='UUID')
