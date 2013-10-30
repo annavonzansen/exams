@@ -712,6 +712,7 @@ class Order(models.Model):
     def get_order_text(self):
         items = self.get_order()
         return ", ".join([x.__str__() for x in items])
+    get_order_text.short_description = _('Order Content')
 
     def get_absolute_url(self):
         return reverse('education:school', kwargs={

@@ -46,6 +46,7 @@ class OrderItemInline(admin.TabularInline):
     model = OrderItem
 
 class OrderAdmin(SimpleHistoryAdmin):
+    list_display = ('uuid', 'site', 'examination', 'get_order_text', 'date', 'status', 'created_by')
     inlines = [
         OrderItemInline,
     ]
