@@ -778,7 +778,11 @@ class OrderItem(models.Model):
     modified = ModificationDateTimeField()
 
     def __str__(self):
-        return "%s:%d" % (self.subject.short, self.amount)
+        if self.special_arrangement == None:
+            sa = "-"
+        else:
+            sa = self.special_arrangement.short
+        return "%s:%s:%s:%d" % (self.subject.short, self.material_type.short, sa, self.amount)
 
     def __unicode__(self):
         return self.__str__()
