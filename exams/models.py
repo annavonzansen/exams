@@ -19,6 +19,15 @@ from simple_history.models import HistoricalRecords
 from django.db.models.signals import post_save
 from people.models import Person
 
+
+ORDER_STATUSES = ( # change done at: UPPERCASE = @Matriculation Examination Board, lowercase = @school
+    ('c', _('Order Created')),
+    ('u', _('Order Updated')),
+    ('I', _('In Packaging')),
+    ('P', _('Packaged')),
+    ('S', _('Order Shipped')),
+)
+
 EXAMINATION_SEASON_CHOICES = (
     ('K', _('Spring')),
     ('S', _('Autumn')),
@@ -651,13 +660,6 @@ class ExamRegistration(models.Model):
         verbose_name_plural = _('Exam Registrations')
         unique_together = (('subject', 'candidate',))
 
-
-ORDER_STATUSES = (
-    ('c', _('Order Created')),
-    ('P', _('Packaged')),
-    ('S', _('Order Shipped')),
-)
-
 class OrderManager(models.Manager):
     def get_school_orders(self, school):
         from education.models import SchoolSite
@@ -687,6 +689,11 @@ class Order(models.Model):
     parent = models.ForeignKey('self', blank=True, null=True, verbose_name=_('Parent Order'), help_text=_('Which order is an older version of this (parent)'))
 
     objects = OrderManager()
+
+    # TODO: If self has childs, status should not be "created"
+    def get_childs(self):
+        childs = Order.objects.filter(parent=self)
+        return childs
 
     def get_items(self):
         items = OrderItem.objects.filter(order=self).order_by('subject')
