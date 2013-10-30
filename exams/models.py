@@ -681,6 +681,8 @@ class Order(models.Model):
     date = models.DateTimeField(auto_now_add=True, verbose_name=_('Order Date'))
     status = models.CharField(max_length=2, choices=ORDER_STATUSES, default='c', verbose_name=_('Status'))
 
+    email = models.EmailField()
+
     additional_details = models.TextField(blank=True, null=True, verbose_name=_('Additional Details'))
 
     created = CreationDateTimeField()
