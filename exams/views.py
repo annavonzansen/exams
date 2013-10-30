@@ -290,7 +290,9 @@ class CandidateCreateView(CreateWithInlinesView):
         """
         form.instance.school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
         form.instance.examination = Examination.objects.get_latest()
+        
         self.object = form.save()
+        
         for formset in inlines:
             formset.save()
         return HttpResponseRedirect(self.get_success_url())

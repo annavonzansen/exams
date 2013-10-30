@@ -632,7 +632,7 @@ class ExamRegistration(models.Model):
     special_arrangements = models.ManyToManyField(SpecialArrangement, blank=True, null=True, verbose_name=_('Special Arrangements'))
     additional_details = models.TextField(blank=True, null=True, verbose_name=_('Additional Details'))
 
-    status = models.CharField(max_length=1, choices=REGISTRATION_STATUS_CHOICES, default='R')
+    status = models.CharField(max_length=1, choices=REGISTRATION_STATUS_CHOICES, default='R', editable=False)
 
     created = CreationDateTimeField()
     modified = ModificationDateTimeField()
@@ -709,6 +709,12 @@ class Order(models.Model):
             'uuid': self.site.school.uuid,
             #'order_uuid': self.uuid,
         })
+
+    def get_defaults_for_site(self, site, examination):
+        #from education.models import SchoolSite
+        candidates = Candidate.objects.filter(site=site, examination=examination)
+        ers = ExamRegistration.objects.filter(candidate__in=candidates)
+        return ers
 
     def __str__(self):
         return "Order %(uuid)s, %(school)s %(date)s: %(order)s" % {
