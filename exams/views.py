@@ -143,7 +143,16 @@ class OrdersView(ListView):
         context = super(OrdersView, self).get_context_data(**kwargs)
         school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
         context['school'] = school
-        return context    
+        return context
+
+    def get_queryset(self):
+        from education.models import SchoolSite
+        school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
+        sites = SchoolSite.objects.filter(school=school)
+        examination = Examination.objects.get_latest()
+        orders = Order.objects.filter(site__in=sites, examination=examination)
+        return orders
+
     # TODO: Verify, that user is allowed to modify orders for this school
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
