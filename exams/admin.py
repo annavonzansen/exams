@@ -73,7 +73,7 @@ class ExaminationAdmin(SimpleHistoryAdmin):
     ]
 
 class SubjectAdmin(admin.ModelAdmin):
-    list_display = ('name', 'short', 'subject_type', 'material_writing', 'material_listening',)
+    list_display = ('name', 'short', 'subject_type', 'material_writing', 'material_listening', 'get_material_types',)
 
 class ExamRegistrationInline(admin.TabularInline):
     model = ExamRegistration

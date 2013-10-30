@@ -116,6 +116,14 @@ class Subject(models.Model):
 
     created = CreationDateTimeField()
     modified = ModificationDateTimeField()
+
+    def get_material_types(self):
+        parts = []
+        for m in self.material_types.all():
+            parts.append(m.title)
+        return ", ".join(parts)
+    get_material_types.short_description = _('Material Types')
+
     def __str__(self):
         return "%(name)s (%(short)s)" % {
             'name': self.name,
