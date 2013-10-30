@@ -658,6 +658,14 @@ ORDER_STATUSES = (
     ('S', _('Order Shipped')),
 )
 
+class OrderManager(models.Manager):
+    def get_school_orders(self, school):
+        from education.models import SchoolSite
+        sites = SchoolSite.objects.filter(school=school)
+        return super(OrderManager, self).get_queryset().filter(site__in=sites).order_by('date')
+
+# return super(ExaminationManager, self).get_queryset().filter(Q(registration_begin__lte=now, registration_end__gte=now, registration_status='S') | Q(registration_status='E'))
+
 class Order(models.Model):
     uuid = UUIDField(verbose_name='UUID')
     site = models.ForeignKey('education.SchoolSite')
@@ -677,6 +685,8 @@ class Order(models.Model):
     modified = ModificationDateTimeField()
 
     parent = models.ForeignKey('self', blank=True, null=True, verbose_name=_('Parent Order'), help_text=_('Which order is an older version of this (parent)'))
+
+    objects = OrderManager()
 
     def get_items(self):
         items = OrderItem.objects.filter(order=self).order_by('subject')
