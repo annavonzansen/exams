@@ -14,10 +14,11 @@
 <p>{% blocktrans with school_name=school.name examination=current_examination total=object_list|count %}Below is a list of all material orders in <a href="{{ school_url }}">{{ school_name }}</a>, for examination <strong>{{ examination }}</strong>. A total of {{ total }} orders.{% endblocktrans %}</p>
 
 <h2>{% trans "Current Order" %}</h2>
-<p>Below is the current order.</p>
+<p>{% trans "Below is the current order." %}</p>
+<ul>
 {% for o in object_list %}
 {% if not forloop.counter0 %}
-    <li>{% trans "Order" %} {{ o.date }} ({{ o.uuid }}), {% trans "by" %} {{ o.created_by }}<ul>
+    <li><strong>{% trans "Order" %} {{ o.date }},</strong> {% trans "to site " %} <strong>{{ o.site.name }}</strong> (<small>{% trans "ID" %} {{ o.uuid }}</small>), {% trans "by" %} {{ o.created_by }} <span class="label label-default">{{ o.get_status_display }}</span><ul>
     {% for i in o.get_items %}
         <li>{{ i.amount }} {% trans "pcs" %} <strong>{{ i.subject.name }}</strong> ({{ i.subject.short }})</li>
     {% endfor %}
@@ -26,12 +27,13 @@
 {% empty %}
     <li>{% trans "None" %}</li>
 {% endfor %}
+</ul>
 
 <h2>{% trans "Previous Orders" %}</h2>
 <ul>
 {% for o in object_list %}
 {% if forloop.counter0 %}
-    <li>{% trans "Order" %} {{ o.date }} ({{ o.uuid }}), {% trans "by" %} {{ o.created_by }}<ul>
+    <li><strong>{% trans "Order" %} {{ o.date }},</strong> {% trans "to site " %} <strong>{{ o.site.name }}</strong> (<small>{% trans "ID" %} {{ o.uuid }}</small>), {% trans "by" %} {{ o.created_by }} <span class="label label-default">{{ o.get_status_display }}</span><ul>
     {% for i in o.get_items %}
         <li>{{ i.amount }} {% trans "pcs" %} <strong>{{ i.subject.name }}</strong> ({{ i.subject.short }})</li>
     {% endfor %}
