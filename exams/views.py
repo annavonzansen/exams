@@ -213,6 +213,7 @@ class OrderEditView(UpdateWithInlinesView):
         context = super(OrderEditView, self).get_context_data(**kwargs)
         school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
         context['school'] = school
+        context['form'].fields['site'].queryset = SchoolSite.objects.filter(school=school)
         return context    
 
     def forms_valid(self, form, inlines):
@@ -361,6 +362,7 @@ class CandidateEditView(UpdateWithInlinesView):
         context = super(CandidateEditView, self).get_context_data(**kwargs)
         school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
         context['school'] = school
+        context['form'].fields['site'].queryset = SchoolSite.objects.filter(school=school)
         return context        
     
     def get_object(self):

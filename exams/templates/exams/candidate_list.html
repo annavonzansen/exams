@@ -32,7 +32,7 @@
                 <li>{{ e.subject }}{% if e.special_arrangements.all %} <small><strong>{% trans "Special arrangements:" %}</strong> {{ e.special_arrangements.all|join:", " }}</small>{% endif %}</li>
             {% endfor %}
             </ul></td>
-            <td>{{ o.site }}</td>
+            <td>{{ object.site|default:"" }}</td>
         </tr>
     {% endfor %}
     </tbody>
