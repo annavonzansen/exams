@@ -559,8 +559,8 @@ class Candidate(Person):
         if self.candidate_number:
             parts.append("%s %d," % (_('Candidate'), self.candidate_number))
 
-        if self.gender:
-            parts.append(self.get_gender_display().lower())
+        # if self.gender:
+        #     parts.append(self.get_gender_display().lower())
 
         if self.last_name:
             parts.append(self.last_name)

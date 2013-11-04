@@ -13,7 +13,7 @@ from django.forms.formsets import formset_factory
 class OrderForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(OrderForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper()
+        self.helper = FormHelper(self)
         self.helper.form_method = 'post'
         self.helper.form_action = ''
 
@@ -55,7 +55,7 @@ class CandidateForm(ModelForm):
 class CandidateUploadForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(CandidateUploadForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper()
+        self.helper = FormHelper(self)
         self.helper.form_method = 'post'
         self.helper.form_action = ''
         self.helper.form_tag = True
