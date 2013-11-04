@@ -114,6 +114,7 @@ class SubjectGroup(models.Model):
     class Meta:
         verbose_name = _('Subject Group')
         verbose_name_plural = _('Subject Groups')
+        ordering = ('order', 'name')
 
 class Subject(models.Model):
     """Subject"""
