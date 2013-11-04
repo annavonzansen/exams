@@ -810,98 +810,126 @@ class OrderItem(models.Model):
         verbose_name_plural = _('Order Items')
 
 
-
 def import_candidates(filename, allowed_schools=None):
-    # TODO: Django development version has update_or_create()
-    stats = {
-        'candidates_created': 0,
-        'candidates_updated': 0,
-        'examregistrations': 0,
-        'messages': [],
-    }
-    _cache = {
-        'examinations': {},
-        'schools': {},
+    cache = {
         'subjects': {},
-        'candidate_types': {},
     }
 
-    try:
-        from exams.importers import parse_candidate_xml
-        from education.models import School
+    order_template = {}
 
-        candidates = parse_candidate_xml(filename)
+    from exams.importers import parse_candidate_xml
+    candidates = parse_candidate_xml(filename)
 
-        for c in candidates:
-            if _cache['examinations'].has_key(c.examination):
-                examination = _cache['examinations'][c.examination]
+    for c in candidates:
+        for s in c.subjects:
+            if cache['subjects'].has_key(s):
+                subj = cache['subjects'][s]
             else:
-                examination_year = c.examination[0:4]
-                examination_season = c.examination[4:5]
+                subj = Subject.objects.filter(short=s)
+                if subj is None:
+                    raise ValueError, _('Invalid subject %s') % s
+                cache['subjects'][s] = subj
+
+            if not order_template.has_key(s):
+                order_template[s] = 0
+
+            order_template[s] += 1
+
+    print "Order:"
+    print order_template
+
+
+# def import_candidates(filename, allowed_schools=None):
+#     # TODO: Django development version has update_or_create()
+#     stats = {
+#         'candidates_created': 0,
+#         'candidates_updated': 0,
+#         'examregistrations': 0,
+#         'messages': [],
+#     }
+#     _cache = {
+#         'examinations': {},
+#         'schools': {},
+#         'subjects': {},
+#         'candidate_types': {},
+#     }
+
+#     try:
+#         from exams.importers import parse_candidate_xml
+#         from education.models import School
+
+#         candidates = parse_candidate_xml(filename)
+
+#         for c in candidates:
+#             if _cache['examinations'].has_key(c.examination):
+#                 examination = _cache['examinations'][c.examination]
+#             else:
+#                 examination_year = c.examination[0:4]
+#                 examination_season = c.examination[4:5]
             
-                examination = Examination.objects.get(year=examination_year, season=examination_season)
-                _cache['examinations'][c.examination] = examination
+#                 examination = Examination.objects.get(year=examination_year, season=examination_season)
+#                 _cache['examinations'][c.examination] = examination
 
-            if _cache['schools'].has_key(c.school):
-                school = _cache['schools'][c.school]
-            else:
-                school = School.objects.get(school_id=c.school)
-                _cache['schools'][c.school] = school
+#             if _cache['schools'].has_key(c.school):
+#                 school = _cache['schools'][c.school]
+#             else:
+#                 school = School.objects.get(school_id=c.school)
+#                 _cache['schools'][c.school] = school
 
-            if allowed_schools and school not in allowed_schools:
-                raise PermissionDenied
-            # TODO: Check that school is in allowed_schools (if defined, else raise PermissionDenied or something like that)
+#             if allowed_schools and school not in allowed_schools:
+#                 raise PermissionDenied
+#             # TODO: Check that school is in allowed_schools (if defined, else raise PermissionDenied or something like that)
 
-            if _cache['candidate_types'].has_key(c.ctype):
-                ctype = _cache['candidate_types'][c.ctype]
-            else:
-                ctype = CandidateType.objects.get(code=c.ctype)
-                _cache['candidate_types'][c.ctype] = ctype
+#             if _cache['candidate_types'].has_key(c.ctype):
+#                 ctype = _cache['candidate_types'][c.ctype]
+#             else:
+#                 ctype = CandidateType.objects.get(code=c.ctype)
+#                 _cache['candidate_types'][c.ctype] = ctype
 
-            cand, created = Candidate.objects.get_or_create(candidate_number=c.id, examination=examination, school=school, candidate_type=ctype)
-            cand.identity_number = c.identity_number
+#             cand, created = Candidate.objects.get_or_create(candidate_number=c.id, examination=examination, school=school, candidate_type=ctype)
+#             cand.identity_number = c.identity_number
 
-            cand.gender = c.gender
-            cand.retrying = c.retrying
+#             cand.gender = c.gender
+#             cand.retrying = c.retrying
 
-            cand.save()
+#             cand.save()
 
-            if created:
-                stats['candidates_created'] += 1
-            else:
-                stats['candidates_updated'] += 1
+#             if created:
+#                 stats['candidates_created'] += 1
+#             else:
+#                 stats['candidates_updated'] += 1
 
-            for s in c.subjects:
-                if _cache['subjects'].has_key(s):
-                    subj = _cache['subjects'][s]
-                else:
-                    subj = Subject.objects.get(short=s)
-                    _cache['subjects'][s] = subj
-                cand.add_registration(subj)
-                stats['examregistrations'] += 1
-    except Examination.DoesNotExist:
-        stats['messages'].append(_("Cannot import candidate %(candidate)s, specified examination %(examination)s does not exist!") % {
-                    'candidate': c,
-                    'examination': c.examination,
-                })
-    except School.DoesNotExist:
-        stats['messages'].append(_("Cannot import candidate %(candidate)s, specified school %(school)s does not exist!") % {
-                    'candidate': c,
-                    'school': c.school,
-                })
-    except CandidateType.DoesNotExist:
-        stats['messages'].append(_("Cannot import candidate %(candidate)s, specified type %(type)s does not exist!") % {
-                    'candidate': c,
-                    'type': c.ctype,
-                })
-    except Subject.DoesNotExist:
-        stats['messages'].append(_("Cannot import candidate %(candidate)s, specified subject %(subject)s does not exist!") % {
-                    'candidate': c,
-                    'subject': c.subjects,
-                })      
+#             for s in c.subjects:
+#                 if _cache['subjects'].has_key(s):
+#                     subj = _cache['subjects'][s]
+#                 else:
+#                     subj = Subject.objects.get(short=s)
+#                     _cache['subjects'][s] = subj
+#                 cand.add_registration(subj)
+#                 stats['examregistrations'] += 1
+#     except Examination.DoesNotExist:
+#         stats['messages'].append(_("Cannot import candidate %(candidate)s, specified examination %(examination)s does not exist!") % {
+#                     'candidate': c,
+#                     'examination': c.examination,
+#                 })
+#     except School.DoesNotExist:
+#         stats['messages'].append(_("Cannot import candidate %(candidate)s, specified school %(school)s does not exist!") % {
+#                     'candidate': c,
+#                     'school': c.school,
+#                 })
+#     except CandidateType.DoesNotExist:
+#         stats['messages'].append(_("Cannot import candidate %(candidate)s, specified type %(type)s does not exist!") % {
+#                     'candidate': c,
+#                     'type': c.ctype,
+#                 })
+#     except Subject.DoesNotExist:
+#         stats['messages'].append(_("Cannot import candidate %(candidate)s, specified subject %(subject)s does not exist!") % {
+#                     'candidate': c,
+#                     'subject': c.subjects,
+#                 })      
       
-    finally:
-        return stats
+#     finally:
+#         return stats
 
 def export_orders(filename):
     """Exports orders to XLS file"""
