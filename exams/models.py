@@ -709,7 +709,7 @@ class OrderManager(models.Manager):
 
 class Order(models.Model):
     uuid = UUIDField(verbose_name='UUID')
-    site = models.ForeignKey('education.SchoolSite')
+    site = models.ForeignKey('education.SchoolSite', verbose_name=_('School Site'))
     history = HistoricalRecords()
 
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('Created by'))
@@ -720,7 +720,7 @@ class Order(models.Model):
     date = models.DateTimeField(auto_now_add=True, verbose_name=_('Order Date'))
     status = models.CharField(max_length=2, choices=ORDER_STATUSES, default='c', verbose_name=_('Status'))
 
-    email = models.EmailField()
+    email = models.EmailField(verbose_name=_('E-mail'))
 
     additional_details = models.TextField(blank=True, null=True, verbose_name=_('Additional Details'))
 

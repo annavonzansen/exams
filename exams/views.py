@@ -23,7 +23,7 @@ from django.http import HttpResponseRedirect
 
 from exams.context_processors import current_examination
 
-from education.models import School
+from education.models import School, SchoolSite
 from extra_views import CreateWithInlinesView, UpdateWithInlinesView, InlineFormSet, NamedFormsetsMixin
 from extra_views.generic import GenericInlineFormSet
 
@@ -175,6 +175,7 @@ class OrderCreateView(CreateWithInlinesView):
         context = super(OrderCreateView, self).get_context_data(**kwargs)
         school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
         context['school'] = school
+        context['form'].fields['site'].queryset = SchoolSite.objects.filter(school=school)
         return context    
 
     def get_initial(self):
@@ -305,10 +306,19 @@ class CandidateCreateView(CreateWithInlinesView):
     fields = ['last_name', 'first_names', 'identity_number', 'candidate_number', 'candidate_type', 'retrying', 'site',]
     form_class = CandidateForm
 
+    def get_initial(self):
+        initial = super(CandidateCreateView, self).get_initial()
+        school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
+        site = SchoolSite.objects.filter(school=school)
+        if len(site) > 0:
+            initial['site'] = site[0]
+        return initial
+
     def get_context_data(self, **kwargs):
         context = super(CandidateCreateView, self).get_context_data(**kwargs)
         school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
         context['school'] = school
+        context['form'].fields['site'].queryset = SchoolSite.objects.filter(school=school)
         return context
 
     def forms_valid(self, form, inlines):

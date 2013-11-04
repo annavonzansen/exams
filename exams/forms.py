@@ -43,7 +43,11 @@ class CandidateForm(ModelForm):
         self.helper.form_action = ''
         self.helper.form_tag = False
 
-
+        # if 'sites' in kwargs:
+        #     self.fields['site'].widget.choices = kwargs['sites']
+        # if self.instance:
+        #     from education.models import SchoolSite
+        #     self.fields['site'].widget.choices = SchoolSite.objects.filter(school=self.instance.site.school)
 
         #self.helper.add_input(Submit('submit', _('Save')))
         #self.helper.add_input(Reset('reset', _('Reset')))
