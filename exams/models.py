@@ -102,7 +102,7 @@ class MaterialType(models.Model):
 
 class SubjectGroup(models.Model):
     uuid = UUIDField(verbose_name='UUID')
-    name = models.CharField(max_length=255, unique=True)
+    name = models.CharField(max_length=255, unique=True, verbose_name=_('Name'))
 
     def __str__(self):
         return "%s" % self.name
@@ -123,7 +123,7 @@ class Subject(models.Model):
     subject_type = models.CharField(max_length=1, choices=SUBJECT_TYPE_CHOICES, verbose_name=_('Subject Type'))
     material_types = models.ManyToManyField(MaterialType, verbose_name=_('Material Types'))
 
-    group = models.ForeignKey(SubjectGroup)
+    group = models.ForeignKey(SubjectGroup, verbose_name=_('Group'))
 
     history = HistoricalRecords()
 
