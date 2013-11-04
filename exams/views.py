@@ -211,15 +211,6 @@ class OrderEditView(UpdateWithInlinesView):
         context['school'] = school
         return context    
 
-    # def get_initial(self):
-    #     initial = super(OrderEditView, self).get_initial()
-    #     school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
-    #     old_order = School.objects.get(uuid=self.request.resolver_match.kwargs['order_uuid'])
-    #     initial['site'] = school.get_default_site()
-
-    #     # TODO: Load specified order
-    #     return initial
-
     def forms_valid(self, form, inlines):
         """
         If the form and formsets are valid, save the associated models.
