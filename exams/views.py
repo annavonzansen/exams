@@ -299,7 +299,7 @@ candidate = CandidateView.as_view()
 
 class ExamRegistrationInline(InlineFormSet):
     model = ExamRegistration
-    #form_class = ExamRegistrationForm
+    form_class = ExamRegistrationForm
 
 class CandidateCreateView(CreateWithInlinesView):
     model = Candidate
@@ -377,8 +377,8 @@ candidateedit = CandidateEditView.as_view()
 
 orders = OrdersView.as_view()
 
-ordercreate = OrderCreateView.as_view()
-orderedit = OrderEditView.as_view()
+#ordercreate = OrderCreateView.as_view()
+#orderedit = OrderEditView.as_view()
 
 class CandidateUploadView(CreateView):
     model = CandidateUpload

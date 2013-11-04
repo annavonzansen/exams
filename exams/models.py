@@ -12,9 +12,13 @@ from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.db.models import Q
 from django.core.exceptions import PermissionDenied
+
 import os
 import re
 import datetime
+import math
+
+
 from simple_history.models import HistoricalRecords
 from django.db.models.signals import post_save
 from people.models import Person
@@ -89,6 +93,12 @@ class MaterialType(models.Model):
     uuid = UUIDField(verbose_name='UUID')
     title = models.CharField(max_length=255, unique=True, verbose_name=_('Title'))
     short = models.CharField(max_length=2, unique=True, verbose_name=_('Short'))
+
+    one_for_x = models.PositiveIntegerField(default=1, verbose_name=_('One item for X candidates'))
+
+    def amount_for_x(self, count):
+        """How many materials should be sent to count candidates?"""
+        return math.ceil(count / self.one_for_x) + 1
 
     def __str__(self):
         return self.title
@@ -731,6 +741,30 @@ class Order(models.Model):
 
     objects = OrderManager()
 
+    def prefill_order(self, data):
+        items = []
+        subjs = []
+        for k in data:
+            obj = data[k]['object']
+            subjs.append(obj.pk)
+            
+            for t in obj.material_types.all():
+                amount = t.amount_for_x(data[k]['count'])
+                item = OrderItem(order=self, subject=obj, amount=amount, material_type=t)
+                items.append(item)
+        n_subjs = Subject.objects.exclude(pk__in=subjs)
+        
+        for s in n_subjs:
+            for t in s.material_types.all():
+                amount = 0
+                item = OrderItem(order=self, subject=s, amount=amount, material_type=t)
+                items.append(item)
+        return items
+
+    def get_by_short(self, short):
+        oi = OrderItem.objects.filter(order=self, subject__short=short)
+        return oi
+
     # TODO: If self has childs, status should not be "created"
     def get_childs(self):
         childs = Order.objects.filter(parent=self)
@@ -794,11 +828,7 @@ class OrderItem(models.Model):
     modified = ModificationDateTimeField()
 
     def __str__(self):
-        if self.special_arrangement == None:
-            sa = "-"
-        else:
-            sa = self.special_arrangement.short
-        return "%s:%s:%s:%d" % (self.subject.short, self.material_type.short, sa, self.amount)
+        return "%s:%s:%d" % (self.subject.short, self.material_type.short, self.amount)
 
     def __unicode__(self):
         return self.__str__()
@@ -813,7 +843,7 @@ def import_candidates(filename, allowed_schools=None):
         'subjects': {},
     }
 
-    order_template = {}
+    order_template = {} # [s]['object'], 'count'
 
     from exams.importers import parse_candidate_xml
     candidates = parse_candidate_xml(filename)
@@ -823,18 +853,17 @@ def import_candidates(filename, allowed_schools=None):
             if cache['subjects'].has_key(s):
                 subj = cache['subjects'][s]
             else:
-                subj = Subject.objects.filter(short=s)
+                subj = Subject.objects.get(short=s)
                 if subj is None:
                     raise ValueError, _('Invalid subject %s') % s
                 cache['subjects'][s] = subj
 
             if not order_template.has_key(s):
-                order_template[s] = 0
+                order_template[s] = {'object': subj, 'count': 0,}
 
-            order_template[s] += 1
+            order_template[s]['count'] += 1
 
-    print "Order:"
-    print order_template
+    return order_template
 
 
 # def import_candidates(filename, allowed_schools=None):
