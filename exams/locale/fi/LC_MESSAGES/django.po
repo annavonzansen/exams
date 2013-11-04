@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: exams 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-04 08:21+0200\n"
-"PO-Revision-Date: 2013-11-04 08:22+0200\n"
+"PO-Revision-Date: 2013-11-04 09:13+0200\n"
 "Last-Translator: Ville Korhonen <ville.korhonen@ylioppilastutkinto.fi>\n"
 "Language-Team: FINNISH <digabi@ylioppilastutkinto.fi>\n"
 "Language: \n"
@@ -587,18 +587,17 @@ msgid "Submit"
 msgstr "Lähetä"
 
 #: templates/exams/candidate_list.html:12
-#, fuzzy
 msgid "List of Candidates with Special Arrangements"
-msgstr "Erityisjärjestelyt"
+msgstr "Luettelo kokelaista, joilla on erityisjärjestelyitä."
 
 #: templates/exams/candidate_list.html:12
 msgid "Add new"
 msgstr "Lisää uusi"
 
 #: templates/exams/candidate_list.html:14
-#, fuzzy, python-format
+#, python-format
 msgid "Below is a list of all candidates in <a href=\"%(school_url)s\">%(school_name)s</a>, registered for examination <strong>%(examination)s</strong>, who need special arrangements . A total of %(total)s candidates."
-msgstr "Alla on luettelo kaikista kokelaista koulussa <a href=\"%(school_url)s\">%(school_name)s</a>, jotka on lisätty tutkintoon <strong>%(examination)s</strong>. Yhteensä %(total)s kokelasta."
+msgstr "Alla on luettelo kaikista erityisjärjestelyitä tarvitsevista kokelaista koulussa <a href=\"%(school_url)s\">%(school_name)s</a>, jotka on lisätty tutkintoon <strong>%(examination)s</strong>. Yhteensä %(total)s kokelasta."
 
 #: templates/exams/candidate_list.html:32
 msgid "Special arrangements:"
@@ -677,9 +676,8 @@ msgid "List of Orders"
 msgstr "Luettelo tilauksista"
 
 #: templates/exams/order_list.html:12
-#, fuzzy
 msgid "Create new"
-msgstr "Luo uusi tilaus"
+msgstr "Luo uusi"
 
 #: templates/exams/order_list.html:12
 msgid "Pre-fill order with XML file"
@@ -699,19 +697,16 @@ msgid "Need fancy description here."
 msgstr "Joku hieno kuvaus tähän."
 
 #: templates/exams/order_list.html:16
-#, fuzzy
 msgid "Update"
-msgstr "Viimeksi päivitetty"
+msgstr "Päivitä"
 
 #: templates/exams/order_list.html:19
-#, fuzzy
 msgid "Below is the active order."
-msgstr "Alla on tämänhetkinen tilaus."
+msgstr "Alla on voimassaoleva tilaus."
 
 #: templates/exams/order_list.html:29
-#, fuzzy
 msgid "No current orders."
-msgstr "Alla on tämänhetkinen tilaus."
+msgstr "Ei voimassaolevia tilauksia."
 
 #: templates/exams/order_list_item.html:13
 msgid "W"
