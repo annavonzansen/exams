@@ -46,7 +46,7 @@ class OrderItemInline(admin.TabularInline):
     model = OrderItem
 
 class OrderAdmin(SimpleHistoryAdmin):
-    list_display = ('uuid', 'site', 'examination', 'get_order_text', 'date', 'status', 'created_by')
+    list_display = ('date', 'uuid', 'site', 'examination', 'get_order_text', 'status', 'created_by')
     list_filter = ('examination', 'status',)
     inlines = [
         OrderItemInline,
@@ -136,4 +136,4 @@ admin.site.register(Candidate, CandidateAdmin)
 admin.site.register(SpecialArrangement, SpecialArrangementAdmin)
 #admin.site.register(CandidateUpload)
 admin.site.register(MaterialType)
-#admin.site.register(SubjectGroup)
+admin.site.register(SubjectGroup)

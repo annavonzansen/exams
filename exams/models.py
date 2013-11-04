@@ -162,6 +162,7 @@ class Subject(models.Model):
     class Meta:
         verbose_name = _('Subject')
         verbose_name_plural = _('Subjects')
+        ordering = ('group', 'subject_type', 'name', 'short')
 
 def year_choices(min=None, max=None):
     choices = []
@@ -273,7 +274,7 @@ class Test(models.Model):
     """
     uuid = UUIDField(verbose_name='UUID')
     examination = models.ForeignKey(Examination)
-    subject = models.ForeignKey('exams.Subject', verbose_name=_('Subject'))
+    subject = models.ForeignKey(Subject, verbose_name=_('Subject'))
 
     #level = models.CharField(max_length=2, choices=LANGUAGE_TEST_LEVELS, blank=True, null=True, verbose_name=_('Level'))
 
@@ -483,7 +484,7 @@ class CandidateType(models.Model):
 
 class Candidate(Person):
     #uuid = UUIDField(verbose_name='UUID')
-    examination = models.ForeignKey('exams.Examination', verbose_name=_('Examination'))
+    examination = models.ForeignKey(Examination, verbose_name=_('Examination'))
     history = HistoricalRecords()
 
     #person = models.ForeignKey('people.Person', verbose_name=_('Person'))
@@ -684,7 +685,7 @@ class ExamRegistration(models.Model):
     uuid = UUIDField(verbose_name='UUID')
 
     
-    subject = models.ForeignKey('exams.Subject', verbose_name=_('Subject'))
+    subject = models.ForeignKey(Subject, verbose_name=_('Subject'))
     candidate = models.ForeignKey(Candidate)
 
     special_arrangements = models.ManyToManyField(SpecialArrangement, blank=True, null=True, verbose_name=_('Special Arrangements'))
@@ -724,7 +725,7 @@ class Order(models.Model):
 
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('Created by'))
 
-    examination = models.ForeignKey('exams.Examination')
+    examination = models.ForeignKey(Examination)
     content = models.TextField(blank=True, null=True, editable=False) # order, as JSON. serialized objects [school, schoolsite, students, amounts, who created, ...]
 
     date = models.DateTimeField(auto_now_add=True, verbose_name=_('Order Date'))
@@ -741,27 +742,33 @@ class Order(models.Model):
 
     objects = OrderManager()
 
-    def prefill_order(self, data):
+    def append_missing_subjects(self):
+        items = self.get_items()
+        subjs = [i.subject.pk for i in items]
+        missing = Subject.objects.exclude(pk__in=subjs)
+
         items = []
-        subjs = []
-        for k in data:
-            obj = data[k]['object']
-            subjs.append(obj.pk)
-            
-            for t in obj.material_types.all():
-                amount = t.amount_for_x(data[k]['count'])
-                item = OrderItem(order=self, subject=obj, amount=amount, material_type=t)
+        for m in missing:
+            for mt in m.material_types.all():
+                item = OrderItem(order=self, subject=m, amount=0, material_type=mt)
                 items.append(item)
-        n_subjs = Subject.objects.exclude(pk__in=subjs)
-        
-        for s in n_subjs:
-            for t in s.material_types.all():
-                amount = 0
-                item = OrderItem(order=self, subject=s, amount=amount, material_type=t)
-                items.append(item)
-        return items
+        OrderItem.objects.bulk_create(items)
+        return len(items)
+
+    def prefill_order(self, items, append_missing=False):
+        # TODO: Check of self exists, else fails?
+        for i in items:
+            i.order = self
+
+        OrderItem.objects.bulk_create(items)
+
+        if append_missing:
+            self.append_missing_subjects()
+
+        return True
 
     def get_by_short(self, short):
+        # TODO: Combine duplicate entries?
         oi = OrderItem.objects.filter(order=self, subject__short=short)
         return oi
 
@@ -771,7 +778,7 @@ class Order(models.Model):
         return childs
 
     def get_items(self):
-        items = OrderItem.objects.filter(order=self).order_by('subject')
+        items = OrderItem.objects.filter(order=self)
         return items        
 
     def get_order(self):
@@ -820,7 +827,7 @@ class OrderItem(models.Model):
     order = models.ForeignKey(Order)
     history = HistoricalRecords()
 
-    subject = models.ForeignKey('exams.Subject', verbose_name=_('Subject'))
+    subject = models.ForeignKey(Subject, verbose_name=_('Subject'))
     amount = models.PositiveIntegerField(verbose_name=_('Amount'))
     material_type = models.ForeignKey(MaterialType, verbose_name=_('Material Type'))
 
@@ -834,11 +841,13 @@ class OrderItem(models.Model):
         return self.__str__()
 
     class Meta:
+        #unique_together = (('order', 'subject', 'material_type',),)
         verbose_name = _('Order Item')
         verbose_name_plural = _('Order Items')
-
+        ordering = ('order', 'subject', 'material_type',)
 
 def import_candidates(filename, allowed_schools=None):
+    # TODO: Rename function
     cache = {
         'subjects': {},
     }
@@ -863,100 +872,17 @@ def import_candidates(filename, allowed_schools=None):
 
             order_template[s]['count'] += 1
 
-    return order_template
+    items = []
 
+    for s in order_template:
+        subj = order_template[s]['object']
 
-# def import_candidates(filename, allowed_schools=None):
-#     # TODO: Django development version has update_or_create()
-#     stats = {
-#         'candidates_created': 0,
-#         'candidates_updated': 0,
-#         'examregistrations': 0,
-#         'messages': [],
-#     }
-#     _cache = {
-#         'examinations': {},
-#         'schools': {},
-#         'subjects': {},
-#         'candidate_types': {},
-#     }
+        for mt in subj.material_types.all():
+            amount = mt.amount_for_x(count=order_template[s]['count'])
+            item = OrderItem(subject=subj, amount=amount, material_type=mt)
+            items.append(item)
 
-#     try:
-#         from exams.importers import parse_candidate_xml
-#         from education.models import School
-
-#         candidates = parse_candidate_xml(filename)
-
-#         for c in candidates:
-#             if _cache['examinations'].has_key(c.examination):
-#                 examination = _cache['examinations'][c.examination]
-#             else:
-#                 examination_year = c.examination[0:4]
-#                 examination_season = c.examination[4:5]
-            
-#                 examination = Examination.objects.get(year=examination_year, season=examination_season)
-#                 _cache['examinations'][c.examination] = examination
-
-#             if _cache['schools'].has_key(c.school):
-#                 school = _cache['schools'][c.school]
-#             else:
-#                 school = School.objects.get(school_id=c.school)
-#                 _cache['schools'][c.school] = school
-
-#             if allowed_schools and school not in allowed_schools:
-#                 raise PermissionDenied
-#             # TODO: Check that school is in allowed_schools (if defined, else raise PermissionDenied or something like that)
-
-#             if _cache['candidate_types'].has_key(c.ctype):
-#                 ctype = _cache['candidate_types'][c.ctype]
-#             else:
-#                 ctype = CandidateType.objects.get(code=c.ctype)
-#                 _cache['candidate_types'][c.ctype] = ctype
-
-#             cand, created = Candidate.objects.get_or_create(candidate_number=c.id, examination=examination, school=school, candidate_type=ctype)
-#             cand.identity_number = c.identity_number
-
-#             cand.gender = c.gender
-#             cand.retrying = c.retrying
-
-#             cand.save()
-
-#             if created:
-#                 stats['candidates_created'] += 1
-#             else:
-#                 stats['candidates_updated'] += 1
-
-#             for s in c.subjects:
-#                 if _cache['subjects'].has_key(s):
-#                     subj = _cache['subjects'][s]
-#                 else:
-#                     subj = Subject.objects.get(short=s)
-#                     _cache['subjects'][s] = subj
-#                 cand.add_registration(subj)
-#                 stats['examregistrations'] += 1
-#     except Examination.DoesNotExist:
-#         stats['messages'].append(_("Cannot import candidate %(candidate)s, specified examination %(examination)s does not exist!") % {
-#                     'candidate': c,
-#                     'examination': c.examination,
-#                 })
-#     except School.DoesNotExist:
-#         stats['messages'].append(_("Cannot import candidate %(candidate)s, specified school %(school)s does not exist!") % {
-#                     'candidate': c,
-#                     'school': c.school,
-#                 })
-#     except CandidateType.DoesNotExist:
-#         stats['messages'].append(_("Cannot import candidate %(candidate)s, specified type %(type)s does not exist!") % {
-#                     'candidate': c,
-#                     'type': c.ctype,
-#                 })
-#     except Subject.DoesNotExist:
-#         stats['messages'].append(_("Cannot import candidate %(candidate)s, specified subject %(subject)s does not exist!") % {
-#                     'candidate': c,
-#                     'subject': c.subjects,
-#                 })      
-      
-#     finally:
-#         return stats
+    return items
 
 def export_orders(filename):
     """Exports orders to XLS file"""
