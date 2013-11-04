@@ -619,23 +619,23 @@ class CandidateUpload(models.Model):
     modified = ModificationDateTimeField()
 
 
-    def process_file(self):
-        stats = {}
-        if self.status == 'U':
-            if self.by_user in self.school.managers.all():
-                try:
-                    stats = import_candidates(self.file.path, allowed_schools=[self.school,])
-                    self.status = 'P'
-                except PermissionDenied:
-                    self.status = 'I'
-                self.save()
-                return stats
-            else:
-                self.status = 'p'
-                self.save()
-                return False
-        else:
-            return False
+    # def process_file(self):
+    #     stats = {}
+    #     if self.status == 'U':
+    #         if self.by_user in self.school.managers.all():
+    #             try:
+    #                 stats = import_candidates(self.file.path, allowed_schools=[self.school,])
+    #                 self.status = 'P'
+    #             except PermissionDenied:
+    #                 self.status = 'I'
+    #             self.save()
+    #             return stats
+    #         else:
+    #             self.status = 'p'
+    #             self.save()
+    #             return False
+    #     else:
+    #         return False
 
     def get_absolute_url(self):
         return reverse('education:candidates', kwargs={
@@ -645,9 +645,9 @@ class CandidateUpload(models.Model):
     def __str__(self):
         return "%s, %s, %s, %s" % (self.examination, self.school, self.by_user, self.file.path)
 
-def process_candidateupload(sender, instance, **kwargs):
-    instance.process_file()
-post_save.connect(process_candidateupload, sender=CandidateUpload, dispatch_uid='process_candidateupload')
+# def process_candidateupload(sender, instance, **kwargs):
+#     instance.process_file()
+# post_save.connect(process_candidateupload, sender=CandidateUpload, dispatch_uid='process_candidateupload')
 
 
 class SpecialArrangement(models.Model):
