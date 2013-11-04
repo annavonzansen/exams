@@ -841,7 +841,7 @@ class OrderItem(models.Model):
         return self.__str__()
 
     class Meta:
-        #unique_together = (('order', 'subject', 'material_type',),)
+        unique_together = (('order', 'subject', 'material_type',),)
         verbose_name = _('Order Item')
         verbose_name_plural = _('Order Items')
         ordering = ('order', 'subject', 'material_type',)
