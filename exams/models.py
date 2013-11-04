@@ -789,8 +789,6 @@ class OrderItem(models.Model):
     subject = models.ForeignKey('exams.Subject', verbose_name=_('Subject'))
     amount = models.PositiveIntegerField(verbose_name=_('Amount'))
     material_type = models.ForeignKey(MaterialType, verbose_name=_('Material Type'))
-    special_arrangement = models.ForeignKey(SpecialArrangement, blank=True, null=True, verbose_name=_('Special Arrangement'))
-    attached_candidates = models.ManyToManyField(Candidate, blank=True, null=True, editable=False, verbose_name=_('Attached Candidates'), help_text=_('If ordering material with special arrangements, please specif for which candidates material is for.'))
 
     created = CreationDateTimeField()
     modified = ModificationDateTimeField()
