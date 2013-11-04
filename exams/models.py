@@ -85,6 +85,7 @@ def get_unique_filename(instance, filename):
     return new_filename
 
 class MaterialType(models.Model):
+    """Material type"""
     uuid = UUIDField(verbose_name='UUID')
     title = models.CharField(max_length=255, unique=True, verbose_name=_('Title'))
     short = models.CharField(max_length=2, unique=True, verbose_name=_('Short'))
@@ -99,17 +100,30 @@ class MaterialType(models.Model):
         verbose_name = _('Material Type')
         verbose_name_plural = _('Material Types')
 
+class SubjectGroup(models.Model):
+    uuid = UUIDField(verbose_name='UUID')
+    name = models.CharField(max_length=255, unique=True)
+
+    def __str__(self):
+        return "%s" % self.name
+
+    def __unicode__(self):
+        return self.__str__()
+
+    class Meta:
+        verbose_name = _('Subject Group')
+        verbose_name_plural = _('Subject Groups')
+
 class Subject(models.Model):
-    """Test Subject"""
+    """Subject"""
     uuid = UUIDField(verbose_name='UUID')
     name = models.CharField(max_length=255, unique=True, verbose_name=_('Name'))
     short = models.CharField(max_length=3, unique=True, verbose_name=_('Short'))
 
     subject_type = models.CharField(max_length=1, choices=SUBJECT_TYPE_CHOICES, verbose_name=_('Subject Type'))
-
-    #material_writing = models.BooleanField(default=True, verbose_name=_('Material for written exams'), help_text=_('Does this subject include written assignments'))
-    #material_listening = models.BooleanField(default=False, verbose_name=_('Material for listening exams'), help_text=_('Does this subject include listening assignments'))
     material_types = models.ManyToManyField(MaterialType, verbose_name=_('Material Types'))
+
+    group = models.ForeignKey(SubjectGroup)
 
     history = HistoricalRecords()
 

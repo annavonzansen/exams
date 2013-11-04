@@ -3,7 +3,7 @@ from django.contrib import admin
 from django_markdown.admin import MarkdownModelAdmin
 from django.utils.translation import ugettext as _
 
-from exams.models import Examination, Test, Assignment, AnswerOption, Answer, File, Subject, Order, OrderItem, ExamRegistration, Candidate, SpecialArrangement, CandidateUpload, MaterialType
+from exams.models import Examination, Test, Assignment, AnswerOption, Answer, File, Subject, Order, OrderItem, ExamRegistration, Candidate, SpecialArrangement, CandidateUpload, MaterialType, SubjectGroup
 
 import csv
 from django.http import HttpResponse
@@ -74,7 +74,8 @@ class ExaminationAdmin(SimpleHistoryAdmin):
     ]
 
 class SubjectAdmin(admin.ModelAdmin):
-    list_display = ('name', 'short', 'subject_type', 'get_material_types',)
+    list_display = ('name', 'short', 'subject_type', 'group', 'get_material_types',)
+    ordering = ('subject_type', 'group', 'name',)
 
 class ExamRegistrationInline(admin.TabularInline):
     model = ExamRegistration
@@ -135,3 +136,4 @@ admin.site.register(Candidate, CandidateAdmin)
 admin.site.register(SpecialArrangement, SpecialArrangementAdmin)
 #admin.site.register(CandidateUpload)
 admin.site.register(MaterialType)
+#admin.site.register(SubjectGroup)
