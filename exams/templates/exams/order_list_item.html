@@ -16,12 +16,12 @@
         </tr>
     </thead>
     <tbody>
-    {% for i in o.get_items %}
+    {% for s in subjects %}
         <tr>
-            <td>{{ i.subject.name }} ({{ i.subject.short}})</td>
-            <td>{{ i.amount }}</td>
+            <td>{{ s.name }} ({{ s.short}})</td>
             <td>A</td>
             <td>B</td>
+            <td>C</td>
         </tr>
     {% endfor %}
     </tbody>

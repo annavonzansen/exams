@@ -140,9 +140,12 @@ download = FileDownloadView.as_view()
 class OrdersView(ListView):
     model = Order
     def get_context_data(self, **kwargs):
+        from exams.models import Subject
         context = super(OrdersView, self).get_context_data(**kwargs)
         school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
+        subjects = Subject.objects.all()
         context['school'] = school
+        context['subjects'] = subjects
         return context
 
     def get_queryset(self):

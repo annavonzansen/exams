@@ -9,25 +9,29 @@
 
 
 {% block content %}
-<h1>{% trans "List of Orders" %} <small>{{ school.name }}</small> <a href="{% url "education:ordercreate" uuid=school.uuid %}" class="btn btn-success">{% trans "Add new" %}</a> <a href="{% url "education:candidateupload" uuid=school.uuid %}" class="btn btn-default">{% trans "Upload XML file" %}</a></h1>
+<h1>{% trans "List of Orders" %} <small>{{ school.name }}</small> <a href="{% url "education:ordercreate" uuid=school.uuid %}" class="btn btn-success">{% trans "Create new" %}</a> <a href="{% url "education:candidateupload" uuid=school.uuid %}" class="btn btn-default">{% trans "Pre-fill order with XML file" %}</a></h1>
 {% url "education:school" uuid=school.uuid as school_url %}
 <p>{% blocktrans with school_name=school.name examination=current_examination total=object_list|count %}Below is a list of all material orders in <a href="{{ school_url }}">{{ school_name }}</a>, for examination <strong>{{ examination }}</strong>. A total of {{ total }} orders.{% endblocktrans %}</p>
 
-<h2>{% trans "Current Order" %} <small>{% trans "Need fancy description here." %}</small></h2>
-<p>{% trans "Below is the current order." %}</p>
+<h2>{% trans "Active Order" %} <small>{% trans "Need fancy description here." %}</small> <a href="{% url "education:ordercreate" uuid=school.uuid %}" class="btn btn-warning">{% trans "Update" %}</a></h2>
+{% include "exams/order_item.html" %}
+
+<p>{% trans "Below is the active order." %}</p>
 {% if object_list %}
-<ul class="list-group">
-{% for o in object_list %}
-{% if not forloop.counter0 %}
-    {% include "exams/order_list_item.html" %}
-{% endif %}
-{% endfor %}
-</ul>
-{% else %}
-<p><em>{% trans "No current orders." %}</em></p>
+    <ul class="list-group">
+        {% for o in object_list %}
+            {% if not forloop.counter0 %}
+                {% include "exams/order_list_item.html" %}
+            {% endif %}
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p><em>{% trans "No current orders." %}</em></p>
 {% endif %}
 
+{% comment %}
 <h2>{% trans "Previous Orders" %} <small>{% trans "Need fancy description here." %}</small></h2>
+<p>{% trans "Remove this? Distracts user..." %}</p>
 {% if object_list %}
 <ul class="list-group">
 {% for o in object_list %}
@@ -39,4 +43,5 @@
 {% else %}
 <p><em>{% trans "No previous orders." %}</em></p>
 {% endif %}
+{% endcomment %}
 {% endblock %}
