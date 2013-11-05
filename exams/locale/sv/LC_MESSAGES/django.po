@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-05 03:51+0200\n"
+"POT-Creation-Date: 2013-11-05 04:12+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -184,7 +184,7 @@ msgid "Group"
 msgstr ""
 
 #: models.py:164 models.py:278 models.py:689 models.py:849 models.py:917
-#: templates/exams/order_detail.html:35 templates/exams/order_item.html:15
+#: templates/exams/order_detail.html:37
 msgid "Subject"
 msgstr ""
 
@@ -408,8 +408,8 @@ msgstr ""
 msgid "Special Arrangements"
 msgstr ""
 
-#: models.py:693 models.py:737 templates/exams/order_detail.html:96
-#: templates/exams/order_item.html:35
+#: models.py:693 models.py:737 templates/exams/order_detail.html:67
+#: templates/exams/order_list_item.html:10
 msgid "Additional Details"
 msgstr ""
 
@@ -458,8 +458,8 @@ msgstr ""
 msgid "Order Content"
 msgstr ""
 
-#: models.py:840 templates/exams/order_detail.html:9
-#: templates/exams/order_item.html:2 templates/exams/order_list_item.html:4
+#: models.py:840 templates/exams/order_detail.html:4
+#: templates/exams/order_detail.html:9 templates/exams/order_list_item.html:5
 msgid "Order"
 msgstr ""
 
@@ -469,7 +469,7 @@ msgstr ""
 msgid "Orders"
 msgstr ""
 
-#: models.py:850 templates/exams/order_item.html:12
+#: models.py:850
 msgid "Amount"
 msgstr ""
 
@@ -617,11 +617,15 @@ msgstr ""
 msgid "By:"
 msgstr ""
 
-#: templates/exams/order_detail.html:32
+#: templates/exams/order_detail.html:24
+msgid "Order Details"
+msgstr ""
+
+#: templates/exams/order_detail.html:34
 msgid "Amount (pcs)"
 msgstr ""
 
-#: templates/exams/order_detail.html:43
+#: templates/exams/order_detail.html:45
 msgid "Total"
 msgstr ""
 
@@ -635,30 +639,6 @@ msgstr ""
 
 #: templates/exams/order_form.html:19
 msgid "Tests and CDs to be ordered"
-msgstr ""
-
-#: templates/exams/order_item.html:2
-msgid "to site "
-msgstr ""
-
-#: templates/exams/order_item.html:3
-msgid "Update order"
-msgstr ""
-
-#: templates/exams/order_item.html:3
-msgid "By"
-msgstr ""
-
-#: templates/exams/order_item.html:16
-msgid "Written"
-msgstr ""
-
-#: templates/exams/order_item.html:17
-msgid "Listening"
-msgstr ""
-
-#: templates/exams/order_item.html:18
-msgid "CD"
 msgstr ""
 
 #: templates/exams/order_list.html:12
@@ -693,10 +673,14 @@ msgstr ""
 msgid "Update"
 msgstr ""
 
-#: templates/exams/order_list.html:19
+#: templates/exams/order_list.html:18
 msgid "Below is the active order."
 msgstr ""
 
-#: templates/exams/order_list.html:29
+#: templates/exams/order_list.html:28
 msgid "No current orders."
+msgstr ""
+
+#: templates/exams/order_list_item.html:7
+msgid "pcs"
 msgstr ""

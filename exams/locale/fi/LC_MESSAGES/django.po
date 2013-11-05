@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: exams 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-05 03:51+0200\n"
-"PO-Revision-Date: 2013-11-05 03:53+0200\n"
+"POT-Creation-Date: 2013-11-05 04:12+0200\n"
+"PO-Revision-Date: 2013-11-05 04:12+0200\n"
 "Last-Translator: Ville Korhonen <ville.korhonen@ylioppilastutkinto.fi>\n"
 "Language-Team: FINNISH <digabi@ylioppilastutkinto.fi>\n"
 "Language: \n"
@@ -203,8 +203,7 @@ msgstr "Ryhmä"
 #: models.py:689
 #: models.py:849
 #: models.py:917
-#: templates/exams/order_detail.html:35
-#: templates/exams/order_item.html:15
+#: templates/exams/order_detail.html:37
 msgid "Subject"
 msgstr "Aine"
 
@@ -438,8 +437,8 @@ msgstr "Erityisjärjestelyt"
 
 #: models.py:693
 #: models.py:737
-#: templates/exams/order_detail.html:96
-#: templates/exams/order_item.html:35
+#: templates/exams/order_detail.html:67
+#: templates/exams/order_list_item.html:10
 msgid "Additional Details"
 msgstr "Lisätiedot"
 
@@ -490,9 +489,9 @@ msgid "Order Content"
 msgstr "Tilauksen sisältö"
 
 #: models.py:840
+#: templates/exams/order_detail.html:4
 #: templates/exams/order_detail.html:9
-#: templates/exams/order_item.html:2
-#: templates/exams/order_list_item.html:4
+#: templates/exams/order_list_item.html:5
 msgid "Order"
 msgstr "Tilaus"
 
@@ -505,7 +504,6 @@ msgid "Orders"
 msgstr "Tilaukset"
 
 #: models.py:850
-#: templates/exams/order_item.html:12
 msgid "Amount"
 msgstr "Määrä"
 
@@ -647,11 +645,15 @@ msgstr "Suorituspaikka:"
 msgid "By:"
 msgstr "Tilaaja:"
 
-#: templates/exams/order_detail.html:32
+#: templates/exams/order_detail.html:24
+msgid "Order Details"
+msgstr "Tilauksen tiedot"
+
+#: templates/exams/order_detail.html:34
 msgid "Amount (pcs)"
 msgstr "Määrä (kpl)"
 
-#: templates/exams/order_detail.html:43
+#: templates/exams/order_detail.html:45
 msgid "Total"
 msgstr "Yhteensä"
 
@@ -668,30 +670,6 @@ msgstr "Luo uusi tilaus"
 #: templates/exams/order_form.html:19
 msgid "Tests and CDs to be ordered"
 msgstr "Tilattavat kokeet ja CDt"
-
-#: templates/exams/order_item.html:2
-msgid "to site "
-msgstr "suorituspaikalle"
-
-#: templates/exams/order_item.html:3
-msgid "Update order"
-msgstr "Päivitä tilaus"
-
-#: templates/exams/order_item.html:3
-msgid "By"
-msgstr "tehnyt"
-
-#: templates/exams/order_item.html:16
-msgid "Written"
-msgstr "Kirjallinen"
-
-#: templates/exams/order_item.html:17
-msgid "Listening"
-msgstr "Kuuntelu"
-
-#: templates/exams/order_item.html:18
-msgid "CD"
-msgstr "CD"
 
 #: templates/exams/order_list.html:12
 msgid "List of Orders"
@@ -722,13 +700,35 @@ msgstr "Joku hieno kuvaus tähän."
 msgid "Update"
 msgstr "Päivitä"
 
-#: templates/exams/order_list.html:19
+#: templates/exams/order_list.html:18
 msgid "Below is the active order."
 msgstr "Alla on voimassaoleva tilaus."
 
-#: templates/exams/order_list.html:29
+#: templates/exams/order_list.html:28
 msgid "No current orders."
 msgstr "Ei voimassaolevia tilauksia."
+
+#: templates/exams/order_list_item.html:7
+msgid "pcs"
+msgstr "kpl"
+
+#~ msgid "to site "
+#~ msgstr "suorituspaikalle"
+
+#~ msgid "Update order"
+#~ msgstr "Päivitä tilaus"
+
+#~ msgid "By"
+#~ msgstr "tehnyt"
+
+#~ msgid "Written"
+#~ msgstr "Kirjallinen"
+
+#~ msgid "Listening"
+#~ msgstr "Kuuntelu"
+
+#~ msgid "CD"
+#~ msgstr "CD"
 
 #~ msgid "Attached Candidates"
 #~ msgstr "Liitetyt kokelaat"
@@ -762,9 +762,6 @@ msgstr "Ei voimassaolevia tilauksia."
 
 #~ msgid "Does this subject include listening assignments"
 #~ msgstr "Sisältääkö aine kuullunymmärtämistehtäviä?"
-
-#~ msgid "pcs"
-#~ msgstr "kpl"
 
 #~ msgid "Unique name for this examination, \"2013S\", for example."
 #~ msgstr "Uniikki tunniste tälle tutkinnolle, esimerkiksi \"2013S\"."
