@@ -31,3 +31,10 @@ def order_sg_total(order, subject_group, material_type):
         return order.get_subjectgroup_material_total(subject_group=subject_group, material_type=material_type)
     else:
         return None
+
+@register.simple_tag
+def order_mt_total(order, material_type):
+    if isinstance(order, Order) and isinstance(material_type, MaterialType):
+        return order.get_materialtype_total(material_type=material_type)
+    else:
+        return None

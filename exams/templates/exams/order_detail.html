@@ -1,7 +1,7 @@
 {% extends "education/base.html" %}
 {% load i18n %}
 {% load orders %}
-{% block title %}{{ object.name }} - {{ block.super }}{% endblock %}
+{% block title %}{% trans "Order" %} {{ object.date }} - {{ block.super }}{% endblock %}
 
 {% block breadcrumb %}<li><a href="{% url "education:schools" %}">{% trans "Schools" %}</a></li>
 <li><a href="{% url "education:school" uuid=school.uuid %}">{{ school.name }}</a></li>
@@ -19,6 +19,8 @@
     <dt>{% trans "By:" %}</dt>
         <dd>{{ object.created_by }}</dd>
 </dl>
+
+<h2>{% trans "Order Details" %}</h2>
 
 {% with object.get_items as order_items %}
 {% regroup order_items by subject.group as groups %}
@@ -60,40 +62,9 @@
     </tbody>
 </table>
 {% endfor %}
-{% comment %}
-{% with object.get_items as order_items %}
-{% regroup order_items by subject.group as subject_list %}
-{% for sg in subject_list %}
-<h4>{{ sg.grouper.name }}</h4>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>{{ sg }}</th>
-            <th colspan="3">{% trans "Amount" %}</th>
-        </tr>
-        <tr>
-            <th>{% trans "Subject" %}</th>
-            <th>{% trans "Written" %}</th>
-            <th>{% trans "Listening" %}</th>
-            <th>{% trans "CD" %}</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for s in sg.list %}
-        <tr>
-            <td>{{ s.name }} ({{ s.short}})</td>
-            <td style="width: 10%;">A</td>
-            <td style="width: 10%;">B</td>
-            <td style="width: 10%;">C</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-{% endfor %}
-{% endcomment %}
 
 <h4>{% trans "Additional Details" %}</h4>
-<p>{{ object.additional_details|default:"-" }}</p>
+<p>{{ object.additional_details|default:"(None)" }}</p>
 {% endwith %}
 
 {% endblock %}

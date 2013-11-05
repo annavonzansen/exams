@@ -165,9 +165,9 @@ class OrdersView(ListView):
         context = super(OrdersView, self).get_context_data(**kwargs)
         school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
         subjects = Subject.objects.all()
+        materials = MaterialType.objects.all()
         context['school'] = school
-        #context['subjects'] = subjects
-        #context['latest_order'] = 
+        context['materials'] = materials
         return context
 
     def get_queryset(self):

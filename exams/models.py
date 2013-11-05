@@ -743,7 +743,7 @@ class Order(models.Model):
 
     objects = OrderManager()
 
-    def get_materialtype_sum(self, material_type):
+    def get_materialtype_total(self, material_type):
         amount = OrderItem.objects.filter(order=self, material_type=material_type).aggregate(Sum('amount'))
         return amount['amount__sum']
 
