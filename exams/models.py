@@ -494,7 +494,7 @@ class Candidate(Person):
     site = models.ForeignKey('education.SchoolSite', blank=True, null=True, verbose_name=_('Site'), help_text=_('Site in which this student will attend exams.'))
 
     candidate_number = models.PositiveIntegerField(verbose_name=_('Candidate Number'), help_text=_('School-specific identification number for candidate (incrementing)'))
-    candidate_type = models.ForeignKey(CandidateType, verbose_name=_('Candidate Type'), help_text=_('What sort of candidate this person is?'))
+    candidate_type = models.ForeignKey(CandidateType, blank=True, null=True, verbose_name=_('Candidate Type'), help_text=_('What sort of candidate this person is?'))
 
     retrying = models.BooleanField(default=False, verbose_name=_('Candidate is retrying full exam'), help_text=_('Is candidate starting the examination from begin?'))
 
