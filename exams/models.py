@@ -747,6 +747,20 @@ class Order(models.Model):
         amount = OrderItem.objects.filter(order=self, material_type=material_type).aggregate(Sum('amount'))
         return amount['amount__sum']
 
+    def get_subjectgroup_material_total(self, subject_group, material_type):
+        try:
+            items = OrderItem.objects.filter(order=self, subject__group=subject_group, material_type=material_type).aggregate(Sum('amount'))
+        except OrderItem.DoesNotExist:
+            return '-'
+        return items['amount__sum']
+
+    def get_subject_material_amount(self, subject, material_type):
+        try:
+            item = OrderItem.objects.get(order=self, subject=subject, material_type=material_type)
+        except OrderItem.DoesNotExist:
+            return '-'
+        return item.amount
+
     def append_missing_subjects(self):
         items = self.get_items()
         subjs = [i.subject.pk for i in items]
