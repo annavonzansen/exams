@@ -807,7 +807,7 @@ class Order(models.Model):
         return ers
 
     def __str__(self):
-        return "Order %(uuid)s, %(school)s %(date)s: %(order)s" % {
+        return "Order %(date)s, %(school)s %(uuid)s" % {
             'uuid': self.uuid,
             'school': self.site,
             'date': self.date,
