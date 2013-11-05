@@ -9,7 +9,7 @@ import csv
 from django.http import HttpResponse
 from simple_history.admin import SimpleHistoryAdmin
 
-def export_as_csv_action(description="Export selected objects as CSV file",
+def export_as_csv_action(description=_("Export selected objects as CSV file"),
                          fields=None, exclude=None, header=True):
     """
     This function returns an export csv action
