@@ -26,6 +26,15 @@ class OrderForm(ModelForm):
 
 OrderFormset = inlineformset_factory(Order, OrderItem, extra=3)
 
+class ExamRegistrationHelper(FormHelper):
+    def __init__(self, *args, **kwargs):
+        super(ExamRegistrationHelper, self).__init__(*args, **kwargs)
+        self.form_method = 'post'
+        #self.add_input(Submit("submit", "Save"))
+        self.render_required_fields = True
+        self.form_tag = False
+        self.template = 'bootstrap/table_inline_formset.html'
+
 class ExamRegistrationForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(ExamRegistrationForm, self).__init__(*args, **kwargs)
@@ -54,7 +63,7 @@ class CandidateForm(ModelForm):
 
     class Meta:
         model = Candidate
-        exclude = ['merge_with', 'gender', 'first_name', 'birthday', 'school', 'examination',]
+        exclude = ['merge_with', 'gender', 'first_name', 'birthday', 'school', 'examination', 'retrying', 'candidate_type',]
 
 class CandidateUploadForm(ModelForm):
     def __init__(self, *args, **kwargs):

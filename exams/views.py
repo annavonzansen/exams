@@ -17,7 +17,7 @@ from django.utils.translation import ugettext as _
 
 from exams.models import Examination, Test, Assignment, File, Order, Candidate, CandidateUpload, ExamRegistration, OrderItem
 #from exams.forms import CandidateFormset
-from exams.forms import OrderForm, CandidateForm, OrderFormset, ExamRegistrationFormset, CandidateUploadForm, ExamRegistrationForm
+from exams.forms import OrderForm, CandidateForm, OrderFormset, ExamRegistrationFormset, CandidateUploadForm, ExamRegistrationForm, ExamRegistrationHelper
 from django.http import HttpResponseRedirect
 
 
@@ -320,6 +320,7 @@ class CandidateCreateView(CreateWithInlinesView):
         school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
         context['school'] = school
         context['form'].fields['site'].queryset = SchoolSite.objects.filter(school=school)
+        context['helper'] = ExamRegistrationHelper()
         return context
 
     def forms_valid(self, form, inlines):

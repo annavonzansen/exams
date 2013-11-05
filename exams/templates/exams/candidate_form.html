@@ -8,27 +8,18 @@
 
 {% block content %}
 <h1>{% if object.pk %}{% trans "Edit candidate" %} {{ object }}{% else %}{% trans "Create new candidate" %}{% endif %} <small>{{ school.name }}</small></h1>
+<p>{% trans "Using this form, you can add new candidate with special arrangements, ie. order special material for a candidate." %}</p>
 <form method="post" action="">
     {% csrf_token %}
-    {{ form|crispy }}
+    {% crispy form form.helper %}
     {% for i in inlines %}
     <fieldset>
         <legend>{% trans "Exam Registrations" %}</legend>
-        {{ i|crispy }}
+        {% crispy i helper %}
     </fieldset>
     {% endfor %}
-    {{ inlines.management_form }}
+    {{ inlines.management_form|crispy }}
 
-{% comment %}     {% crispy form form.helper %}
-
-    {{ formset.management_form }}
-    
-    {% for er_form in formset %}
-        <fieldset>
-        {{ er_form.as_table }}
-        </fieldset>
-    {% endfor %} #}
-{% endcomment %}
     <p><input type="submit" value="{% trans "Submit" %}" class="btn btn-success"/> <input type="reset" value="{% trans "Reset" %}" class="btn btn-danger"/></p>
 
 </form>
