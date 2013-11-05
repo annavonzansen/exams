@@ -26,6 +26,15 @@ class OrderForm(ModelForm):
 
 OrderFormset = inlineformset_factory(Order, OrderItem, extra=3)
 
+class OrderItemHelper(FormHelper):
+    def __init__(self, *args, **kwargs):
+        super(OrderItemHelper, self).__init__(*args, **kwargs)
+        self.form_method = 'post'
+        #self.add_input(Submit("submit", "Save"))
+        self.render_required_fields = True
+        self.form_tag = False
+        self.template = 'bootstrap/table_inline_formset.html'    
+
 class ExamRegistrationHelper(FormHelper):
     def __init__(self, *args, **kwargs):
         super(ExamRegistrationHelper, self).__init__(*args, **kwargs)
