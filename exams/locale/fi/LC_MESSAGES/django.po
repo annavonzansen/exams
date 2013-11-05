@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: exams 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-05 04:12+0200\n"
-"PO-Revision-Date: 2013-11-05 04:12+0200\n"
+"POT-Creation-Date: 2013-11-05 04:47+0200\n"
+"PO-Revision-Date: 2013-11-05 04:47+0200\n"
 "Last-Translator: Ville Korhonen <ville.korhonen@ylioppilastutkinto.fi>\n"
 "Language-Team: FINNISH <digabi@ylioppilastutkinto.fi>\n"
 "Language: \n"
@@ -689,8 +689,8 @@ msgid "Below is a list of all material orders in <a href=\"%(school_url)s\">%(sc
 msgstr "Alla on luettelo kaikista koulun <a href=\"%(school_url)s\">%(school_name)s</a> materiaalitilauksista, tutkintoon <strong>%(examination)s</strong>. Yhteensä %(total)s tilausta."
 
 #: templates/exams/order_list.html:16
-msgid "Active Order"
-msgstr "Aktiivinen tilaus"
+msgid "Current Orders"
+msgstr "Voimassaolevat tilaukset"
 
 #: templates/exams/order_list.html:16
 msgid "Need fancy description here."
@@ -701,8 +701,8 @@ msgid "Update"
 msgstr "Päivitä"
 
 #: templates/exams/order_list.html:18
-msgid "Below is the active order."
-msgstr "Alla on voimassaoleva tilaus."
+msgid "Below are current orders. Click to view details."
+msgstr "Alla on luettelo nykyisistä tilauksista. Klikkaa tilausta nähdäksesi tarkat tiedot tilauksesta."
 
 #: templates/exams/order_list.html:28
 msgid "No current orders."
@@ -711,6 +711,12 @@ msgstr "Ei voimassaolevia tilauksia."
 #: templates/exams/order_list_item.html:7
 msgid "pcs"
 msgstr "kpl"
+
+#~ msgid "Active Order"
+#~ msgstr "Aktiivinen tilaus"
+
+#~ msgid "Below is the active order."
+#~ msgstr "Alla on voimassaoleva tilaus."
 
 #~ msgid "to site "
 #~ msgstr "suorituspaikalle"
@@ -735,9 +741,6 @@ msgstr "kpl"
 
 #~ msgid "Upload XML file"
 #~ msgstr "Siirrä XML-tiedosto"
-
-#~ msgid "Current Order"
-#~ msgstr "Tämänhetkinen tilaus"
 
 #~ msgid "None"
 #~ msgstr "Ei yhtään."

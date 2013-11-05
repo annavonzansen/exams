@@ -13,9 +13,9 @@
 {% url "education:school" uuid=school.uuid as school_url %}
 <p>{% blocktrans with school_name=school.name examination=current_examination total=object_list|count %}Below is a list of all material orders in <a href="{{ school_url }}">{{ school_name }}</a>, for examination <strong>{{ examination }}</strong>. A total of {{ total }} orders.{% endblocktrans %}</p>
 
-<h2>{% trans "Active Order" %} <small>{% trans "Need fancy description here." %}</small> <a href="{% url "education:ordercreate" uuid=school.uuid %}" class="btn btn-warning">{% trans "Update" %}</a></h2>
+<h2>{% trans "Current Orders" %} <small>{% trans "Need fancy description here." %}</small> <a href="{% url "education:ordercreate" uuid=school.uuid %}" class="btn btn-warning">{% trans "Update" %}</a></h2>
 
-<p>{% trans "Below is the active order." %}</p>
+<p>{% trans "Below are current orders. Click to view details." %}</p>
 {% if object_list %}
     <ul class="list-group">
         {% for o in object_list %}
