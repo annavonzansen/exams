@@ -12,6 +12,7 @@ from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.db.models import Q
 from django.core.exceptions import PermissionDenied
+from django.db.models import Sum
 
 import os
 import re
@@ -741,6 +742,10 @@ class Order(models.Model):
     parent = models.ForeignKey('self', blank=True, null=True, verbose_name=_('Parent Order'), help_text=_('Which order is an older version of this (parent)'))
 
     objects = OrderManager()
+
+    def get_materialtype_sum(self, material_type):
+        amount = OrderItem.objects.filter(order=self, material_type=material_type).aggregate(Sum('amount'))
+        return amount['amount__sum']
 
     def append_missing_subjects(self):
         items = self.get_items()

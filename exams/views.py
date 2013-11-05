@@ -15,7 +15,7 @@ from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.utils.translation import ugettext as _
 
-from exams.models import Examination, Test, Assignment, File, Order, Candidate, CandidateUpload, ExamRegistration, OrderItem
+from exams.models import Examination, Test, Assignment, File, Order, Candidate, CandidateUpload, ExamRegistration, OrderItem, MaterialType
 #from exams.forms import CandidateFormset
 from exams.forms import OrderForm, CandidateForm, OrderFormset, ExamRegistrationFormset, CandidateUploadForm, ExamRegistrationForm, ExamRegistrationHelper, OrderItemHelper
 from django.http import HttpResponseRedirect
@@ -135,7 +135,28 @@ class FileDownloadView(SingleObjectMixin, DownloadView):
         }
 download = FileDownloadView.as_view()
 
+class OrderView(DetailView):
+    model = Order
 
+    def get_object(self):
+        order = Order.objects.get(uuid=self.request.resolver_match.kwargs['order_uuid'])
+        return order        
+
+    def get_context_data(self, **kwargs):
+        from exams.models import Subject
+        context = super(OrderView, self).get_context_data(**kwargs)
+        school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
+        subjects = Subject.objects.all()
+        materials = MaterialType.objects.all()
+        context['school'] = school
+        context['materials'] = materials
+        return context
+
+    # TODO: Verify, that user is allowed to modify orders for this school
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(OrderView, self).dispatch(*args, **kwargs)        
+order = OrderView.as_view()
 
 class OrdersView(ListView):
     model = Order
@@ -145,7 +166,8 @@ class OrdersView(ListView):
         school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
         subjects = Subject.objects.all()
         context['school'] = school
-        context['subjects'] = subjects
+        #context['subjects'] = subjects
+        #context['latest_order'] = 
         return context
 
     def get_queryset(self):

@@ -1,0 +1,91 @@
+{% extends "education/base.html" %}
+{% load i18n %}
+
+{% block title %}{{ object.name }} - {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}<li><a href="{% url "education:schools" %}">{% trans "Schools" %}</a></li>
+<li><a href="{% url "education:school" uuid=school.uuid %}">{{ school.name }}</a></li>
+<li><a href="{% url "education:orders" uuid=school.uuid %}">{% trans "Orders" %}</a></li>
+<li>{% trans "Order" %} {{ object.date }}</li>{% endblock %}
+
+{% block content %}
+<h1>{% trans "Material Order" %} {{ object.date }} <small>{{ school.name }}</small> {% comment %}<a class="btn btn-sm btn-default" href="{% url "education:candidateedit" uuid=school.uuid candidate_uuid=object.uuid %}">{% trans "Edit" %}</a> {% endcomment %}</h1>
+
+<dl>
+    <dt>{% trans "Order Date:" %}</dt>
+        <dd>{{ object.date }}</dd>
+    <dt>{% trans "Site:" %}</dt>
+        <dd>{{ object.site.name }}</dd>
+    <dt>{% trans "By:" %}</dt>
+        <dd>{{ object.created_by }}</dd>
+</dl>
+
+{% with object.get_items as order_items %}
+{% regroup order_items by subject.group as groups %}
+{% for group in groups %}
+<h4>{{ group.grouper.name }}</h4>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th></th>
+            <th colspan="3">{% trans "Amount" %}</th>
+        </tr>
+        <tr>
+            <th>{% trans "Subject" %}</th>
+            {% for m in materials %}
+            <th>{{ m }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% with group.list as item_list %}
+        {% regroup item_list by subject as subjects %}
+        {% for s in subjects %}
+        <tr>
+            <td>{{ s.grouper }}</td>
+            <td style="width: 10%;">{{ s.list }}</td>
+            <td style="width: 10%;">{{ s.list }}</td>
+            <td style="width: 10%;">{{ s.list }}</td>
+        </tr>
+        {% endfor %}
+        {% endwith %}
+    </tbody>
+</table>
+{% endfor %}
+{% comment %}
+{% with object.get_items as order_items %}
+{% regroup order_items by subject.group as subject_list %}
+{% for sg in subject_list %}
+<h4>{{ sg.grouper.name }}</h4>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>{{ sg }}</th>
+            <th colspan="3">{% trans "Amount" %}</th>
+        </tr>
+        <tr>
+            <th>{% trans "Subject" %}</th>
+            <th>{% trans "Written" %}</th>
+            <th>{% trans "Listening" %}</th>
+            <th>{% trans "CD" %}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for s in sg.list %}
+        <tr>
+            <td>{{ s.name }} ({{ s.short}})</td>
+            <td style="width: 10%;">A</td>
+            <td style="width: 10%;">B</td>
+            <td style="width: 10%;">C</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endfor %}
+{% endcomment %}
+
+<h4>{% trans "Additional Details" %}</h4>
+<p>{{ o.additional_details|default:"-" }}</p>
+{% endwith %}
+
+{% endblock %}
