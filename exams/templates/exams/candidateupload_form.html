@@ -6,5 +6,8 @@
 
 {% block content %}
 <h1>{% trans "Upload Candidates" %} <small>{{ school.name }}</small></h1>
+{% blocktrans %}Using this form you can upload list of candidates as XML file, which will be used to pre-fill your order form.{% endblocktrans %}
+
 {% crispy form %}
+
 {% endblock %}
