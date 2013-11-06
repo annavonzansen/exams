@@ -4,6 +4,7 @@ from django.forms import ModelForm
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Reset, Div, Fieldset, Layout, ButtonHolder
 from django.utils.translation import ugettext as _
+from django.forms.widgets import CheckboxSelectMultiple
 
 from exams.models import Order, OrderItem, Candidate, ExamRegistration, CandidateUpload
 from django.forms.models import inlineformset_factory
@@ -49,6 +50,7 @@ class ExamRegistrationForm(ModelForm):
         super(ExamRegistrationForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False
+        self.fields['special_arrangements'].widget = CheckboxSelectMultiple()
 
     class Meta:
         model = ExamRegistration

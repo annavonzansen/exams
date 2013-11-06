@@ -630,6 +630,10 @@ class CandidateUpload(models.Model):
     created = CreationDateTimeField()
     modified = ModificationDateTimeField()
 
+    def process_file(self):
+        site = self.school.get_default_site()
+        order = Order(examination=self.examination, created_by=self.by_user, )
+        items = import_candidates(filename=self.file.path)
 
     # def process_file(self):
     #     stats = {}
@@ -650,7 +654,7 @@ class CandidateUpload(models.Model):
     #         return False
 
     def get_absolute_url(self):
-        return reverse('education:candidates', kwargs={
+        return reverse('education:orders', kwargs={
             'uuid': self.school.uuid,
         })
 
