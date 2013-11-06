@@ -116,6 +116,14 @@ class SubjectGroup(models.Model):
     name = models.CharField(max_length=255, unique=True, verbose_name=_('Name'))
     order = models.PositiveIntegerField(default=100)
 
+    def has_material(self, material_type):
+        subjs = Subject.objects.filter(group=self)
+
+        for s in subjs:
+            if material_type in s.material_types.all():
+                return True
+        return False
+
     def __str__(self):
         return "%s" % self.name
 

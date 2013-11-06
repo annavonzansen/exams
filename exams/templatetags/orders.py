@@ -22,19 +22,22 @@ register = template.Library()
 def order_subject_count(order, subject, material_type):
     if isinstance(order, Order) and isinstance(subject, Subject) and isinstance(material_type, MaterialType):
         return order.get_subject_material_amount(subject=subject, material_type=material_type)
-    else:
-        return None
+    return None
 
 @register.simple_tag
 def order_sg_total(order, subject_group, material_type):
     if isinstance(order, Order) and isinstance(subject_group, SubjectGroup) and isinstance(material_type, MaterialType):
         return order.get_subjectgroup_material_total(subject_group=subject_group, material_type=material_type)
-    else:
-        return None
+    return None
 
 @register.simple_tag
 def order_mt_total(order, material_type):
     if isinstance(order, Order) and isinstance(material_type, MaterialType):
         return order.get_materialtype_total(material_type=material_type)
-    else:
-        return None
+    return None
+
+@register.filter
+def sg_has_material(subject_group, material_type):
+    if isinstance(subject_group, SubjectGroup) and isinstance(material_type, MaterialType):
+        return subject_group.has_material(material_type)
+    return False
