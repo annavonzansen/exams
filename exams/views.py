@@ -166,8 +166,15 @@ class OrdersView(ListView):
         school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
         subjects = Subject.objects.all()
         materials = MaterialType.objects.all()
+
+        current = []
+        sites = school.get_sites()
+        for s in sites:
+            current.append(s.get_latest_order())
+
         context['school'] = school
         context['materials'] = materials
+        context['current_orders'] = current
         return context
 
     def get_queryset(self):
@@ -406,10 +413,7 @@ class CandidateEditView(UpdateWithInlinesView):
         return super(CandidateEditView, self).dispatch(*args, **kwargs)
 candidateedit = CandidateEditView.as_view()        
 
-orders = OrdersView.as_view()
 
-#ordercreate = OrderCreateView.as_view()
-#orderedit = OrderEditView.as_view()
 
 class CandidateUploadView(CreateView):
     model = CandidateUpload
