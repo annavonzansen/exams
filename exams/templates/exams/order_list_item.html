@@ -1,7 +1,7 @@
 {% load i18n %}
 {% load orders %}
     <li class="list-group-item">
-    <a href="{% url "education:order" uuid=school.uuid order_uuid=o.uuid %}">
+    
         <h4 class="list-group-item-heading">{% trans "Order" %} {{ o.date }} <small>{{ o.site }}</small></h4>
         <ul>{% for m in materials %}
             <li><strong>{{ m }}:</strong> {% order_mt_total o m %} {% trans "pcs" %}</li>
@@ -9,5 +9,9 @@
 
         <h4>{% trans "Additional Details" %}</h4>
         <p>{{ o.additional_details|default:"(None)" }}</p>
-    </a>
+    
     </li>
+{% comment %}
+<a href="{% url "education:order" uuid=school.uuid order_uuid=o.uuid %}"></a>
+<a href="{% url "education:orderedit" uuid=school.uuid order_uuid=o.uuid %}" class="btn btn-warning btn-sm">{% trans "Update" %}</a>
+{% endcomment %}

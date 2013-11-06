@@ -10,6 +10,8 @@
 
 {% block content %}
 <h1>{% if object.pk %}{% trans "Edit order" %} {{ object }}{% else %}{% trans "Create new order" %}{% endif %} <small>{{ school.name }}</small></h1>
+{% blocktrans %}Using this form you can order examination materials for your school.{% endblocktrans %}
+
 <form method="post" action="">
     {% csrf_token %}
     {{ form|crispy }}

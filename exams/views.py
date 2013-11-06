@@ -219,6 +219,7 @@ class OrderCreateView(CreateWithInlinesView):
         self.object = form.save()
         for formset in inlines:
             formset.save()
+        messages.info(self.request, _('Order created successfully!'))
         return HttpResponseRedirect(self.get_success_url())
 
     @method_decorator(login_required)
@@ -252,6 +253,8 @@ class OrderEditView(UpdateWithInlinesView):
         self.object = form.save()
         for formset in inlines:
             formset.save()
+
+        messages.info(self.request, _('Order updated successfully!'))
         return HttpResponseRedirect(self.get_success_url())
 
     def get_object(self):
@@ -358,6 +361,7 @@ class CandidateCreateView(CreateWithInlinesView):
         
         for formset in inlines:
             formset.save()
+        messages.success(self.request, _('Candidate added!'))
         return HttpResponseRedirect(self.get_success_url())
 
     # TODO: Require management rights
@@ -381,6 +385,7 @@ class CandidateEditView(UpdateWithInlinesView):
         self.object = form.save()
         for formset in inlines:
             formset.save()
+        messages.success(self.request, _('Candidate updated!'))
         return HttpResponseRedirect(self.get_success_url())
 
     def get_context_data(self, **kwargs):
