@@ -157,7 +157,7 @@ class OrderView(DetailView):
         school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
         if not school.is_manager(self.request.user):
             raise PermissionDenied
-        return super(ManagerView, self).dispatch(*args, **kwargs)     
+        return super(OrderView, self).dispatch(*args, **kwargs)     
 order = OrderView.as_view()
 
 class OrdersView(ListView):
@@ -192,7 +192,7 @@ class OrdersView(ListView):
         school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
         if not school.is_manager(self.request.user):
             raise PermissionDenied
-        return super(ManagerView, self).dispatch(*args, **kwargs)
+        return super(OrdersView, self).dispatch(*args, **kwargs)
 orders = OrdersView.as_view()
 
 class OrderItemInline(InlineFormSet):
@@ -238,7 +238,7 @@ class OrderCreateView(CreateWithInlinesView):
         school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
         if not school.is_manager(self.request.user):
             raise PermissionDenied
-        return super(ManagerView, self).dispatch(*args, **kwargs)
+        return super(OrderCreateView, self).dispatch(*args, **kwargs)
 ordercreate = OrderCreateView.as_view()
 
 class OrderEditView(UpdateWithInlinesView):
@@ -296,7 +296,7 @@ class OrderEditView(UpdateWithInlinesView):
         school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
         if not school.is_manager(self.request.user):
             raise PermissionDenied
-        return super(ManagerView, self).dispatch(*args, **kwargs)
+        return super(UpdateWithInlinesView, self).dispatch(*args, **kwargs)
 orderedit = OrderEditView.as_view()
 
 class CandidatesView(ListView):
@@ -319,7 +319,7 @@ class CandidatesView(ListView):
         school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
         if not school.is_manager(self.request.user):
             raise PermissionDenied
-        return super(ManagerView, self).dispatch(*args, **kwargs)
+        return super(CandidatesView, self).dispatch(*args, **kwargs)
 candidates = CandidatesView.as_view()
 
 class CandidateView(DetailView):
@@ -340,7 +340,7 @@ class CandidateView(DetailView):
         school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
         if not school.is_manager(self.request.user):
             raise PermissionDenied
-        return super(ManagerView, self).dispatch(*args, **kwargs)
+        return super(CandidateView, self).dispatch(*args, **kwargs)
 candidate = CandidateView.as_view()
 
 
@@ -390,7 +390,7 @@ class CandidateCreateView(CreateWithInlinesView):
         school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
         if not school.is_manager(self.request.user):
             raise PermissionDenied
-        return super(ManagerView, self).dispatch(*args, **kwargs)
+        return super(CandidateCreateView, self).dispatch(*args, **kwargs)
 candidatecreate = CandidateCreateView.as_view()
 
 class CandidateEditView(UpdateWithInlinesView):
@@ -428,7 +428,7 @@ class CandidateEditView(UpdateWithInlinesView):
         school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
         if not school.is_manager(self.request.user):
             raise PermissionDenied
-        return super(ManagerView, self).dispatch(*args, **kwargs)
+        return super(CandidateEditView, self).dispatch(*args, **kwargs)
 candidateedit = CandidateEditView.as_view()        
 
 
@@ -471,11 +471,11 @@ class CandidateUploadView(CreateView):
         form.instance.school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
         form.instance.examination = current_examination(self.request)['current_examination']
         return super(CandidateUploadView, self).form_valid(form)
-    
+
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
         if not school.is_manager(self.request.user):
             raise PermissionDenied
-        return super(ManagerView, self).dispatch(*args, **kwargs)
+        return super(CandidateUploadView, self).dispatch(*args, **kwargs)
 candidateupload = CandidateUploadView.as_view()
