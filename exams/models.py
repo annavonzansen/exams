@@ -729,7 +729,11 @@ class OrderManager(models.Manager):
         sites = SchoolSite.objects.filter(school=school)
         return super(OrderManager, self).get_queryset().filter(site__in=sites).order_by('date')
 
-# return super(ExaminationManager, self).get_queryset().filter(Q(registration_begin__lte=now, registration_end__gte=now, registration_status='S') | Q(registration_status='E'))
+    def get_for_site(self, site):
+        return super(OrderManager, self).get_queryset().filter(site=site)
+
+    def get_site_latest(self, site):
+        return self.get_for_site(site).latest('date')
 
 class Order(models.Model):
     uuid = UUIDField(verbose_name='UUID')
