@@ -104,7 +104,8 @@ class ExamRegistrationInline(admin.TabularInline):
 class CandidateAdmin(SimpleHistoryAdmin):
     #list_display = ('identity_number', 'gender', 'candidate_type', 'get_examination', 'get_exams_names', 'get_school_id', 'get_last_updated',)
     list_display = ('identity_number', 'last_name', 'first_names', 'get_examination', 'get_exams_names', 'get_school_id', 'get_last_updated',)
-    list_filter = ('examination', 'gender', 'candidate_type', 'school',)
+    #list_filter = ('examination', 'gender', 'candidate_type', 'school',)
+    list_filter = ('examination', 'school',)
 
     ordering = ('examination', 'school', 'candidate_number',)
     search_fields = ('identity_number', 'candidate_number', 'last_name', 'first_names',)
