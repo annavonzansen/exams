@@ -201,11 +201,11 @@ class OrderCreateView(CreateWithInlinesView):
         context['helper'] = OrderItemHelper()
         return context    
 
-    def get_initial(self):
-        initial = super(OrderCreateView, self).get_initial()
-        school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
-        initial['site'] = school.get_default_site()
-        return initial
+    # def get_initial(self):
+    #     initial = super(OrderCreateView, self).get_initial()
+    #     school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
+    #     initial['site'] = school.get_default_site()
+    #     return initial
 
     def forms_valid(self, form, inlines):
         """
