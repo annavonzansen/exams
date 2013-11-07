@@ -1,16 +1,18 @@
 # -*- coding: utf-8 -*-
+
 from django import forms
 from django.forms import ModelForm
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit, Reset, Div, Fieldset, Layout, ButtonHolder
 from django.utils.translation import ugettext as _
 from django.forms.widgets import CheckboxSelectMultiple
+from django.forms.models import inlineformset_factory
+from django.forms.formsets import formset_factory
+
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Submit, Reset, Div, Fieldset, Layout, ButtonHolder
 
 from exams.models import Order, OrderItem, Candidate, ExamRegistration, CandidateUpload
-from django.forms.models import inlineformset_factory
-# from crispy_extensions.layout import InlineFormSet
-# from crispy_extensions.forms import ModelFormWithFormsets
-from django.forms.formsets import formset_factory
+
+
 class OrderForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(OrderForm, self).__init__(*args, **kwargs)
@@ -62,12 +64,6 @@ class CandidateForm(ModelForm):
         self.helper.form_method = 'post'
         self.helper.form_action = ''
         self.helper.form_tag = False
-
-        # if 'sites' in kwargs:
-        #     self.fields['site'].widget.choices = kwargs['sites']
-        # if self.instance:
-        #     from education.models import SchoolSite
-        #     self.fields['site'].widget.choices = SchoolSite.objects.filter(school=self.instance.site.school)
 
         #self.helper.add_input(Submit('submit', _('Save')))
         #self.helper.add_input(Reset('reset', _('Reset')))

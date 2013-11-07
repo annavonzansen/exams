@@ -267,7 +267,8 @@ class OrderEditView(UpdateWithInlinesView):
         self.object = form.save()
         for formset in inlines:
             formset.save()
-
+        
+        # TODO: Send e-mail confirmation
         messages.info(self.request, _('Order updated successfully!'))
         return HttpResponseRedirect(self.get_success_url())
 
