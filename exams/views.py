@@ -198,6 +198,12 @@ orders = OrdersView.as_view()
 class OrderItemInline(InlineFormSet):
     model = OrderItem
 
+    def get_extra_form_kwargs(self):
+        # TODO: self.object = instance
+        order_items = OrderItem.objects.filter(order=self.object)
+        
+        return {}
+
 class OrderCreateView(CreateWithInlinesView):
     model = Order
     inlines = [OrderItemInline]
@@ -267,7 +273,7 @@ class OrderEditView(UpdateWithInlinesView):
         self.object = form.save()
         for formset in inlines:
             formset.save()
-        
+
         # TODO: Send e-mail confirmation
         messages.info(self.request, _('Order updated successfully!'))
         return HttpResponseRedirect(self.get_success_url())

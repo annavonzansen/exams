@@ -26,6 +26,7 @@ from people.models import Person
 
 
 ORDER_STATUSES = ( # change done at: UPPERCASE = @Matriculation Examination Board, lowercase = @school
+    ('i', _('Initialized (not yet created)')),
     ('c', _('Order Created')),
     ('u', _('Order Updated')),
     ('I', _('In Packaging')),
@@ -758,6 +759,17 @@ class Order(models.Model):
     parent = models.ForeignKey('self', blank=True, null=True, verbose_name=_('Parent Order'), help_text=_('Which order is an older version of this (parent)'))
 
     objects = OrderManager()
+
+    def clone(self):
+        order = Order(site=self.site, created_by=self.created_by, examination=self.examination, content=self.content, status='i', email=self.email, additional_details=self.additional_details, parent=self)
+        ois = []
+        for i in self.get_items():
+            oi = OrderItem(order=order, subject=i.subject, material_type=i.material_type, amount=i.amount)
+            ois.append(oi)
+        return {
+            'order': order,
+            'items': ois,
+        }
 
     def get_materialtype_total(self, material_type):
         amount = OrderItem.objects.filter(order=self, material_type=material_type).aggregate(Sum('amount'))
