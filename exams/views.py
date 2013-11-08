@@ -201,7 +201,7 @@ class OrderItemInline(InlineFormSet):
     def get_extra_form_kwargs(self):
         # TODO: self.object = instance
         order_items = OrderItem.objects.filter(order=self.object)
-        
+
         return {}
 
 class OrderCreateView(CreateWithInlinesView):
@@ -269,6 +269,7 @@ class OrderEditView(UpdateWithInlinesView):
         
         form.instance.examination = Examination.objects.get_latest()
         form.instance.created_by = self.request.user
+        #form.instance.status = 'c'
 
         self.object = form.save()
         for formset in inlines:
