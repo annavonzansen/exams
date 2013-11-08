@@ -615,64 +615,6 @@ class Candidate(Person):
 
         unique_together = (('examination', 'school', 'candidate_number',),)
 
-class CandidateUpload(models.Model):
-    UPLOADED_FILE_CHOICES = (
-        ('U', _('Uploaded')),
-        ('P', _('Processed')),
-        ('A', _('Archived')),
-        ('R', _('Removed')),
-        ('I', _('Invalid')),
-        ('p', _('Permissions failed')),
-    )
-    uuid = UUIDField(verbose_name=_('UUID'))
-    examination = models.ForeignKey(Examination)
-    school = models.ForeignKey('education.School')
-
-    file = models.FileField(upload_to='candidates/%Y%m%d%H%M%S/')
-
-    by_user = models.ForeignKey(settings.AUTH_USER_MODEL)
-
-    status = models.CharField(max_length=1, choices=UPLOADED_FILE_CHOICES, default='U')
-
-    history = HistoricalRecords()
-
-    created = CreationDateTimeField()
-    modified = ModificationDateTimeField()
-
-    def process_file(self):
-        site = self.school.get_default_site()
-        order = Order(examination=self.examination, created_by=self.by_user, )
-        items = import_candidates(filename=self.file.path)
-
-    # def process_file(self):
-    #     stats = {}
-    #     if self.status == 'U':
-    #         if self.by_user in self.school.managers.all():
-    #             try:
-    #                 stats = import_candidates(self.file.path, allowed_schools=[self.school,])
-    #                 self.status = 'P'
-    #             except PermissionDenied:
-    #                 self.status = 'I'
-    #             self.save()
-    #             return stats
-    #         else:
-    #             self.status = 'p'
-    #             self.save()
-    #             return False
-    #     else:
-    #         return False
-
-    def get_absolute_url(self):
-        return reverse('education:orders', kwargs={
-            'uuid': self.school.uuid,
-        })
-
-    def __str__(self):
-        return "%s, %s, %s, %s" % (self.examination, self.school, self.by_user, self.file.path)
-
-# def process_candidateupload(sender, instance, **kwargs):
-#     instance.process_file()
-# post_save.connect(process_candidateupload, sender=CandidateUpload, dispatch_uid='process_candidateupload')
 
 
 class SpecialArrangement(models.Model):
@@ -901,6 +843,67 @@ class OrderItem(models.Model):
         verbose_name = _('Order Item')
         verbose_name_plural = _('Order Items')
         ordering = ('order', 'subject', 'material_type',)
+
+class CandidateUpload(models.Model):
+    UPLOADED_FILE_CHOICES = (
+        ('U', _('Uploaded')),
+        ('P', _('Processed')),
+        ('A', _('Archived')),
+        ('R', _('Removed')),
+        ('I', _('Invalid')),
+        ('p', _('Permissions failed')),
+    )
+    uuid = UUIDField(verbose_name=_('UUID'))
+    examination = models.ForeignKey(Examination)
+    school = models.ForeignKey('education.School')
+
+    file = models.FileField(upload_to='candidates/%Y%m%d%H%M%S/')
+
+    by_user = models.ForeignKey(settings.AUTH_USER_MODEL)
+
+    status = models.CharField(max_length=1, choices=UPLOADED_FILE_CHOICES, default='U')
+    order = models.ForeignKey(Order, blank=True, null=True)
+
+    history = HistoricalRecords()
+
+    created = CreationDateTimeField()
+    modified = ModificationDateTimeField()
+
+    def process_file(self):
+        site = self.school.get_default_site()
+        order = Order(examination=self.examination, created_by=self.by_user, )
+        items = import_candidates(filename=self.file.path)
+
+    # def process_file(self):
+    #     stats = {}
+    #     if self.status == 'U':
+    #         if self.by_user in self.school.managers.all():
+    #             try:
+    #                 stats = import_candidates(self.file.path, allowed_schools=[self.school,])
+    #                 self.status = 'P'
+    #             except PermissionDenied:
+    #                 self.status = 'I'
+    #             self.save()
+    #             return stats
+    #         else:
+    #             self.status = 'p'
+    #             self.save()
+    #             return False
+    #     else:
+    #         return False
+
+    def get_absolute_url(self):
+        return reverse('education:orders', kwargs={
+            'uuid': self.school.uuid,
+        })
+
+    def __str__(self):
+        return "%s, %s, %s, %s" % (self.examination, self.school, self.by_user, self.file.path)
+
+# def process_candidateupload(sender, instance, **kwargs):
+#     instance.process_file()
+# post_save.connect(process_candidateupload, sender=CandidateUpload, dispatch_uid='process_candidateupload')
+
 
 def import_candidates(filename, allowed_schools=None):
     # TODO: Rename function
