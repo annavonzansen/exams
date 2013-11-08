@@ -172,7 +172,10 @@ class OrdersView(ListView):
         current = []
         sites = school.get_sites()
         for s in sites:
-            current.append(s.get_latest_order())
+            try:
+                current.append(s.get_latest_order())
+            except Order.DoesNotExist:
+                pass
 
         context['school'] = school
         context['materials'] = materials
