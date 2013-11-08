@@ -760,7 +760,7 @@ class Order(models.Model):
 
     objects = OrderManager()
 
-    def clone(self):
+    def clone_nosave(self):
         order = Order(site=self.site, created_by=self.created_by, examination=self.examination, content=self.content, status='i', email=self.email, additional_details=self.additional_details, parent=self)
         ois = []
         for i in self.get_items():
@@ -770,6 +770,15 @@ class Order(models.Model):
             'order': order,
             'items': ois,
         }
+
+    def clone(self):
+        data = self.clone_nosave()
+        o = data['order']
+        o.save()
+        for i in data['items']:
+            i.order = o
+        OrderItem.objects.bulk_create(data['items'])
+        return o
 
     def get_materialtype_total(self, material_type):
         amount = OrderItem.objects.filter(order=self, material_type=material_type).aggregate(Sum('amount'))
