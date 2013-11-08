@@ -87,7 +87,7 @@ class CandidateUploadForm(ModelForm):
 
     class Meta:
         model = CandidateUpload
-        exclude = ['by_user', 'status', 'examination', 'school',]
+        exclude = ['by_user', 'status', 'examination', 'school', 'order',]
 
 ExamRegistrationFormset = inlineformset_factory(Candidate, ExamRegistration)
 ExamRegistrationFormset.form = ExamRegistrationForm

@@ -870,9 +870,19 @@ class CandidateUpload(models.Model):
     modified = ModificationDateTimeField()
 
     def process_file(self):
-        site = self.school.get_default_site()
-        order = Order(examination=self.examination, created_by=self.by_user, )
-        items = import_candidates(filename=self.file.path)
+        if self.status == 'U':
+            site = self.school.get_default_site()
+            order = Order(examination=self.examination, created_by=self.by_user, site=site)
+            order.save()
+            items = import_candidates(filename=self.file.path)
+            order.prefill_order(items, append_missing=True)
+            #order.save()
+
+            self.order = order
+            self.status = 'P'
+            self.save()
+            return True
+        return False
 
     # def process_file(self):
     #     stats = {}
@@ -893,16 +903,17 @@ class CandidateUpload(models.Model):
     #         return False
 
     def get_absolute_url(self):
-        return reverse('education:orders', kwargs={
+        return reverse('education:orderedit', kwargs={
             'uuid': self.school.uuid,
+            'order_uuid': self.order.uuid,
         })
 
     def __str__(self):
         return "%s, %s, %s, %s" % (self.examination, self.school, self.by_user, self.file.path)
 
-# def process_candidateupload(sender, instance, **kwargs):
-#     instance.process_file()
-# post_save.connect(process_candidateupload, sender=CandidateUpload, dispatch_uid='process_candidateupload')
+def process_candidateupload(sender, instance, **kwargs):
+    instance.process_file()
+post_save.connect(process_candidateupload, sender=CandidateUpload, dispatch_uid='process_candidateupload')
 
 
 def import_candidates(filename, allowed_schools=None):
