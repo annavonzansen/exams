@@ -284,22 +284,12 @@ class OrderEditView(UpdateWithInlinesView):
 
     def get_object(self):
         old = Order.objects.get(uuid=self.request.resolver_match.kwargs['order_uuid'])
-        old_items = OrderItem.objects.filter(order=old)
-        new = old
-        new.pk = None
-        new.uuid = None
-        new.parent = old
-        new.save()
-
-        old.status = 'u'
-        old.save()
-
-        for i in old_items:
-            new_i = i
-            new_i.pk = None
-            new_i.order = new
-            new_i.save()
-
+        if old.status != 'i':
+            old_items = OrderItem.objects.filter(order=old)
+            new = old.clone()
+        else:
+            new = old
+        
         return new
 
     @method_decorator(login_required)

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-06 17:32+0200\n"
+"POT-Creation-Date: 2013-11-08 11:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: __init__.py:4 models.py:553 models.py:575
+#: __init__.py:4 models.py:554 models.py:576
 msgid "Exams"
 msgstr ""
 
@@ -26,487 +26,491 @@ msgstr ""
 msgid "Export selected objects as CSV file"
 msgstr ""
 
-#: forms.py:21
+#: forms.py:23
 msgid "Save"
 msgstr ""
 
-#: forms.py:22 forms.py:90 templates/exams/candidate_form.html:23
+#: forms.py:24 forms.py:86 templates/exams/candidate_form.html:23
 #: templates/exams/order_form.html:27
 msgid "Reset"
 msgstr ""
 
-#: forms.py:89
+#: forms.py:85
 msgid "Upload"
 msgstr ""
 
 #: models.py:29
-msgid "Order Created"
+msgid "Initialized (not yet created)"
 msgstr ""
 
 #: models.py:30
-msgid "Order Updated"
+msgid "Order Created"
 msgstr ""
 
 #: models.py:31
-msgid "In Packaging"
+msgid "Order Updated"
 msgstr ""
 
 #: models.py:32
-msgid "Packaged"
+msgid "In Packaging"
 msgstr ""
 
 #: models.py:33
+msgid "Packaged"
+msgstr ""
+
+#: models.py:34
 msgid "Order Shipped"
 msgstr ""
 
-#: models.py:37
+#: models.py:38
 msgid "Spring"
 msgstr ""
 
-#: models.py:38
+#: models.py:39
 msgid "Autumn"
 msgstr ""
 
-#: models.py:42
+#: models.py:43
 msgid "Markdown"
 msgstr ""
 
-#: models.py:43
+#: models.py:44
 msgid "HTML"
 msgstr ""
 
-#: models.py:44
+#: models.py:45
 msgid "Plaintext"
 msgstr ""
 
-#: models.py:50
+#: models.py:51
 msgid "Draft"
 msgstr ""
 
-#: models.py:51
+#: models.py:52
 msgid "Final"
 msgstr ""
 
-#: models.py:57
+#: models.py:58
 msgid "Text field"
 msgstr ""
 
-#: models.py:58
+#: models.py:59
 msgid "Textarea"
 msgstr ""
 
-#: models.py:59
+#: models.py:60
 msgid "Select multiple"
 msgstr ""
 
-#: models.py:60
+#: models.py:61
 msgid "Select one"
 msgstr ""
 
-#: models.py:65
+#: models.py:66
 msgid "Long"
 msgstr ""
 
-#: models.py:66
+#: models.py:67
 msgid "Semi"
 msgstr ""
 
-#: models.py:67 models.py:96 models.py:142 models.py:680
+#: models.py:68 models.py:97 models.py:143 models.py:623
 msgid "Short"
 msgstr ""
 
-#: models.py:68
+#: models.py:69
 msgid "Latin, 7th grade"
 msgstr ""
 
-#: models.py:69
+#: models.py:70
 msgid "Latin, high school"
 msgstr ""
 
-#: models.py:73
+#: models.py:74
 msgid "Enabled"
 msgstr ""
 
-#: models.py:74
+#: models.py:75
 msgid "Disabled"
 msgstr ""
 
-#: models.py:75
+#: models.py:76
 msgid "Scheduled"
 msgstr ""
 
-#: models.py:79
+#: models.py:80
 msgid "Real"
 msgstr ""
 
-#: models.py:80
+#: models.py:81
 msgid "Language"
 msgstr ""
 
-#: models.py:81
+#: models.py:82
 msgid "Math"
 msgstr ""
 
-#: models.py:95 models.py:305 models.py:453 models.py:679
+#: models.py:96 models.py:306 models.py:454 models.py:622
 msgid "Title"
 msgstr ""
 
-#: models.py:98
+#: models.py:99
 msgid "One item for X candidates"
 msgstr ""
 
-#: models.py:111 models.py:867
+#: models.py:112 models.py:830
 msgid "Material Type"
 msgstr ""
 
-#: models.py:112 models.py:145 models.py:160
+#: models.py:113 models.py:146 models.py:161
 msgid "Material Types"
 msgstr ""
 
-#: models.py:116 models.py:141
+#: models.py:117 models.py:142
 msgid "Name"
 msgstr ""
 
-#: models.py:134
+#: models.py:135
 msgid "Subject Group"
 msgstr ""
 
-#: models.py:135
+#: models.py:136
 msgid "Subject Groups"
 msgstr ""
 
-#: models.py:144
+#: models.py:145
 msgid "Subject Type"
 msgstr ""
 
-#: models.py:147
+#: models.py:148
 msgid "Group"
 msgstr ""
 
-#: models.py:172 models.py:286 models.py:701 models.py:865 models.py:933
+#: models.py:173 models.py:287 models.py:644 models.py:828 models.py:968
 #: templates/exams/order_detail.html:37
 msgid "Subject"
 msgstr ""
 
-#: models.py:173
+#: models.py:174
 msgid "Subjects"
 msgstr ""
 
-#: models.py:218
+#: models.py:219
 msgid "Registration Begin"
 msgstr ""
 
-#: models.py:218
+#: models.py:219
 msgid ""
 "Date + time when registration begins, ie. when schools can register students "
 "and order materials"
 msgstr ""
 
-#: models.py:219
+#: models.py:220
 msgid "Registration End"
 msgstr ""
 
-#: models.py:219
+#: models.py:220
 msgid ""
 "Date + time when registration begins, ie. when schools can no longer "
 "register students and order materials"
 msgstr ""
 
-#: models.py:220
+#: models.py:221
 msgid "Registration Status"
 msgstr ""
 
-#: models.py:220
+#: models.py:221
 msgid ""
 "Current registration mode. Enabled = schools can register students and order "
 "material, disabled = schools can not register students, scheduled = depends "
 "on registration begin/end times."
 msgstr ""
 
-#: models.py:275 models.py:496 models.py:530 models.py:930
+#: models.py:276 models.py:497 models.py:531 models.py:965
 #: templates/exams/base.html:6 templates/exams/examination_detail.html:10
 msgid "Examination"
 msgstr ""
 
-#: models.py:276 templates/exams/base.html:4
+#: models.py:277 templates/exams/base.html:4
 #: templates/exams/examination_detail.html:5
 #: templates/exams/examination_list.html:4
 #: templates/exams/examination_list.html:7
 msgid "Examinations"
 msgstr ""
 
-#: models.py:293
+#: models.py:294
 msgid "Begin"
 msgstr ""
 
-#: models.py:294
+#: models.py:295
 msgid "End"
 msgstr ""
 
-#: models.py:335
+#: models.py:336
 msgid "Test"
 msgstr ""
 
-#: models.py:336 templates/exams/examination_detail.html:18
+#: models.py:337 templates/exams/examination_detail.html:18
 msgid "Tests"
 msgstr ""
 
-#: models.py:344
+#: models.py:345
 #, python-format
 msgid "AnswerOption %(key)s: %(value)s (%(uuid)s)"
 msgstr ""
 
-#: models.py:351
+#: models.py:352
 msgid "Answer Option"
 msgstr ""
 
-#: models.py:352
+#: models.py:353
 msgid "Answer Options"
 msgstr ""
 
-#: models.py:394
+#: models.py:395
 msgid "-- Select --"
 msgstr ""
 
-#: models.py:420
+#: models.py:421
 #, python-format
 msgid "Assignment %(title)s (%(uuid)s)"
 msgstr ""
 
-#: models.py:426 templates/exams/assignment_detail.html:4
+#: models.py:427 templates/exams/assignment_detail.html:4
 #: templates/exams/assignment_detail.html:9
 msgid "Assignment"
 msgstr ""
 
-#: models.py:427
+#: models.py:428
 msgid "Assignments"
 msgstr ""
 
-#: models.py:447
+#: models.py:448
 msgid "Answer"
 msgstr ""
 
-#: models.py:448
+#: models.py:449
 msgid "Answers"
 msgstr ""
 
-#: models.py:454 models.py:474
+#: models.py:455 models.py:475
 msgid "File"
 msgstr ""
 
-#: models.py:466
+#: models.py:467
 #, python-format
 msgid "File: %(title)s, %(filename)s (%(size)d bytes) (%(uuid)s)"
 msgstr ""
 
-#: models.py:475
+#: models.py:476
 msgid "Files"
 msgstr ""
 
-#: models.py:490 models.py:506
+#: models.py:491 models.py:507
 msgid "Candidate Type"
 msgstr ""
 
-#: models.py:491
+#: models.py:492
 msgid "Candidate Types"
 msgstr ""
 
-#: models.py:502
+#: models.py:503
 msgid "School"
 msgstr ""
 
-#: models.py:503 templates/exams/candidate_list.html:22
+#: models.py:504 templates/exams/candidate_list.html:22
 msgid "Site"
 msgstr ""
 
-#: models.py:503
+#: models.py:504
 msgid "Site in which this student will attend exams."
 msgstr ""
 
-#: models.py:505
+#: models.py:506
 msgid "Candidate Number"
 msgstr ""
 
-#: models.py:505
+#: models.py:506
 msgid "School-specific identification number for candidate (incrementing)"
 msgstr ""
 
-#: models.py:506
+#: models.py:507
 msgid "What sort of candidate this person is?"
 msgstr ""
 
-#: models.py:508
+#: models.py:509
 msgid "Candidate is retrying full exam"
 msgstr ""
 
-#: models.py:508
+#: models.py:509
 msgid "Is candidate starting the examination from begin?"
 msgstr ""
 
-#: models.py:521
+#: models.py:522
 #, python-format
 msgid "%(candidate_number)s / %(school)s"
 msgstr ""
 
-#: models.py:525
+#: models.py:526
 msgid "Candidate ID / School"
 msgstr ""
 
-#: models.py:541
+#: models.py:542
 #, python-format
 msgid "%(last_name)s, %(first_names)s (%(identity_number)s)"
 msgstr ""
 
-#: models.py:547 models.py:582 models.py:612
+#: models.py:548 models.py:583 models.py:613
 #: templates/exams/candidate_list.html:20
 msgid "Candidate"
 msgstr ""
 
-#: models.py:563
+#: models.py:564
 msgid "Last Updated"
 msgstr ""
 
-#: models.py:613 templates/exams/candidate_detail.html:8
+#: models.py:614 templates/exams/candidate_detail.html:8
 #: templates/exams/candidate_form.html:6 templates/exams/candidate_list.html:5
 #: templates/exams/candidate_list.html:8
 msgid "Candidates"
 msgstr ""
 
-#: models.py:619
-msgid "Uploaded"
-msgstr ""
-
-#: models.py:620
-msgid "Processed"
-msgstr ""
-
-#: models.py:621
-msgid "Archived"
-msgstr ""
-
-#: models.py:622
-msgid "Removed"
-msgstr ""
-
-#: models.py:623
-msgid "Invalid"
-msgstr ""
-
-#: models.py:624
-msgid "Permissions failed"
-msgstr ""
-
-#: models.py:626
-msgid "UUID"
-msgstr ""
-
-#: models.py:693
+#: models.py:636
 msgid "Special Arrangement"
 msgstr ""
 
-#: models.py:694 models.py:704
+#: models.py:637 models.py:647
 msgid "Special Arrangements"
 msgstr ""
 
-#: models.py:705 models.py:753 templates/exams/order_detail.html:67
+#: models.py:648 models.py:696 templates/exams/order_detail.html:67
 #: templates/exams/order_list_item.html:10
 msgid "Additional Details"
 msgstr ""
 
-#: models.py:722
+#: models.py:665
 msgid "Exam Registration"
 msgstr ""
 
-#: models.py:723 templates/exams/candidate_form.html:17
+#: models.py:666 templates/exams/candidate_form.html:17
 #: templates/exams/candidate_list.html:21
 msgid "Exam Registrations"
 msgstr ""
 
-#: models.py:740
+#: models.py:683
 msgid "School Site"
 msgstr ""
 
-#: models.py:743
+#: models.py:686
 msgid "Created by"
 msgstr ""
 
-#: models.py:748
+#: models.py:691
 msgid "Order Date"
 msgstr ""
 
-#: models.py:749
+#: models.py:692
 msgid "Status"
 msgstr ""
 
-#: models.py:751
+#: models.py:694
 msgid "E-mail"
 msgstr ""
 
-#: models.py:751
+#: models.py:694
 msgid "E-mail address to which the order confirmation will be sent."
 msgstr ""
 
-#: models.py:758
+#: models.py:701
 msgid "Parent Order"
 msgstr ""
 
-#: models.py:758
+#: models.py:701
 msgid "Which order is an older version of this (parent)"
 msgstr ""
 
-#: models.py:830
+#: models.py:793
 msgid "Order Content"
 msgstr ""
 
-#: models.py:856 templates/exams/order_detail.html:4
+#: models.py:819 templates/exams/order_detail.html:4
 #: templates/exams/order_detail.html:9 templates/exams/order_list_item.html:5
 msgid "Order"
 msgstr ""
 
-#: models.py:857 templates/exams/order_detail.html:8
-#: templates/exams/order_form.html:8 templates/exams/order_list.html:5
-#: templates/exams/order_list.html.py:8
+#: models.py:820 templates/exams/order_detail.html:8
+#: templates/exams/order_form.html:8 templates/exams/order_list.html:6
+#: templates/exams/order_list.html.py:9
 msgid "Orders"
 msgstr ""
 
-#: models.py:866
+#: models.py:829
 msgid "Amount"
 msgstr ""
 
-#: models.py:880
+#: models.py:843
 msgid "Order Item"
 msgstr ""
 
-#: models.py:881
+#: models.py:844
 msgid "Order Items"
 msgstr ""
 
-#: models.py:902
+#: models.py:849
+msgid "Uploaded"
+msgstr ""
+
+#: models.py:850
+msgid "Processed"
+msgstr ""
+
+#: models.py:851
+msgid "Archived"
+msgstr ""
+
+#: models.py:852
+msgid "Removed"
+msgstr ""
+
+#: models.py:853
+msgid "Invalid"
+msgstr ""
+
+#: models.py:854
+msgid "Permissions failed"
+msgstr ""
+
+#: models.py:856
+msgid "UUID"
+msgstr ""
+
+#: models.py:937
 #, python-format
 msgid "Invalid subject %s"
 msgstr ""
 
-#: models.py:935
+#: models.py:970
 msgid "Date"
 msgstr ""
 
-#: models.py:938
+#: models.py:973
 msgid "Packing List"
 msgstr ""
 
-#: views.py:222
+#: views.py:242
 msgid "Order created successfully!"
 msgstr ""
 
-#: views.py:257
+#: views.py:282
 msgid "Order updated successfully!"
 msgstr ""
 
-#: views.py:364
+#: views.py:396
 msgid "Candidate added!"
 msgstr ""
 
-#: views.py:388
+#: views.py:422
 msgid "Candidate updated!"
 msgstr ""
 
@@ -667,19 +671,19 @@ msgstr ""
 msgid "Tests and CDs to be ordered"
 msgstr ""
 
-#: templates/exams/order_list.html:12
+#: templates/exams/order_list.html:13
 msgid "List of Orders"
 msgstr ""
 
-#: templates/exams/order_list.html:12
+#: templates/exams/order_list.html:13
 msgid "Create new"
 msgstr ""
 
-#: templates/exams/order_list.html:12
+#: templates/exams/order_list.html:13
 msgid "Pre-fill order with XML file"
 msgstr ""
 
-#: templates/exams/order_list.html:14
+#: templates/exams/order_list.html:15
 #, python-format
 msgid ""
 "Below is a list of all material orders in <a href=\"%(school_url)s\">"
@@ -687,34 +691,46 @@ msgid ""
 "total of %(total)s orders."
 msgstr ""
 
-#: templates/exams/order_list.html:16
+#: templates/exams/order_list.html:17
 msgid "Current Orders"
 msgstr ""
 
-#: templates/exams/order_list.html:16 templates/exams/order_list.html.py:31
+#: templates/exams/order_list.html:17 templates/exams/order_list.html.py:30
 msgid "Need fancy description here."
 msgstr ""
 
-#: templates/exams/order_list.html:18
+#: templates/exams/order_list.html:19
 msgid "Below are current orders. Click to view details."
 msgstr ""
 
-#: templates/exams/order_list.html:28
+#: templates/exams/order_list.html:27
 msgid "No current orders."
 msgstr ""
 
-#: templates/exams/order_list.html:31
+#: templates/exams/order_list.html:30
 msgid "Previous Orders"
 msgstr ""
 
-#: templates/exams/order_list.html:32
+#: templates/exams/order_list.html:31
 msgid "Remove this? Distracts user..."
 msgstr ""
 
-#: templates/exams/order_list.html:42
+#: templates/exams/order_list.html:36
+msgid "to site"
+msgstr ""
+
+#: templates/exams/order_list.html:36
+msgid "by"
+msgstr ""
+
+#: templates/exams/order_list.html:39 templates/exams/order_list_item.html:7
+msgid "pcs"
+msgstr ""
+
+#: templates/exams/order_list.html:47
 msgid "No previous orders."
 msgstr ""
 
-#: templates/exams/order_list_item.html:7
-msgid "pcs"
+#: templates/exams/order_list_item.html:5
+msgid "Update Order"
 msgstr ""
