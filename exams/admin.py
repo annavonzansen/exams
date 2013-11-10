@@ -53,6 +53,13 @@ class OrderAdmin(SimpleHistoryAdmin):
     ]
     actions = [export_as_csv_action('CSV Export',)]
 
+    def queryset(self, request):
+        qs = Order.objects.get_active_orders()
+        ordering = self.get_ordering(request)
+        if ordering:
+            qs = qs.order_by(*ordering)
+        return qs
+
 admin.site.register(Order, OrderAdmin)
 
 class AssignmentInline(admin.TabularInline):

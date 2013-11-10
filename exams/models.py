@@ -34,6 +34,8 @@ ORDER_STATUSES = ( # change done at: UPPERCASE = @Matriculation Examination Boar
     ('S', _('Order Shipped')),
 )
 
+ORDER_ACTIVE_STATUSES = ('c', 'I', 'P', 'S')
+
 EXAMINATION_SEASON_CHOICES = (
     ('K', _('Spring')),
     ('S', _('Autumn')),
@@ -693,6 +695,9 @@ class OrderManager(models.Manager):
 
     def get_site_latest(self, site):
         return self.get_for_site(site).latest('date')
+
+    def get_active_orders(self):
+        return super(OrderManager, self).get_queryset().filter(status__in=ORDER_ACTIVE_STATUSES)
 
 class Order(models.Model):
     uuid = UUIDField(verbose_name='UUID')
