@@ -9,7 +9,7 @@
 
 
 {% block content %}
-<h1>{% trans "List of Candidates with Special Arrangements" %} <small>{{ school.name }}</small> <a href="{% url "education:candidatecreate" uuid=school.uuid %}" class="btn btn-success">{% trans "Add new" %}</a></h1>
+<h1>{% trans "Special Arrangements" %} <small>{{ school.name }}</small> <a href="{% url "education:candidatecreate" uuid=school.uuid %}" class="btn btn-success">{% trans "Add new" %}</a></h1>
 {% url "education:school" uuid=school.uuid as school_url %}
 <p>{% blocktrans with school_name=school.name examination=current_examination total=object_list|count %}Below is a list of all candidates in <a href="{{ school_url }}">{{ school_name }}</a>, registered for examination <strong>{{ examination }}</strong>, who need special arrangements . A total of {{ total }} candidates.{% endblocktrans %}</p>
 
