@@ -3,7 +3,10 @@
 from exams.models import Examination
 
 def current_examination(request):
-    current = Examination.objects.get_latest()
+    try:
+        current = Examination.objects.get_latest()
+    except Examination.DoesNotExist:
+        current = None
 
     return {
         'current_examination': current,

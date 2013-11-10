@@ -197,11 +197,23 @@ class ExaminationManager(models.Manager):
     def get_active(self):
         """Returns currently active examinations"""
         now = datetime.datetime.utcnow().replace(tzinfo=utc)
-        return super(ExaminationManager, self).get_queryset().filter(Q(registration_begin__lte=now, registration_end__gte=now, registration_status='S') | Q(registration_status='E'))
+        return super(ExaminationManager, self).get_queryset().filter(Q(registration_begin__lte=now, registration_end__gte=now, registration_status='S') | Q(registration_status='E')).order_by('registration_status', 'registration_begin', '-registration_end')
 
     def get_latest(self):
         """Returns latest examination ("current"), determined by which has latest registration_begin time and is currently active"""
         return self.get_active().latest('registration_begin')
+
+    def get_next_active(self):
+        """If examination is currently active, return it, else return the next examination which is scheduled to begin"""
+        now = datetime.datetime.utcnow().replace(tzinfo=utc)
+        next = super(ExaminationManager, self).get_queryset().filter(Q(registration_begin__gte=now, registration_end__gte=now, registration_status='S') | Q(registration_begin__lte=now, registration_end__gte=now, registration_status='S') | Q(registration_status='E')).order_by('registration_status', 'registration_begin', '-registration_end')
+        #next = self.get_active()
+
+        if len(next) >= 1:
+            return next[0]
+        elif len(next) == 0:
+            return None
+        return next
 
 class Examination(models.Model):
     """Examination
@@ -222,6 +234,16 @@ class Examination(models.Model):
     
     history = HistoricalRecords()
     objects = ExaminationManager()
+
+    def is_active(self):
+        """Is registration for this examination currently active?"""
+        now = datetime.datetime.utcnow().replace(tzinfo=utc)
+
+        if self.registration_status == 'E':
+            return True
+        elif self.registration_status == 'S' and self.registration_begin <= now and self.registration_end >= now:
+            return True
+        return False
     
     def get_absolute_url(self):
         return reverse('exams:examination', kwargs={
@@ -233,13 +255,7 @@ class Examination(models.Model):
 
     def is_registration_enabled(self):
         # TODO: Deprecated
-        if self.registration_status == 'E':
-            return True
-        elif self.registration_status == 'S':
-            now = datetime.datetime.utcnow().replace(tzinfo=utc)
-            if self.registration_begin <= now and self.registration_end >= now:
-                return True
-        return False
+        return self.is_active()
 
     @property
     def begin(self):
