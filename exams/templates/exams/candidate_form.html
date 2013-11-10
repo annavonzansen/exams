@@ -3,7 +3,7 @@
 {% load crispy_forms_tags %}
 
 {% block breadcrumb %}{{ block.super }}
-<li><a href="{% url "education:candidates" uuid=school.uuid %}">{% trans "Candidates" %}</a></li>
+<li><a href="{% url "education:candidates" uuid=school.uuid %}">{% trans "Special Arrangements" %}</a></li>
 <li>{% if object.pk %}{% trans "Edit candidate" %} {{ object }}{% else %}{% trans "Create new candidate" %}{% endif %}</li>{% endblock %}
 
 {% block content %}

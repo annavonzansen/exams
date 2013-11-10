@@ -5,7 +5,7 @@
 
 {% block breadcrumb %}<li><a href="{% url "education:dashboard" %}">{% trans "Education" %}</a></li><li><a href="{% url "education:schools" %}">{% trans "Schools" %}</a></li>
 <li><a href="{% url "education:school" uuid=school.uuid %}">{{ school.name }}</a></li>
-<li><a href="{% url "education:candidates" uuid=school.uuid %}">{% trans "Candidates" %}</a></li>
+<li><a href="{% url "education:candidates" uuid=school.uuid %}">{% trans "Special Arrangements" %}</a></li>
 <li><a href="">{{ object.name }}</a></li>{% endblock %}
 
 {% block content %}
