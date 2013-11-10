@@ -46,19 +46,19 @@ class OrderItemInline(admin.TabularInline):
     model = OrderItem
 
 class OrderAdmin(SimpleHistoryAdmin):
-    list_display = ('date', 'uuid', 'site', 'examination', 'get_order_text', 'status', 'created_by')
+    list_display = ('date', 'uuid', 'site', 'examination', 'status', 'created_by')
     list_filter = ('examination', 'status',)
     inlines = [
         OrderItemInline,
     ]
     actions = [export_as_csv_action('CSV Export',)]
 
-    def queryset(self, request):
-        qs = Order.objects.get_active_orders()
-        ordering = self.get_ordering(request)
-        if ordering:
-            qs = qs.order_by(*ordering)
-        return qs
+    # def queryset(self, request):
+    #     qs = Order.objects.get_active_orders()
+    #     ordering = self.get_ordering(request)
+    #     if ordering:
+    #         qs = qs.order_by(*ordering)
+    #     return qs
 
 admin.site.register(Order, OrderAdmin)
 
@@ -110,7 +110,7 @@ class ExamRegistrationInline(admin.TabularInline):
 
 class CandidateAdmin(SimpleHistoryAdmin):
     #list_display = ('identity_number', 'gender', 'candidate_type', 'get_examination', 'get_exams_names', 'get_school_id', 'get_last_updated',)
-    list_display = ('identity_number', 'last_name', 'first_names', 'get_examination', 'get_exams_names', 'get_school_id', 'get_last_updated',)
+    list_display = ('last_name', 'first_names', 'candidate_number', 'get_examination', 'get_exams_names', 'get_school_id', 'get_last_updated',)
     #list_filter = ('examination', 'gender', 'candidate_type', 'school',)
     list_filter = ('examination', 'school',)
 
