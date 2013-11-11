@@ -708,7 +708,7 @@ class OrderManager(models.Manager):
         return super(OrderManager, self).get_queryset().filter(site__in=sites).order_by('date')
 
     def get_for_site(self, site):
-        return super(OrderManager, self).get_queryset().filter(site=site)
+        return super(OrderManager, self).get_queryset().filter(site=site, status__in=ORDER_ACTIVE_STATUSES)
 
     def get_site_latest(self, site):
         return self.get_for_site(site).latest('date')
