@@ -5,7 +5,7 @@
 {% block breadcrumb %}{{ block.super }}
     {% comment %}<li><a href="{% url "education:candidates" uuid=school.uuid %}">{% trans "Candidates" %}</a></li>{% endcomment %}
     <li><a href="{% url "education:orders" uuid=school.uuid %}">{% trans "Orders" %}</a></li>
-    <li>{% if object.pk %}{% trans "Edit order" %} {{ object }}{% else %}{% trans "Create new order" %}{% endif %}</li>
+    <li>{% if object.pk and object.status != 'i' %}{% trans "Edit order" %} {{ object }}{% else %}{% trans "Create new order" %}{% endif %}</li>
 {% endblock %}
 
 {% block content %}
