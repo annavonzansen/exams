@@ -17,7 +17,7 @@
     <dt>{% trans "Site:" %}</dt>
         <dd>{{ object.site.name }}</dd>
     <dt>{% trans "By:" %}</dt>
-        <dd>{{ object.created_by }}</dd>
+        <dd>{{ object.created_by }}, <small>{% trans "order confirmation sent to" %} {{ object.email|default:"-" }}</small></dd>
 </dl>
 
 <h2>{% trans "Order Details" %}</h2>
