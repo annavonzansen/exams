@@ -286,6 +286,9 @@ class OrderEditView(UpdateWithInlinesView):
         old = Order.objects.get(uuid=self.request.resolver_match.kwargs['order_uuid'])
         if old.status == 'i':
             old.status = 'c'
+            if old.parent:
+                old.parent.status = 'u'
+                old.parent.save()
             return old
         new = old.clone()
         return new
