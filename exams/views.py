@@ -352,11 +352,13 @@ class ExamRegistrationInline(InlineFormSet):
     form_class = ExamRegistrationForm
     extra = 0
 
+# TODO: Convert to UpdateWithInlinesView
 class CandidateCreateView(CreateWithInlinesView):
     model = Candidate
     inlines = [ExamRegistrationInline]
     fields = ['last_name', 'first_names', 'candidate_number', 'site',]
     form_class = CandidateForm
+    extra = 0
 
     def get_initial(self):
         initial = super(CandidateCreateView, self).get_initial()
@@ -388,6 +390,7 @@ class CandidateCreateView(CreateWithInlinesView):
         messages.success(self.request, _('Candidate added!'))
         return HttpResponseRedirect(self.get_success_url())
 
+    # TODO: Create new candidate, create registration template
     # def get_object(self):
     #     examination = current_examination(self.request)['current_examination']
     #     school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
