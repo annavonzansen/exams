@@ -23,6 +23,8 @@
     {% endfor %}
     {{ inlines.management_form|crispy }}
 
+    <p><strong>{% blocktrans %}Note: Order will replace previous orders for selected site when submitted.{% endblocktrans %}</strong></p>
+
     <p><input type="submit" value="{% trans "Submit" %}" class="btn btn-success"/> <input type="reset" value="{% trans "Reset" %}" class="btn btn-danger"/></p>
 
 </form>
