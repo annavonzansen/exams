@@ -36,7 +36,7 @@ class OrderItemHelper(FormHelper):
         #self.add_input(Submit("submit", "Save"))
         self.render_required_fields = True
         self.form_tag = False
-        self.template = 'bootstrap/table_inline_formset.html'    
+        self.template = 'bootstrap3/table_inline_formset.html'    
 
 class ExamRegistrationHelper(FormHelper):
     def __init__(self, *args, **kwargs):
@@ -45,7 +45,7 @@ class ExamRegistrationHelper(FormHelper):
         #self.add_input(Submit("submit", "Save"))
         self.render_required_fields = True
         self.form_tag = False
-        self.template = 'bootstrap/table_inline_formset.html'
+        self.template = 'bootstrap3/table_inline_formset.html'
 
 class ExamRegistrationForm(ModelForm):
     def __init__(self, *args, **kwargs):

@@ -12,8 +12,8 @@
 <h1>{% if object.pk %}{% trans "Edit order" %} {{ object.date }}{% else %}{% trans "Create new order" %}{% endif %} <small>{{ school.name }}</small></h1>
 {% blocktrans %}Using this form you can order examination materials for your school.{% endblocktrans %}
 
-<form method="post" action="">
-    {% csrf_token %}
+<form method="post" action="{% url "education:orderedit" uuid=school.uuid order_uuid=object.uuid %}">
+    
     {{ form|crispy }}
     {% for i in inlines %}
     <fieldset>

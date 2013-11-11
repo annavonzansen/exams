@@ -532,6 +532,23 @@ class Candidate(Person):
     #created = CreationDateTimeField()
     #modified = ModificationDateTimeField()
 
+    def get_items(self):
+        items = ExamRegistration.objects.filter(candidate=self)
+        return items
+
+    def append_missing_registrations(self):
+        items = self.get_items()
+        subjs = [i.subject.pk for i in items]
+        missing = Subject.objects.exclude(pk__in=subjs)
+
+        items = []
+        for m in missing:
+            for mt in m.material_types.all():
+                item = ExamRegistration(candidate=self, subject=m)
+                items.append(item)
+        ExamRegistration.objects.bulk_create(items)
+        return len(items)
+
     def add_registration(self, subject):
         er = ExamRegistration.objects.get_or_create(candidate=self, subject=subject)
         return True

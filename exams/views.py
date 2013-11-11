@@ -200,18 +200,14 @@ orders = OrdersView.as_view()
 
 class OrderItemInline(InlineFormSet):
     model = OrderItem
-
-    def get_extra_form_kwargs(self):
-        # TODO: self.object = instance
-        order_items = OrderItem.objects.filter(order=self.object)
-
-        return {}
+    extra = 0
 
 class OrderCreateView(UpdateWithInlinesView):
     model = Order
     inlines = [OrderItemInline]
     form_class = OrderForm
     fields = ['site', 'email', 'additional_details',]
+    extra = 0
 
     def get_context_data(self, **kwargs):
         context = super(OrderCreateView, self).get_context_data(**kwargs)
@@ -219,13 +215,7 @@ class OrderCreateView(UpdateWithInlinesView):
         context['school'] = school
         context['form'].fields['site'].queryset = SchoolSite.objects.filter(school=school)
         context['helper'] = OrderItemHelper()
-        return context    
-
-    # def get_initial(self):
-    #     initial = super(OrderCreateView, self).get_initial()
-    #     school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
-    #     initial['site'] = school.get_default_site()
-    #     return initial
+        return context
 
     def forms_valid(self, form, inlines):
         """
@@ -236,10 +226,7 @@ class OrderCreateView(UpdateWithInlinesView):
         form.instance.examination = Examination.objects.get_latest()
         form.instance.created_by = self.request.user
 
-
         self.object = form.save()
-        #self.object.status = 'c'
-        #self.object.save()
 
         for formset in inlines:
             formset.save()
@@ -297,14 +284,12 @@ class OrderEditView(UpdateWithInlinesView):
 
     def get_object(self):
         old = Order.objects.get(uuid=self.request.resolver_match.kwargs['order_uuid'])
-        if old.status != 'i':
-            old_items = OrderItem.objects.filter(order=old)
-            new = old.clone()
-        else:
-            new = old
-        
+        if old.status == 'i':
+            old.status = 'c'
+            return old
+        new = old.clone()
         return new
-
+        
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
@@ -362,11 +347,12 @@ candidate = CandidateView.as_view()
 class ExamRegistrationInline(InlineFormSet):
     model = ExamRegistration
     form_class = ExamRegistrationForm
+    extra = 0
 
 class CandidateCreateView(CreateWithInlinesView):
     model = Candidate
     inlines = [ExamRegistrationInline]
-    fields = ['last_name', 'first_names', 'identity_number', 'candidate_number', 'candidate_type', 'retrying', 'site',]
+    fields = ['last_name', 'first_names', 'candidate_number', 'site',]
     form_class = CandidateForm
 
     def get_initial(self):
@@ -398,6 +384,15 @@ class CandidateCreateView(CreateWithInlinesView):
             formset.save()
         messages.success(self.request, _('Candidate added!'))
         return HttpResponseRedirect(self.get_success_url())
+
+    # def get_object(self):
+    #     examination = current_examination(self.request)['current_examination']
+    #     school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
+    #     candidate = Candidate(examination=examination, school=school)
+    #     candidate.save()
+    #     candidate.append_missing_registrations()
+    #     #candidate = Candidate.objects.get(uuid=self.request.resolver_match.kwargs['candidate_uuid'])
+    #     return candidate
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
