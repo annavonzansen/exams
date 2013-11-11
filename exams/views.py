@@ -207,7 +207,7 @@ class OrderItemInline(InlineFormSet):
 
         return {}
 
-class OrderCreateView(CreateWithInlinesView):
+class OrderCreateView(UpdateWithInlinesView):
     model = Order
     inlines = [OrderItemInline]
     form_class = OrderForm
@@ -236,11 +236,24 @@ class OrderCreateView(CreateWithInlinesView):
         form.instance.examination = Examination.objects.get_latest()
         form.instance.created_by = self.request.user
 
+
         self.object = form.save()
+        #self.object.status = 'c'
+        #self.object.save()
+
         for formset in inlines:
             formset.save()
         messages.info(self.request, _('Order created successfully!'))
         return HttpResponseRedirect(self.get_success_url())
+
+    def get_object(self):
+        examination = current_examination(self.request)['current_examination']
+        school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
+        site = school.get_default_site()
+        new = Order(created_by=self.request.user, examination=examination, status='i', site=site)
+        new.save()
+        new.append_missing_subjects()
+        return new
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
