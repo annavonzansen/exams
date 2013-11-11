@@ -2,6 +2,10 @@
 {% load i18n %}
 {% load crispy_forms_tags %}
 
+{% block title %}
+{% if object.pk and object.status != 'i' %}{% trans "Edit order" %} {{ object }}{% else %}{% trans "Create new order" %}{% endif %}
+{% endblock %}
+
 {% block breadcrumb %}{{ block.super }}
     {% comment %}<li><a href="{% url "education:candidates" uuid=school.uuid %}">{% trans "Candidates" %}</a></li>{% endcomment %}
     <li><a href="{% url "education:orders" uuid=school.uuid %}">{% trans "Orders" %}</a></li>

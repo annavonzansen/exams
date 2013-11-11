@@ -25,16 +25,19 @@ from django.db.models.signals import post_save
 from people.models import Person
 
 
-ORDER_STATUSES = ( # change done at: UPPERCASE = @Matriculation Examination Board, lowercase = @school
-    ('i', _('Initialized (not yet created)')),
+ORDER_STATUS_INITIALIZED = 'i'
+ORDER_STATUS_UPDATED = 'u'
+ORDER_STATUS_CREATED = 'c'
+ORDER_STATUSES = ( # __in queryset filter is case insensitive, can't use same letter twice...
+    (ORDER_STATUS_INITIALIZED, _('Initialized (not yet created)')),
     ('c', _('Order Created')),
     ('u', _('Order Updated')),
-    ('I', _('In Packaging')),
+    ('N', _('In Packaging')),
     ('P', _('Packaged')),
     ('S', _('Order Shipped')),
 )
 
-ORDER_ACTIVE_STATUSES = ('c', 'I', 'P', 'S')
+ORDER_ACTIVE_STATUSES = (ORDER_STATUS_CREATED, 'N', 'P', 'S')
 
 EXAMINATION_SEASON_CHOICES = (
     ('K', _('Spring')),
@@ -707,14 +710,17 @@ class OrderManager(models.Manager):
         sites = SchoolSite.objects.filter(school=school)
         return super(OrderManager, self).get_queryset().filter(site__in=sites).order_by('date')
 
-    def get_for_site(self, site):
-        return super(OrderManager, self).get_queryset().filter(site=site, status__in=ORDER_ACTIVE_STATUSES)
-
-    def get_site_latest(self, site):
-        return self.get_for_site(site).latest('date')
+    #def get_for_site(self, site):
+    #    return super(OrderManager, self).get_queryset().filter(site=site, status__in=ORDER_ACTIVE_STATUSES)
 
     def get_active_orders(self):
         return super(OrderManager, self).get_queryset().filter(status__in=ORDER_ACTIVE_STATUSES)
+
+    def get_for_site(self, site):
+        return self.get_active_orders().filter(site=site)
+
+    def get_site_latest(self, site):
+        return self.get_for_site(site).latest('date')
 
 class Order(models.Model):
     uuid = UUIDField(verbose_name='UUID')
@@ -727,7 +733,7 @@ class Order(models.Model):
     content = models.TextField(blank=True, null=True, editable=False) # order, as JSON. serialized objects [school, schoolsite, students, amounts, who created, ...]
 
     date = models.DateTimeField(auto_now_add=True, verbose_name=_('Order Date'))
-    status = models.CharField(max_length=2, choices=ORDER_STATUSES, default='c', verbose_name=_('Status'))
+    status = models.CharField(max_length=2, choices=ORDER_STATUSES, default=ORDER_STATUS_CREATED, verbose_name=_('Status'))
 
     email = models.EmailField(verbose_name=_('E-mail'), help_text=_('E-mail address to which the order confirmation will be sent.'))
 

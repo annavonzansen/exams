@@ -15,7 +15,7 @@ from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.utils.translation import ugettext as _
 
-from exams.models import Examination, Test, Assignment, File, Order, Candidate, CandidateUpload, ExamRegistration, OrderItem, MaterialType
+from exams.models import Examination, Test, Assignment, File, Order, Candidate, CandidateUpload, ExamRegistration, OrderItem, MaterialType, ORDER_STATUS_INITIALIZED, ORDER_STATUS_CREATED, ORDER_STATUS_UPDATED
 #from exams.forms import CandidateFormset
 from exams.forms import OrderForm, CandidateForm, OrderFormset, ExamRegistrationFormset, CandidateUploadForm, ExamRegistrationForm, ExamRegistrationHelper, OrderItemHelper
 from django.http import HttpResponseRedirect
@@ -237,7 +237,7 @@ class OrderCreateView(UpdateWithInlinesView):
         examination = current_examination(self.request)['current_examination']
         school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
         site = school.get_default_site()
-        new = Order(created_by=self.request.user, examination=examination, status='i', site=site)
+        new = Order(created_by=self.request.user, examination=examination, status=ORDER_STATUS_INITIALIZED, site=site)
         new.save()
         new.append_missing_subjects()
         return new
@@ -284,10 +284,10 @@ class OrderEditView(UpdateWithInlinesView):
 
     def get_object(self):
         old = Order.objects.get(uuid=self.request.resolver_match.kwargs['order_uuid'])
-        if old.status == 'i':
-            old.status = 'c'
+        if old.status == ORDER_STATUS_INITIALIZED:
+            old.status = ORDER_STATUS_CREATED
             if old.parent:
-                old.parent.status = 'u'
+                old.parent.status = ORDER_STATUS_UPDATED
                 old.parent.save()
             return old
         new = old.clone()
