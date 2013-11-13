@@ -516,6 +516,8 @@ class CandidateType(models.Model):
         verbose_name = _('Candidate Type')
         verbose_name_plural = _('Candidate Types')
 
+class CandidateManager(models.Manager):
+    pass
 
 class Candidate(Person):
     #uuid = UUIDField(verbose_name='UUID')
@@ -534,6 +536,8 @@ class Candidate(Person):
     retrying = models.BooleanField(default=False, verbose_name=_('Candidate is retrying full exam'), help_text=_('Is candidate starting the examination from begin?'))
 
     status = models.CharField(max_length=1, choices=CANDIDATE_STATUS_CHOICES, editable=False, default='c')
+
+    objects = CandidateManager()
     # TODO: Validate identity number
     # TODO: Gender from identity number
     # TODO: Age
