@@ -26,7 +26,7 @@
     {% for object in object_list %}
         <tr>
             <td><strong><a href="{% url "education:candidateedit" uuid=school.uuid candidate_uuid=object.uuid %}">{{ object }}</a></strong><br/>
-            {{ object.candidate_type }}
+            
             </td>
             <td><ul>{% for e in object.get_exams %}
             {% if e.special_arrangements.all %}
