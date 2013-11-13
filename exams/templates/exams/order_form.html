@@ -66,7 +66,7 @@
 
             {% if oi.subject|subject_has_material:oi.material_type %}
                 <td style="width: 10%;">
-                    <input type="number" min="0" size="4" name="orderitem_set-{{ forloop.counter0 }}-amount" value="{% order_subject_count object oi.subject oi.material_type %}" class="numberinput form-control form-control"/>
+                    <input type="number" min="0"{% if oi.material_type.max_amount > 0 %}max={{ oi.material_type.max_amount }}{% endif %} size="4" name="orderitem_set-{{ forloop.counter0 }}-amount" value="{% order_subject_count object oi.subject oi.material_type %}" class="numberinput form-control form-control"/>
                     <input type="hidden" name="orderitem_set-{{ forloop.counter0 }}-id" value="{{ oi.pk }}"/>
                     <input type="hidden" name="orderitem_set-{{ forloop.counter0 }}-subject" value="{{ oi.subject.pk }}"/>
                     <input type="hidden" name="orderitem_set-{{ forloop.counter0 }}-material_type" value="{{ oi.material_type.pk }}"/>
