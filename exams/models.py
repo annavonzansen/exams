@@ -153,6 +153,12 @@ class SubjectGroup(models.Model):
         verbose_name_plural = _('Subject Groups')
         ordering = ('order', 'name')
 
+class SubjectManager(models.Manager):
+    def has_listening(self): # TODO
+        mts_uuids = ['ece9c8df-6c0b-435e-896a-01256ef29614']
+        mts = MaterialType.objects.filter(uuid__in=mts_uuids)
+        return super(SubjectManager, self).get_queryset().filter(material_types=mts)
+
 class Subject(models.Model):
     """Subject"""
     uuid = UUIDField(verbose_name='UUID')
@@ -166,6 +172,7 @@ class Subject(models.Model):
 
     history = HistoricalRecords()
 
+    objects = SubjectManager()
 
     created = CreationDateTimeField()
     modified = ModificationDateTimeField()
@@ -801,6 +808,11 @@ class Order(models.Model):
 
     objects = OrderManager()
     active = OrderActiveManager()
+
+    def get_material_counts(self): # TODO
+        #listening = Subject.objects.filter(material_types)
+        items = self.get_items()
+        pass
 
     def clone_nosave(self):
         order = Order(site=self.site, created_by=self.created_by, examination=self.examination, content=self.content, status=ORDER_STATUS_INITIALIZED, email=self.email, additional_details=self.additional_details, parent=self)
