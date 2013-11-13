@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-13 07:44+0200\n"
+"POT-Creation-Date: 2013-11-13 07:57+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -716,12 +716,14 @@ msgstr ""
 msgid "Current Orders"
 msgstr ""
 
-#: templates/exams/order_list.html:17 templates/exams/order_list.html.py:30
-msgid "Need fancy description here."
+#: templates/exams/order_list.html:17
+msgid "Orders that will be delivered"
 msgstr ""
 
 #: templates/exams/order_list.html:19
-msgid "Below are current orders. Click to view details."
+msgid ""
+"Below are current orders, maximum is one per site. Click order date to view "
+"details."
 msgstr ""
 
 #: templates/exams/order_list.html:27
@@ -732,8 +734,15 @@ msgstr ""
 msgid "Previous Orders"
 msgstr ""
 
+#: templates/exams/order_list.html:30
+msgid "No longer active orders, which have been superseded by other orders"
+msgstr ""
+
 #: templates/exams/order_list.html:31
-msgid "Remove this? Distracts user..."
+msgid ""
+"Below is list of previous orders, which have been superseded by other "
+"orders. These orders will not be delivered, see \"current orders\" for "
+"orders that will be delivered. Click order date for details."
 msgstr ""
 
 #: templates/exams/order_list.html:36

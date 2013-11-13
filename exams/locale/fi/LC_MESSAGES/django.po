@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: exams 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-13 07:44+0200\n"
+"POT-Creation-Date: 2013-11-13 07:57+0200\n"
 "PO-Revision-Date: 2013-11-11 16:51+0200\n"
 "Last-Translator: Pia Jouhki <pia.jouhki@ylioppilastutkinto.fi>\n"
 "Language-Team: FINNISH <digabi@ylioppilastutkinto.fi>\n"
@@ -741,14 +741,15 @@ msgstr ""
 msgid "Current Orders"
 msgstr "Voimassaolevat tilaukset"
 
-#: templates/exams/order_list.html:17 templates/exams/order_list.html.py:30
-msgid "Need fancy description here."
+#: templates/exams/order_list.html:17
+msgid "Orders that will be delivered"
 msgstr ""
-"Jokaiselle kokeen suorituspaikalle on aktiivisena viimeisin tilaus. Vanhat "
-"tilaukset on listattuna alla."
 
 #: templates/exams/order_list.html:19
-msgid "Below are current orders. Click to view details."
+#, fuzzy
+msgid ""
+"Below are current orders, maximum is one per site. Click order date to view "
+"details."
 msgstr ""
 "Alla on luettelo nykyisistä tilauksista. Klikkaa tilausta nähdäksesi tarkat "
 "tiedot tilauksesta tai \"Päivitä tilaus\" tehdäksesi muutos tilaukseen. "
@@ -762,11 +763,16 @@ msgstr "Ei voimassaolevia tilauksia."
 msgid "Previous Orders"
 msgstr "Aikaisemmat tilaukset"
 
-#: templates/exams/order_list.html:31
-msgid "Remove this? Distracts user..."
+#: templates/exams/order_list.html:30
+msgid "No longer active orders, which have been superseded by other orders"
 msgstr ""
-"Vanhat tilaukset, jotka eivät ole voimassa. Voit tarkastella tilausta "
-"valitsemalla tilauksen päivämäärän linkistä. Vanhaa tilausta ei voi muuttaa."
+
+#: templates/exams/order_list.html:31
+msgid ""
+"Below is list of previous orders, which have been superseded by other "
+"orders. These orders will not be delivered, see \"current orders\" for "
+"orders that will be delivered. Click order date for details."
+msgstr ""
 
 #: templates/exams/order_list.html:36
 #, fuzzy
@@ -789,6 +795,17 @@ msgstr "Ei aikaisempia tilauksia."
 #, fuzzy
 msgid "Update Order"
 msgstr "Päivitä tilaus"
+
+#~ msgid "Need fancy description here."
+#~ msgstr ""
+#~ "Jokaiselle kokeen suorituspaikalle on aktiivisena viimeisin tilaus. "
+#~ "Vanhat tilaukset on listattuna alla."
+
+#~ msgid "Remove this? Distracts user..."
+#~ msgstr ""
+#~ "Vanhat tilaukset, jotka eivät ole voimassa. Voit tarkastella tilausta "
+#~ "valitsemalla tilauksen päivämäärän linkistä. Vanhaa tilausta ei voi "
+#~ "muuttaa."
 
 #~ msgid "Upload"
 #~ msgstr "Siirrä tiedosto"

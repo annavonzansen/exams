@@ -14,9 +14,9 @@
 {% url "education:school" uuid=school.uuid as school_url %}
 <p>{% blocktrans with school_name=school.name examination=current_examination total=object_list|count %}Below is a list of all material orders in <a href="{{ school_url }}">{{ school_name }}</a>, for examination <strong>{{ examination }}</strong>. A total of {{ total }} orders.{% endblocktrans %}</p>
 
-<h2>{% trans "Current Orders" %} <small>{% trans "Need fancy description here." %}</small></h2>
+<h2>{% trans "Current Orders" %} <small>{% trans "Orders that will be delivered" %}</small></h2>
 
-<p>{% trans "Below are current orders. Click to view details." %}</p>
+<p>{% blocktrans %}Below are current orders, maximum is one per site. Click order date to view details.{% endblocktrans %}</p>
 {% if current_orders %}
     <ul class="list-group">
         {% for o in current_orders %}
@@ -27,8 +27,8 @@
     <p><em>{% trans "No current orders." %}</em></p>
 {% endif %}
 
-<h2>{% trans "Previous Orders" %} <small>{% trans "Need fancy description here." %}</small></h2>
-<p>{% trans "Remove this? Distracts user..." %}</p>
+<h2>{% trans "Previous Orders" %} <small>{% trans "No longer active orders, which have been superseded by other orders" %}</small></h2>
+<p>{% blocktrans %}Below is list of previous orders, which have been superseded by other orders. These orders will not be delivered, see "current orders" for orders that will be delivered. Click order date for details.{% endblocktrans %}</p>
 {% if object_list %}
 <ul class="">
 {% for o in object_list %}
