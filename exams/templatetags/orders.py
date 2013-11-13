@@ -41,3 +41,14 @@ def sg_has_material(subject_group, material_type):
     if isinstance(subject_group, SubjectGroup) and isinstance(material_type, MaterialType):
         return subject_group.has_material(material_type)
     return False
+
+@register.filter
+def subject_has_material(subject, material_type):
+    if isinstance(subject, Subject) and isinstance(material_type, MaterialType):
+        return subject.has_material(material_type)
+    return False
+
+@register.simple_tag
+def order_field_for(order, subject, material_type):
+
+    return '<input type="number" size="4" name="%(name)s" value="%(value)d"/>'
