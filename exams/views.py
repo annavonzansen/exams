@@ -181,7 +181,7 @@ class OrdersView(ListView):
         school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
         sites = SchoolSite.objects.filter(school=school)
         examination = Examination.objects.get_latest()
-        orders = Order.objects.filter(site__in=sites, examination=examination)
+        orders = Order.active.filter(site__in=sites, examination=examination)
         # TODO: Show only ORDER_ACTIVE_STATUSES, except the latest
         #orders = school.get_previous_orders()
         return orders

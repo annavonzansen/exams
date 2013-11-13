@@ -523,9 +523,6 @@ class CandidateType(models.Model):
         verbose_name_plural = _('Candidate Types')
 
 class CandidateManager(models.Manager):
-#    def get_queryset(self):
-#        return super(CandidateManager, self).get_queryset().filter(status='c')
-
     def initialize_new(self, school, examination=None):
         if examination is None:
             examination = Examination.objects.get_active()
@@ -541,10 +538,14 @@ class CandidateManager(models.Manager):
         return cn
 
     def remove_initialized(self):
-        cn = Candidate.objects.filter(status='i')
+        cn = super(CandidateManager, self).get_queryset().objects.filter(status='i')
         for c in cn:
             c.delete()
         return True
+
+class CandidateActiveManager(CandidateManager):
+    def get_queryset(self):
+        return super(CandidateActiveManager, self).get_queryset().filter(status='c')
 
 class Candidate(Person):
     #uuid = UUIDField(verbose_name='UUID')
@@ -565,6 +566,7 @@ class Candidate(Person):
     status = models.CharField(max_length=1, choices=CANDIDATE_STATUS_CHOICES, editable=False, default='c')
 
     objects = CandidateManager()
+    active = CandidateActiveManager()
     # TODO: Validate identity number
     # TODO: Gender from identity number
     # TODO: Age
@@ -626,7 +628,6 @@ class Candidate(Person):
         return exams
     get_exams.short_description = _('Exams')
     
-
     def get_last_updated(self):
         last_updated = self.modified
         exams = self.get_exams()
@@ -764,6 +765,11 @@ class OrderManager(models.Manager):
         latest = self.get_site_latest(site=site)
         return self.get_active_orders().filter(site=site).exclude(latest)
 
+class OrderActiveManager(models.Manager):
+    def get_queryset(self):
+        return super(OrderActiveManager, self).get_queryset().filter(status__in=ORDER_ACTIVE_STATUSES)
+
+
 class Order(models.Model):
     uuid = UUIDField(verbose_name='UUID')
     site = models.ForeignKey('education.SchoolSite', verbose_name=_('School Site'))
@@ -787,6 +793,7 @@ class Order(models.Model):
     parent = models.ForeignKey('self', blank=True, null=True, verbose_name=_('Parent Order'), help_text=_('Which order is an older version of this (parent)'))
 
     objects = OrderManager()
+    active = OrderActiveManager()
 
     def clone_nosave(self):
         order = Order(site=self.site, created_by=self.created_by, examination=self.examination, content=self.content, status='i', email=self.email, additional_details=self.additional_details, parent=self)
