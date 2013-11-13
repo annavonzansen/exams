@@ -54,7 +54,11 @@
         <tr>
             <td>{{ s.grouper }}</td>
             {% for m in materials %}
+                {% if s.grouper|subject_has_material:m %}
                 <td style="width: 10%;">{% order_subject_count object s.grouper m %}</td>
+                {% else %}
+                <td style="width: 10%;">-</td>
+                {% endif %}
             {% endfor %}
         </tr>
         {% endfor %}
