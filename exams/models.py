@@ -110,6 +110,8 @@ class MaterialType(models.Model):
     one_for_x = models.PositiveIntegerField(default=1, verbose_name=_('One item for X candidates'))
     max_amount = models.PositiveIntegerField(default=0, verbose_name=_('Max amount per subject per order'), help_text=_('How many pcs can be ordered in a single order, for single subject. 0 = no limit.'))
 
+    history = HistoricalRecords()
+
     def amount_for_x(self, count):
         """How many materials should be sent to count candidates?"""
         return math.ceil(count / self.one_for_x) + 1
@@ -133,6 +135,7 @@ class SubjectGroup(models.Model):
     uuid = UUIDField(verbose_name='UUID')
     name = models.CharField(max_length=255, unique=True, verbose_name=_('Name'))
     order = models.PositiveIntegerField(default=100)
+    history = HistoricalRecords()
 
     def has_material(self, material_type):
         subjs = Subject.objects.filter(group=self)
@@ -739,6 +742,8 @@ class ExamRegistration(models.Model):
 
     created = CreationDateTimeField()
     modified = ModificationDateTimeField()
+
+    history = HistoricalRecords()
 
     def __str__(self):
         return "%(candidate)s > %(subject)s" % {
