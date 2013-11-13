@@ -130,7 +130,7 @@ class SubjectGroup(models.Model):
         subjs = Subject.objects.filter(group=self)
 
         for s in subjs:
-            if material_type in s.material_types.all():
+            if s.has_material(material_type):
                 return True
         return False
 
@@ -161,6 +161,11 @@ class Subject(models.Model):
 
     created = CreationDateTimeField()
     modified = ModificationDateTimeField()
+
+    def has_material(self, material_type):
+        if material_type in self.material_types.all():
+            return True
+        return False
 
     def get_material_types(self):
         parts = []
