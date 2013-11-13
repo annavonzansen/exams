@@ -937,7 +937,7 @@ class CandidateUpload(models.Model):
     examination = models.ForeignKey(Examination)
     school = models.ForeignKey('education.School')
 
-    file = models.FileField(upload_to='candidates/%Y%m%d%H%M%S/')
+    file = models.FileField(upload_to='candidates/%Y%m%d%H%M%S/', verbose_name=_('File'), help_text=_('Select file which includes candidate examination registrations in XML format'))
 
     by_user = models.ForeignKey(settings.AUTH_USER_MODEL)
 
