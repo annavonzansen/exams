@@ -29,7 +29,9 @@
             {{ object.candidate_type }}
             </td>
             <td><ul>{% for e in object.get_exams %}
-                <li>{{ e.subject }}{% if e.special_arrangements.all %} <small><strong>{% trans "Special arrangements:" %}</strong> {{ e.special_arrangements.all|join:", " }}</small>{% endif %}</li>
+            {% if e.special_arrangements.all %}
+                <li>{{ e.subject }} <small><strong>{% trans "Special arrangements:" %}</strong> {{ e.special_arrangements.all|join:", " }}</small></li>
+            {% endif %}
             {% endfor %}
             </ul></td>
             <td>{{ object.site|default:"" }}</td>
