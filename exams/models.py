@@ -24,9 +24,11 @@ from simple_history.models import HistoricalRecords
 from django.db.models.signals import post_save
 from people.models import Person
 
+CANDIDATE_STATUS_INITIALIZED = 'i'
+CANDIDATE_STATUS_CREATED = 'c'
 CANDIDATE_STATUS_CHOICES = (
-    ('i', _('Initialized')),
-    ('c', _('Created')),
+    (CANDIDATE_STATUS_INITIALIZED, _('Initialized')),
+    (CANDIDATE_STATUS_CREATED, _('Created')),
 )
 ORDER_STATUS_INITIALIZED = 'i'
 ORDER_STATUS_UPDATED = 'u'
@@ -537,20 +539,20 @@ class CandidateManager(models.Manager):
                 examination = None
         from random import randrange
         candidate_number = 10000 + randrange(70000)
-        cn = Candidate(examination=examination, school=school, status='i', last_name='-%s' % candidate_number, first_names='-%s' % candidate_number, candidate_number=candidate_number)
+        cn = Candidate(examination=examination, school=school, status=CANDIDATE_STATUS_INITIALIZED, last_name='-%s' % candidate_number, first_names='-%s' % candidate_number, candidate_number=candidate_number)
         cn.save()
         cn.append_missing_registrations()
         return cn
 
     def remove_initialized(self):
-        cn = super(CandidateManager, self).get_queryset().objects.filter(status='i')
+        cn = super(CandidateManager, self).get_queryset().objects.filter(status=CANDIDATE_STATUS_INITIALIZED)
         for c in cn:
             c.delete()
         return True
 
 class CandidateActiveManager(CandidateManager):
     def get_queryset(self):
-        return super(CandidateActiveManager, self).get_queryset().filter(status='c')
+        return super(CandidateActiveManager, self).get_queryset().filter(status=CANDIDATE_STATUS_CREATED)
 
 class Candidate(Person):
     #uuid = UUIDField(verbose_name='UUID')
@@ -568,7 +570,7 @@ class Candidate(Person):
 
     retrying = models.BooleanField(default=False, verbose_name=_('Candidate is retrying full exam'), help_text=_('Is candidate starting the examination from begin?'))
 
-    status = models.CharField(max_length=1, choices=CANDIDATE_STATUS_CHOICES, editable=False, default='c')
+    status = models.CharField(max_length=1, choices=CANDIDATE_STATUS_CHOICES, editable=False, default=CANDIDATE_STATUS_CREATED)
 
     objects = CandidateManager()
     active = CandidateActiveManager()
@@ -801,7 +803,7 @@ class Order(models.Model):
     active = OrderActiveManager()
 
     def clone_nosave(self):
-        order = Order(site=self.site, created_by=self.created_by, examination=self.examination, content=self.content, status='i', email=self.email, additional_details=self.additional_details, parent=self)
+        order = Order(site=self.site, created_by=self.created_by, examination=self.examination, content=self.content, status=ORDER_STATUS_INITIALIZED, email=self.email, additional_details=self.additional_details, parent=self)
         ois = []
         for i in self.get_items():
             oi = OrderItem(order=order, subject=i.subject, material_type=i.material_type, amount=i.amount)

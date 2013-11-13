@@ -15,7 +15,7 @@ from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.utils.translation import ugettext as _
 
-from exams.models import Examination, Test, Assignment, File, Order, Candidate, CandidateUpload, ExamRegistration, OrderItem, MaterialType, ORDER_STATUS_INITIALIZED, ORDER_STATUS_CREATED, ORDER_STATUS_UPDATED
+from exams.models import Examination, Test, Assignment, File, Order, Candidate, CandidateUpload, ExamRegistration, OrderItem, MaterialType, ORDER_STATUS_INITIALIZED, ORDER_STATUS_CREATED, ORDER_STATUS_UPDATED, CANDIDATE_STATUS_CREATED, CANDIDATE_STATUS_INITIALIZED
 #from exams.forms import CandidateFormset
 from exams.forms import OrderForm, CandidateForm, OrderFormset, ExamRegistrationFormset, CandidateUploadForm, ExamRegistrationForm, ExamRegistrationHelper, OrderItemHelper
 from django.http import HttpResponseRedirect
@@ -434,8 +434,8 @@ class CandidateEditView(UpdateWithInlinesView):
     
     def get_object(self):
         candidate = Candidate.objects.get(uuid=self.request.resolver_match.kwargs['candidate_uuid'])
-        if candidate.status == 'i':
-            candidate.status = 'c'
+        if candidate.status == CANDIDATE_STATUS_INITIALIZED:
+            candidate.status = CANDIDATE_STATUS_CREATED
         return candidate
 
     @method_decorator(login_required)
