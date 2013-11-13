@@ -517,7 +517,22 @@ class CandidateType(models.Model):
         verbose_name_plural = _('Candidate Types')
 
 class CandidateManager(models.Manager):
-    pass
+    def initialize_new(self, school):
+        examination = Examination.objects.get_active()
+        if len(examination) > 0:
+            examination = examination[0]
+        else:
+            examination = None
+        cn = Candidate(examination=examination, school=school, status='i', last_name='-', first_names='-', candidate_number=000)
+        cn.save()
+        cn.append_missing_registrations()
+        return cn
+
+    def remove_initialized(self):
+        cn = Candidate.objects.filter(status='i')
+        for c in cn:
+            c.delete()
+        return True
 
 class Candidate(Person):
     #uuid = UUIDField(verbose_name='UUID')
@@ -555,9 +570,8 @@ class Candidate(Person):
 
         items = []
         for m in missing:
-            for mt in m.material_types.all():
-                item = ExamRegistration(candidate=self, subject=m)
-                items.append(item)
+            item = ExamRegistration(candidate=self, subject=m)
+            items.append(item)
         ExamRegistration.objects.bulk_create(items)
         return len(items)
 
