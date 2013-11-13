@@ -739,8 +739,8 @@ class ExamRegistration(models.Model):
         unique_together = (('subject', 'candidate',))
 
 class OrderManager(models.Manager):
-    def get_queryset(self):
-        return super(OrderManager, self).get_queryset().filter(status__in=ORDER_ACTIVE_STATUSES)
+#    def get_queryset(self):
+#        return super(OrderManager, self).get_queryset().filter(status__in=ORDER_ACTIVE_STATUSES)
 
     def get_school_orders(self, school):
         from education.models import SchoolSite

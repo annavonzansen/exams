@@ -19,23 +19,25 @@
 {% blocktrans %}Using this form you can order examination materials for your school.{% endblocktrans %}
 
 <form method="post" action="{% url "education:orderedit" uuid=school.uuid order_uuid=object.uuid %}">
-    
+    {% csrf_token %}
     {{ form|crispy }}
+    {% comment %}
     {% for i in inlines %}
     <fieldset>
         <legend>{% trans "Tests and CDs to be ordered" %}</legend>
         {% crispy i helper %}
     </fieldset>
-    {% endfor %}
-    {{ inlines.management_form|crispy }}
+    {% endfor %}{{ inlines.management_form|crispy }}
+    {% endcomment %}
+    
 
-<!-- TODO -->
-{% with object.get_items as order_items %}
-{% regroup order_items by subject.group as groups %}
-{% for group in groups %}
-<h4>{{ group.grouper.name }}</h4>
 <table class="table table-striped">
+{% for oi in object.get_items %}
+{% ifchanged oi.subject.group %}
     <thead>
+        <tr>
+            <th colspan="4"><h3>{{ oi.subject.group.name }}</h3></th>
+        </tr>
         <tr>
             <th></th>
             <th colspan="3" width="30%">{% trans "Amount (pcs)" %}</th>
@@ -47,39 +49,37 @@
             {% endfor %}
         </tr>
     </thead>
-    <tfoot>
+{% endifchanged %}
+
+    {% if forloop.first %}
+        <input type="hidden" name="orderitem_set-TOTAL_FORMS" value="{{ forloop.revcounter }}"/>
+        <input type="hidden" name="orderitem_set-INITIAL_FORMS" value="{{ forloop.revcounter }}"/>
+        <input type="hidden" name="orderitem_set-MAX_NUM_FORMS" value="{{ forloop.revcounter }}"/>
+    
         <tr>
-            <th>{% trans "Total" %}</th>
-            {% for m in materials %}
-                <th>{% order_sg_total order group.grouper m %}</th>
-            {% endfor %}
+    {% endif %}
+    {% ifchanged oi.subject %}
         </tr>
-    </tfoot>
-    <tbody>
-        {% with group.list as item_list %}
-        {% regroup item_list by subject as subjects %}
-        {% for s in subjects %}
         <tr>
-            <td>{{ s.grouper }}</td>
-            {% for m in materials %}
-                {% if s.grouper|subject_has_material:m %}
-                <td style="width: 10%;"><input type="number" min="0" size="4" value="{% order_subject_count object s.grouper m %}"/></td>
-                {% else %}
+            <td>{{ oi.subject }}</td>
+    {% endifchanged %}
+
+            {% if oi.subject|subject_has_material:oi.material_type %}
+                <td style="width: 10%;">
+                    <input type="number" min="0" size="4" name="orderitem_set-{{ forloop.counter0 }}-amount" value="{% order_subject_count object oi.subject oi.material_type %}"/>
+                    <input type="hidden" name="orderitem_set-{{ forloop.counter0 }}-id" value="{{ oi.pk }}"/>
+                    <input type="hidden" name="orderitem_set-{{ forloop.counter0 }}-subject" value="{{ oi.subject.pk }}"/>
+                    <input type="hidden" name="orderitem_set-{{ forloop.counter0 }}-material_type" value="{{ oi.material_type.pk }}"/>
+                    <input type="hidden" name="orderitem_set-{{ forloop.counter0 }}-order" value="{{ oi.order.pk }}"/>
+                </td>
+            {% else %}
                 <td>-</td>
-                {% endif %}
-            {% endfor %}
+            {% endif %}
+    {% if forloop.last %}
         </tr>
-        {% endfor %}
-        {% endwith %}
-    </tbody>
-</table>
+    {% endif %}
 {% endfor %}
-
-<h4>{% trans "Additional Details" %}</h4>
-<p>{{ object.additional_details|default:"(None)" }}</p>
-{% endwith %}
-<!-- TODO -->
-
+</table>
 
 
     <p><strong>{% blocktrans %}Note: Order will replace previous orders for selected site when submitted.{% endblocktrans %}</strong></p>
