@@ -112,6 +112,11 @@ class MaterialType(models.Model):
         """How many materials should be sent to count candidates?"""
         return math.ceil(count / self.one_for_x) + 1
 
+    def maxlength(self):
+        if self.max_amount == 0:
+            return None
+        return len(str(self.max_amount))
+
     def __str__(self):
         return self.title
 
