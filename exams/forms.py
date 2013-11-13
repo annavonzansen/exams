@@ -93,7 +93,7 @@ class CandidateUploadForm(ModelForm):
 
 
 
-        self.helper.add_input(Submit('submit', _('Upload')))
+        self.helper.add_input(Submit('submit', _('Upload and pre-fill Order')))
         self.helper.add_input(Reset('reset', _('Reset')))
 
     class Meta:
