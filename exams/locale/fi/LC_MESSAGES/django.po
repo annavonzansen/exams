@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: exams 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-13 07:57+0200\n"
-"PO-Revision-Date: 2013-11-11 16:51+0200\n"
-"Last-Translator: Pia Jouhki <pia.jouhki@ylioppilastutkinto.fi>\n"
+"PO-Revision-Date: 2013-11-13 08:00+0200\n"
+"Last-Translator: Ville Korhonen <ville.korhonen@ylioppilastutkinto.fi>\n"
 "Language-Team: FINNISH <digabi@ylioppilastutkinto.fi>\n"
 "Language: fi_FI\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,9 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.5.7\n"
 
-#: __init__.py:4 models.py:621 models.py:643
+#: __init__.py:4
+#: models.py:621
+#: models.py:643
 msgid "Exams"
 msgstr "Tutkinnot"
 
@@ -30,24 +32,24 @@ msgstr "Vie valitut objektit CSV-tiedostoon"
 msgid "Save"
 msgstr "Tallenna"
 
-#: forms.py:24 forms.py:97 templates/exams/candidate_form.html:24
+#: forms.py:24
+#: forms.py:97
+#: templates/exams/candidate_form.html:24
 #: templates/exams/order_form.html:84
 msgid "Reset"
 msgstr "Tyhjennä"
 
 #: forms.py:96
-#, fuzzy
 msgid "Upload and pre-fill Order"
-msgstr "Lataa kokelastietoja"
+msgstr "Lähetä tiedosto ja esitäytä tilau"
 
 #: models.py:28
 msgid "Initialized"
-msgstr ""
+msgstr "Alustettu"
 
 #: models.py:29
-#, fuzzy
 msgid "Created"
-msgstr "Luonut"
+msgstr "Luotu"
 
 #: models.py:35
 msgid "Initialized (not yet created)"
@@ -63,7 +65,7 @@ msgstr "Tilaus päivitetty"
 
 #: models.py:38
 msgid "Deleted"
-msgstr ""
+msgstr "Poistettu"
 
 #: models.py:39
 msgid "In Packaging"
@@ -129,7 +131,10 @@ msgstr "Pitkä"
 msgid "Semi"
 msgstr "Keskipitkä"
 
-#: models.py:77 models.py:106 models.py:152 models.py:690
+#: models.py:77
+#: models.py:106
+#: models.py:152
+#: models.py:690
 msgid "Short"
 msgstr "Lyhyt"
 
@@ -165,7 +170,10 @@ msgstr "Kieli"
 msgid "Math"
 msgstr "Matematiikka"
 
-#: models.py:105 models.py:331 models.py:479 models.py:689
+#: models.py:105
+#: models.py:331
+#: models.py:479
+#: models.py:689
 msgid "Title"
 msgstr "Otsikko"
 
@@ -173,15 +181,19 @@ msgstr "Otsikko"
 msgid "One item for X candidates"
 msgstr "Yksi kappale x  kokelaalle"
 
-#: models.py:121 models.py:910
+#: models.py:121
+#: models.py:910
 msgid "Material Type"
 msgstr "Materiaalityyppi"
 
-#: models.py:122 models.py:155 models.py:170
+#: models.py:122
+#: models.py:155
+#: models.py:170
 msgid "Material Types"
 msgstr "Materiaalityypit"
 
-#: models.py:126 models.py:151
+#: models.py:126
+#: models.py:151
 msgid "Name"
 msgstr "Nimi"
 
@@ -201,8 +213,13 @@ msgstr "Aineen tyyppi"
 msgid "Group"
 msgstr "Ryhmä"
 
-#: models.py:182 models.py:312 models.py:711 models.py:908 models.py:1048
-#: templates/exams/order_detail.html:37 templates/exams/order_form.html:45
+#: models.py:182
+#: models.py:312
+#: models.py:711
+#: models.py:908
+#: models.py:1048
+#: templates/exams/order_detail.html:37
+#: templates/exams/order_form.html:45
 msgid "Subject"
 msgstr "Aine"
 
@@ -215,47 +232,36 @@ msgid "Registration Begin"
 msgstr "Ilmoittautuminen alkaa"
 
 #: models.py:240
-msgid ""
-"Date + time when registration begins, ie. when schools can register students "
-"and order materials"
-msgstr ""
-"Päivämäärä ja aika jolloin ilmoittautuminen tutkintoon alkaa, eli ajankohta "
-"jolloin koulut voivat rekisteröidä oppilaita ja tilata materiaalia."
+msgid "Date + time when registration begins, ie. when schools can register students and order materials"
+msgstr "Päivämäärä ja aika jolloin ilmoittautuminen tutkintoon alkaa, eli ajankohta jolloin koulut voivat rekisteröidä oppilaita ja tilata materiaalia."
 
 #: models.py:241
 msgid "Registration End"
 msgstr "Ilmoittautuminen päättyy"
 
 #: models.py:241
-msgid ""
-"Date + time when registration begins, ie. when schools can no longer "
-"register students and order materials"
-msgstr ""
-"Päivämäärä ja aika jolloin ilmoittautuminen tutkintoon päättyy, eli "
-"ajankohta jolloin koulut eivät voi enää rekisteröidä oppilaita ja tilata "
-"materiaalia."
+msgid "Date + time when registration begins, ie. when schools can no longer register students and order materials"
+msgstr "Päivämäärä ja aika jolloin ilmoittautuminen tutkintoon päättyy, eli ajankohta jolloin koulut eivät voi enää rekisteröidä oppilaita ja tilata materiaalia."
 
 #: models.py:242
 msgid "Registration Status"
 msgstr "Ilmoittautumisen tila"
 
 #: models.py:242
-msgid ""
-"Current registration mode. Enabled = schools can register students and order "
-"material, disabled = schools can not register students, scheduled = depends "
-"on registration begin/end times."
-msgstr ""
-"Tämänhetkinen ilmoittautumisen tila. Käytössä = koulut voivat lähettää "
-"ilmoittautumistietoja ja tilata materiaalia, poissa käytöstä = koulut eivät "
-"voi lähettää tietoja tai tilata materiaalia. Ajastettu = riippuu "
-"ilmoittautumisen alkamis- ja päättymisajankohdasta, ks. yllä."
+msgid "Current registration mode. Enabled = schools can register students and order material, disabled = schools can not register students, scheduled = depends on registration begin/end times."
+msgstr "Tämänhetkinen ilmoittautumisen tila. Käytössä = koulut voivat lähettää ilmoittautumistietoja ja tilata materiaalia, poissa käytöstä = koulut eivät voi lähettää tietoja tai tilata materiaalia. Ajastettu = riippuu ilmoittautumisen alkamis- ja päättymisajankohdasta, ks. yllä."
 
-#: models.py:301 models.py:545 models.py:598 models.py:1045
-#: templates/exams/base.html:6 templates/exams/examination_detail.html:10
+#: models.py:301
+#: models.py:545
+#: models.py:598
+#: models.py:1045
+#: templates/exams/base.html:6
+#: templates/exams/examination_detail.html:10
 msgid "Examination"
 msgstr "Tutkinto"
 
-#: models.py:302 templates/exams/base.html:4
+#: models.py:302
+#: templates/exams/base.html:4
 #: templates/exams/examination_detail.html:5
 #: templates/exams/examination_list.html:4
 #: templates/exams/examination_list.html:7
@@ -274,7 +280,8 @@ msgstr "Päättyy"
 msgid "Test"
 msgstr "Koe"
 
-#: models.py:362 templates/exams/examination_detail.html:18
+#: models.py:362
+#: templates/exams/examination_detail.html:18
 msgid "Tests"
 msgstr "Kokeet"
 
@@ -300,7 +307,8 @@ msgstr "-- Valitse --"
 msgid "Assignment %(title)s (%(uuid)s)"
 msgstr "Tehtävä %(title)s (%(uuid)s)"
 
-#: models.py:452 templates/exams/assignment_detail.html:4
+#: models.py:452
+#: templates/exams/assignment_detail.html:4
 #: templates/exams/assignment_detail.html:9
 msgid "Assignment"
 msgstr "Tehtävä"
@@ -317,7 +325,9 @@ msgstr "Vastaus"
 msgid "Answers"
 msgstr "Vastaukset"
 
-#: models.py:480 models.py:500 models.py:940
+#: models.py:480
+#: models.py:500
+#: models.py:940
 msgid "File"
 msgstr "Tiedosto"
 
@@ -330,7 +340,8 @@ msgstr "Tiedosto: %(title)s, %(filename)s (%(size)d bytes) (%(uuid)s)"
 msgid "Files"
 msgstr "Tiedostot"
 
-#: models.py:516 models.py:555
+#: models.py:516
+#: models.py:555
 msgid "Candidate Type"
 msgstr "Kokelaslaji"
 
@@ -342,7 +353,8 @@ msgstr "Kokelaslajit"
 msgid "School"
 msgstr "Koulu"
 
-#: models.py:552 templates/exams/candidate_list.html:22
+#: models.py:552
+#: templates/exams/candidate_list.html:22
 msgid "Site"
 msgstr "Suorituspaikka"
 
@@ -384,7 +396,9 @@ msgstr "Kokelasnumero / koulu"
 msgid "%(last_name)s, %(first_names)s (%(identity_number)s)"
 msgstr ""
 
-#: models.py:615 models.py:650 models.py:680
+#: models.py:615
+#: models.py:650
+#: models.py:680
 #: templates/exams/candidate_list.html:20
 msgid "Candidate"
 msgstr "Kokelas"
@@ -393,7 +407,8 @@ msgstr "Kokelas"
 msgid "Last Updated"
 msgstr "Viimeksi päivitetty"
 
-#: models.py:681 templates/exams/candidate_list.html:5
+#: models.py:681
+#: templates/exams/candidate_list.html:5
 msgid "Candidates"
 msgstr "Kokelaat"
 
@@ -401,14 +416,20 @@ msgstr "Kokelaat"
 msgid "Special Arrangement"
 msgstr "Erityisjärjestely"
 
-#: models.py:704 models.py:714 templates/exams/candidate_detail.html:8
-#: templates/exams/candidate_form.html:7 templates/exams/candidate_list.html:8
+#: models.py:704
+#: models.py:714
+#: templates/exams/candidate_detail.html:8
+#: templates/exams/candidate_form.html:7
+#: templates/exams/candidate_list.html:8
 #: templates/exams/candidate_list.html:12
 msgid "Special Arrangements"
 msgstr "Erityisjärjestelyt"
 
-#: models.py:715 models.py:776 templates/exams/order_detail.html:67
-#: templates/exams/order_form.html:75 templates/exams/order_list_item.html:10
+#: models.py:715
+#: models.py:776
+#: templates/exams/order_detail.html:67
+#: templates/exams/order_form.html:75
+#: templates/exams/order_list_item.html:10
 msgid "Additional Details"
 msgstr "Lisätiedot"
 
@@ -416,7 +437,8 @@ msgstr "Lisätiedot"
 msgid "Exam Registration"
 msgstr "Koe-ilmoittautuminen"
 
-#: models.py:733 templates/exams/candidate_form.html:18
+#: models.py:733
+#: templates/exams/candidate_form.html:18
 #: templates/exams/candidate_list.html:21
 msgid "Exam Registrations"
 msgstr "Koeilmoittautumiset"
@@ -457,13 +479,17 @@ msgstr "Mahdollinen aikaisempi versio tästä tilauksesta"
 msgid "Order Content"
 msgstr "Tilauksen sisältö"
 
-#: models.py:899 templates/exams/order_detail.html:4
-#: templates/exams/order_detail.html:9 templates/exams/order_list_item.html:5
+#: models.py:899
+#: templates/exams/order_detail.html:4
+#: templates/exams/order_detail.html:9
+#: templates/exams/order_list_item.html:5
 msgid "Order"
 msgstr "Tilaus"
 
-#: models.py:900 templates/exams/candidateupload_form.html:5
-#: templates/exams/order_detail.html:8 templates/exams/order_form.html:14
+#: models.py:900
+#: templates/exams/candidateupload_form.html:5
+#: templates/exams/order_detail.html:8
+#: templates/exams/order_form.html:14
 #: templates/exams/order_list.html:6
 msgid "Orders"
 msgstr "Tilaukset"
@@ -509,9 +535,8 @@ msgid "UUID"
 msgstr "UUID"
 
 #: models.py:940
-msgid ""
-"Select file which includes candidate examination registrations in XML format"
-msgstr ""
+msgid "Select file which includes candidate examination registrations in XML format"
+msgstr "Valitse tiedosto, joka sisältää tutkintoilmoittautumiset XML-muodossa"
 
 #: models.py:1017
 #, python-format
@@ -553,14 +578,8 @@ msgstr "Tuodaan kokelaita tiedostosta %(filename)s"
 
 #: management/commands/importcandidates.py:25
 #, python-format
-msgid ""
-"Import finished! Imported candidates %(candidates_created)d new and "
-"%(candidates_updated)d updated, with %(examregistrations)d registrations to "
-"exams."
-msgstr ""
-"Tuonti valmistui! Tuotiin %(candidates_created)d uutta kokelasta ja "
-"päivitettiin %(candidates_updated)d koelasta, yhteensä %(examregistrations)d "
-"tutkintoon ilmoittautunutta."
+msgid "Import finished! Imported candidates %(candidates_created)d new and %(candidates_updated)d updated, with %(examregistrations)d registrations to exams."
+msgstr "Tuonti valmistui! Tuotiin %(candidates_created)d uutta kokelasta ja päivitettiin %(candidates_updated)d koelasta, yhteensä %(examregistrations)d tutkintoon ilmoittautunutta."
 
 #: management/commands/importcandidates.py:27
 msgid "Unknown failure?!"
@@ -578,7 +597,8 @@ msgstr "liitetty(ä) tiedosto(a)"
 msgid "Education"
 msgstr "Opetus"
 
-#: templates/exams/candidate_detail.html:6 templates/exams/order_detail.html:6
+#: templates/exams/candidate_detail.html:6
+#: templates/exams/order_detail.html:6
 msgid "Schools"
 msgstr "Koulut"
 
@@ -597,14 +617,11 @@ msgid "Create new candidate"
 msgstr "Luo uusi kokelas"
 
 #: templates/exams/candidate_form.html:12
-msgid ""
-"Using this form, you can add new candidate with special arrangements, ie. "
-"order special material for a candidate."
-msgstr ""
-"Tämän lomakkeen avulla voit tilata erityisjärjestelymateriaaleja niitä "
-"tarvitseville kokelaille."
+msgid "Using this form, you can add new candidate with special arrangements, ie. order special material for a candidate."
+msgstr "Tämän lomakkeen avulla voit tilata erityisjärjestelymateriaaleja niitä tarvitseville kokelaille."
 
-#: templates/exams/candidate_form.html:24 templates/exams/order_form.html:84
+#: templates/exams/candidate_form.html:24
+#: templates/exams/order_form.html:84
 msgid "Submit"
 msgstr "Lähetä"
 
@@ -614,14 +631,8 @@ msgstr "Lisää uusi"
 
 #: templates/exams/candidate_list.html:14
 #, python-format
-msgid ""
-"Below is a list of all candidates in <a href=\"%(school_url)s\">"
-"%(school_name)s</a>, registered for examination <strong>%(examination)s</"
-"strong>, who need special arrangements . A total of %(total)s candidates."
-msgstr ""
-"Alla on luettelo kaikista erityisjärjestelyitä tarvitsevista kokelaista "
-"koulussa <a href=\"%(school_url)s\">%(school_name)s</a>, jotka on lisätty "
-"tutkintoon <strong>%(examination)s</strong>. Yhteensä %(total)s kokelasta."
+msgid "Below is a list of all candidates in <a href=\"%(school_url)s\">%(school_name)s</a>, registered for examination <strong>%(examination)s</strong>, who need special arrangements . A total of %(total)s candidates."
+msgstr "Alla on luettelo kaikista erityisjärjestelyitä tarvitsevista kokelaista koulussa <a href=\"%(school_url)s\">%(school_name)s</a>, jotka on lisätty tutkintoon <strong>%(examination)s</strong>. Yhteensä %(total)s kokelasta."
 
 #: templates/exams/candidate_list.html:33
 msgid "Special arrangements:"
@@ -634,12 +645,8 @@ msgid "Pre-fill order with XML file"
 msgstr "Esitäytä tilaus XML-tiedostosta"
 
 #: templates/exams/candidateupload_form.html:10
-msgid ""
-"Using this form you can upload list of candidates as XML file, which will be "
-"used to pre-fill your order form."
-msgstr ""
-"Tämän lomakkeen avulla voit siirtää luettelon kokelaista XML-tiedostona, "
-"jonka avulla tilauslomake esitäytetään."
+msgid "Using this form you can upload list of candidates as XML file, which will be used to pre-fill your order form."
+msgstr "Tämän lomakkeen avulla voit siirtää luettelon kokelaista XML-tiedostona, jonka avulla tilauslomake esitäytetään."
 
 #: templates/exams/examination_detail.html:23
 msgid "assignments"
@@ -686,20 +693,24 @@ msgstr "tilauksen vahvistus lähetetty osoitteeseen"
 msgid "Order Details"
 msgstr "Tilauksen tiedot"
 
-#: templates/exams/order_detail.html:34 templates/exams/order_form.html:42
+#: templates/exams/order_detail.html:34
+#: templates/exams/order_form.html:42
 msgid "Amount (pcs)"
 msgstr "Määrä (kpl)"
 
-#: templates/exams/order_detail.html:45 templates/exams/order_form.html:53
+#: templates/exams/order_detail.html:45
+#: templates/exams/order_form.html:53
 msgid "Total"
 msgstr "Yhteensä"
 
-#: templates/exams/order_form.html:8 templates/exams/order_form.html.py:15
+#: templates/exams/order_form.html:8
+#: templates/exams/order_form.html.py:15
 #: templates/exams/order_form.html:19
 msgid "Edit order"
 msgstr "Muokkaa tilausta"
 
-#: templates/exams/order_form.html:8 templates/exams/order_form.html.py:15
+#: templates/exams/order_form.html:8
+#: templates/exams/order_form.html.py:15
 #: templates/exams/order_form.html:19
 msgid "Create new order"
 msgstr "Luo uusi tilaus"
@@ -713,14 +724,13 @@ msgid "Tests and CDs to be ordered"
 msgstr "Tilattavat kokeet ja CDt"
 
 #: templates/exams/order_form.html:82
-msgid ""
-"Note: Order will replace previous orders for selected site when submitted."
+msgid "Note: Order will replace previous orders for selected site when submitted."
 msgstr "Huomio: Tilaus korvaa edellisen tilauksen talletettaessa."
 
-#: templates/exams/order_list.html:9 templates/exams/order_list.html.py:13
-#, fuzzy
+#: templates/exams/order_list.html:9
+#: templates/exams/order_list.html.py:13
 msgid "Material Orders"
-msgstr "Materiaalitilaus"
+msgstr "Materiaalitilaukset"
 
 #: templates/exams/order_list.html:13
 msgid "Create new"
@@ -728,14 +738,8 @@ msgstr "Luo uusi"
 
 #: templates/exams/order_list.html:15
 #, python-format
-msgid ""
-"Below is a list of all material orders in <a href=\"%(school_url)s\">"
-"%(school_name)s</a>, for examination <strong>%(examination)s</strong>. A "
-"total of %(total)s orders."
-msgstr ""
-"Alla on luettelo kaikista koulun <a href=\"%(school_url)s\">%(school_name)s</"
-"a> materiaalitilauksista, tutkintoon <strong>%(examination)s</strong>. "
-"Yhteensä %(total)s tilausta."
+msgid "Below is a list of all material orders in <a href=\"%(school_url)s\">%(school_name)s</a>, for examination <strong>%(examination)s</strong>. A total of %(total)s orders."
+msgstr "Alla on luettelo kaikista koulun <a href=\"%(school_url)s\">%(school_name)s</a> materiaalitilauksista, tutkintoon <strong>%(examination)s</strong>. Yhteensä %(total)s tilausta."
 
 #: templates/exams/order_list.html:17
 msgid "Current Orders"
@@ -743,17 +747,11 @@ msgstr "Voimassaolevat tilaukset"
 
 #: templates/exams/order_list.html:17
 msgid "Orders that will be delivered"
-msgstr ""
+msgstr "Tilaukset, jotka tullaan toimittamaan"
 
 #: templates/exams/order_list.html:19
-#, fuzzy
-msgid ""
-"Below are current orders, maximum is one per site. Click order date to view "
-"details."
-msgstr ""
-"Alla on luettelo nykyisistä tilauksista. Klikkaa tilausta nähdäksesi tarkat "
-"tiedot tilauksesta tai \"Päivitä tilaus\" tehdäksesi muutos tilaukseen. "
-"Tilaus päivittyy automaattisesti YTL:lle."
+msgid "Below are current orders, maximum is one per site. Click order date to view details."
+msgstr "Alla on luettelo nykyisistä tilauksista, yksi suorituspaikkaa kohden. Klikkaa tilausta nähdäksesi tarkat tiedot tilauksesta tai \"Päivitä tilaus\" tehdäksesi muutos tilaukseen. Tilaus päivittyy automaattisesti YTL:lle."
 
 #: templates/exams/order_list.html:27
 msgid "No current orders."
@@ -765,14 +763,11 @@ msgstr "Aikaisemmat tilaukset"
 
 #: templates/exams/order_list.html:30
 msgid "No longer active orders, which have been superseded by other orders"
-msgstr ""
+msgstr "Tilaukset, jotka on korvattu uudemmilla tilauksilla"
 
 #: templates/exams/order_list.html:31
-msgid ""
-"Below is list of previous orders, which have been superseded by other "
-"orders. These orders will not be delivered, see \"current orders\" for "
-"orders that will be delivered. Click order date for details."
-msgstr ""
+msgid "Below is list of previous orders, which have been superseded by other orders. These orders will not be delivered, see \"current orders\" for orders that will be delivered. Click order date for details."
+msgstr "Alla on luettelo aiemmista tilauksista, jotka on korvattu uudemmilla tilauksilla. Näitä tilauksia ei toimiteta, luettelo toimitettavista tilauksista kohdassa \"voimassaolevat tilaukset\". Napsauta tilauspäivämäärää nähdäksesi lisätietoja."
 
 #: templates/exams/order_list.html:36
 #, fuzzy
@@ -783,7 +778,8 @@ msgstr "suorituspaikalle"
 msgid "by"
 msgstr "luonut"
 
-#: templates/exams/order_list.html:39 templates/exams/order_list_item.html:7
+#: templates/exams/order_list.html:39
+#: templates/exams/order_list_item.html:7
 msgid "pcs"
 msgstr "kpl"
 
