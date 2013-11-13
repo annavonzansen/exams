@@ -23,6 +23,25 @@
 
     <p><input type="submit" value="{% trans "Submit" %}" class="btn btn-success"/> <input type="reset" value="{% trans "Reset" %}" class="btn btn-danger"/></p>
 
+<table>
+{% for er in object.get_items %}
+{% ifchanged er.subject.group %}
+    <thead>
+        <tr>
+            <th colspan="4"><h3>{{ oi.subject.group.name }}</h3></th>
+        </tr>
+        <tr>
+            <th></th>
+            <th colspan="3" width="30%">{% trans "Amount (pcs)" %}</th>
+        </tr>
+        <tr>
+            <th>{% trans "Subject" %}</th>
+            
+        </tr>
+    </thead>
+{% endifchanged %}
+{% endfor %}
+</table>
 </form>
 {% endblock %}
 
