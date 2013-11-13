@@ -372,7 +372,7 @@ class CandidateCreateView(UpdateWithInlinesView):
         context = super(CandidateCreateView, self).get_context_data(**kwargs)
         school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
         context['school'] = school
-        context['form'].fields['site'].queryset = SchoolSite.objects.filter(school=school)
+        context['form'].fields['site'].queryset = school.get_sites()
         context['helper'] = ExamRegistrationHelper()
         return context
 
@@ -428,7 +428,7 @@ class CandidateEditView(UpdateWithInlinesView):
         context = super(CandidateEditView, self).get_context_data(**kwargs)
         school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
         context['school'] = school
-        context['form'].fields['site'].queryset = SchoolSite.objects.filter(school=school)
+        context['form'].fields['site'].queryset = school.get_sites()
         context['helper'] = ExamRegistrationHelper()
         return context        
     
@@ -436,6 +436,9 @@ class CandidateEditView(UpdateWithInlinesView):
         candidate = Candidate.objects.get(uuid=self.request.resolver_match.kwargs['candidate_uuid'])
         if candidate.status == CANDIDATE_STATUS_INITIALIZED:
             candidate.status = CANDIDATE_STATUS_CREATED
+            candidate.last_name = None
+            candidate.first_names = None
+            candidate.candidate_number = None
         return candidate
 
     @method_decorator(login_required)
