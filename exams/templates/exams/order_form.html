@@ -1,6 +1,7 @@
 {% extends "education/school_base.html" %}
 {% load i18n %}
 {% load crispy_forms_tags %}
+{% load static %}
 
 {% block title %}
 {% if object.pk and object.status != 'i' %}{% trans "Edit order" %} {{ object }}{% else %}{% trans "Create new order" %}{% endif %}
@@ -32,4 +33,9 @@
     <p><input type="submit" value="{% trans "Submit" %}" class="btn btn-success"/> <input type="reset" value="{% trans "Reset" %}" class="btn btn-danger"/></p>
 
 </form>
+{% endblock %}
+
+{% block extrascripts %}
+{{ block.super }}
+<script src="{% static "js/forms.js" %}"></script>
 {% endblock %}
