@@ -997,6 +997,7 @@ class CandidateUpload(models.Model):
             order = Order(examination=self.examination, created_by=self.by_user, site=site)
             order.save()
 
+
             order.prefill_order(items, append_missing=True)
             #order.save()
 

@@ -134,6 +134,9 @@ class CandidateAdmin(SimpleHistoryAdmin):
 class SpecialArrangementAdmin(admin.ModelAdmin):
     list_display = ('title', 'short',)
 
+class MaterialTypeAdmin(admin.ModelAdmin):
+    list_display = ('title', 'short', 'one_for_x', 'max_amount',)
+
 admin.site.register(Examination, ExaminationAdmin)
 admin.site.register(Test, TestAdmin)
 #admin.site.register(Assignment)
@@ -144,5 +147,5 @@ admin.site.register(Subject, SubjectAdmin)
 admin.site.register(Candidate, CandidateAdmin)
 admin.site.register(SpecialArrangement, SpecialArrangementAdmin)
 #admin.site.register(CandidateUpload)
-admin.site.register(MaterialType)
+admin.site.register(MaterialType, MaterialTypeAdmin)
 admin.site.register(SubjectGroup)
