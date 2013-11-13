@@ -8,7 +8,7 @@ from django.forms.models import inlineformset_factory
 from django.forms.formsets import formset_factory
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit, Reset, Div, Fieldset, Layout, ButtonHolder
+from crispy_forms.layout import Submit, Reset, Div, Fieldset, Layout, ButtonHolder, Field
 
 from exams.models import Order, OrderItem, Candidate, ExamRegistration, CandidateUpload
 
@@ -37,6 +37,11 @@ class OrderItemHelper(FormHelper):
         self.render_required_fields = True
         self.form_tag = False
         self.template = 'bootstrap3/table_inline_formset.html'    
+        self.layout = Layout(
+            Field('subject', readonly=True, disabled=True),
+            Field('amount'),
+            Field('material_type', readonly=True, disabled=True),
+        )
 
 class ExamRegistrationHelper(FormHelper):
     def __init__(self, *args, **kwargs):
