@@ -519,7 +519,7 @@ class CandidateType(models.Model):
 class CandidateManager(models.Manager):
     def get_queryset(self):
         return super(CandidateManager, self).get_queryset().filter(status='c')
-    
+
     def initialize_new(self, school, examination=None):
         if examination is None:
             examination = Examination.objects.get_active()
@@ -734,6 +734,9 @@ class ExamRegistration(models.Model):
         unique_together = (('subject', 'candidate',))
 
 class OrderManager(models.Manager):
+    def get_queryset(self):
+        return super(OrderManager, self).get_queryset().filter(status__in=ORDER_ACTIVE_STATUSES)
+
     def get_school_orders(self, school):
         from education.models import SchoolSite
         sites = SchoolSite.objects.filter(school=school)
