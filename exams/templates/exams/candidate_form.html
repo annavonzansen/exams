@@ -30,11 +30,3 @@
 {{ block.super }}
 <script src="{% static "js/forms.js" %}"></script>
 {% endblock %}
-
-{% block extendstyle %}
-{{ block.super }}
-<style>
-form table .controls p.help-block {display: none;}
-</style>
-{% comment %}TODO: Fix...{% endcomment %}
-{% endblock %}

@@ -58,6 +58,7 @@ class ExamRegistrationForm(ModelForm):
         self.helper = FormHelper()
         self.helper.form_tag = False
         self.fields['special_arrangements'].widget = CheckboxSelectMultiple()
+        self.fields['special_arrangements'].help_text = None
 
     class Meta:
         model = ExamRegistration
