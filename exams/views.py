@@ -307,7 +307,7 @@ class CandidatesView(ListView):
     def get_queryset(self):
         examination = current_examination(self.request)['current_examination']
         school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
-        candidates = Candidate.objects.filter(school=school, examination=examination)
+        candidates = Candidate.active.filter(school=school, examination=examination)
         return candidates
 
     def get_context_data(self, **kwargs):
@@ -328,7 +328,7 @@ class CandidateView(DetailView):
     model = Candidate
 
     def get_object(self):
-        candidate = Candidate.objects.get(uuid=self.request.resolver_match.kwargs['candidate_uuid'])
+        candidate = Candidate.active.get(uuid=self.request.resolver_match.kwargs['candidate_uuid'])
         return candidate        
 
     def get_context_data(self, **kwargs):

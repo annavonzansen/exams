@@ -22,7 +22,7 @@
     {{ inlines.management_form|crispy }}
 
     <p><input type="submit" value="{% trans "Submit" %}" class="btn btn-success"/> <input type="reset" value="{% trans "Reset" %}" class="btn btn-danger"/></p>
-
+{% comment %}
 <table>
 {% for er in object.get_items %}
 {% ifchanged er.subject.group %}
@@ -42,6 +42,7 @@
 {% endifchanged %}
 {% endfor %}
 </table>
+{% endcomment %}
 </form>
 {% endblock %}
 

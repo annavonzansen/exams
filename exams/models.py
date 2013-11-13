@@ -770,7 +770,7 @@ class OrderManager(models.Manager):
         latest = self.get_site_latest(site=site)
         return self.get_active_orders().filter(site=site).exclude(latest)
 
-class OrderActiveManager(models.Manager):
+class OrderActiveManager(OrderManager):
     def get_queryset(self):
         return super(OrderActiveManager, self).get_queryset().filter(status__in=ORDER_ACTIVE_STATUSES)
 
