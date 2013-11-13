@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
-from django_markdown.admin import MarkdownModelAdmin
+#from django_markdown.admin import MarkdownModelAdmin
 from django.utils.translation import ugettext as _
 
 from exams.models import Examination, Test, Assignment, AnswerOption, Answer, File, Subject, Order, OrderItem, ExamRegistration, Candidate, SpecialArrangement, CandidateUpload, MaterialType, SubjectGroup
