@@ -137,7 +137,10 @@ def parse_candidate_xml(filename):
     candidates = []
 
     with open(filename, 'r') as xmlfile:
-        root = etree.parse(xmlfile)
+        try:
+            root = etree.parse(xmlfile)
+        except etree.XMLSyntaxError:
+            return False
 
         rows = root.xpath('/ROWSET/ROW')
 

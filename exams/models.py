@@ -956,10 +956,15 @@ class CandidateUpload(models.Model):
 
     def process_file(self):
         if self.status == 'U':
+            # TODO: Check mimetype
+            items = import_candidates(filename=self.file.path)
+            if items == False:
+                raise IOError, 'Invalid source file'
+            
             site = self.school.get_default_site()
             order = Order(examination=self.examination, created_by=self.by_user, site=site)
             order.save()
-            items = import_candidates(filename=self.file.path)
+
             order.prefill_order(items, append_missing=True)
             #order.save()
 
@@ -1011,6 +1016,9 @@ def import_candidates(filename, allowed_schools=None):
 
     from exams.importers import parse_candidate_xml
     candidates = parse_candidate_xml(filename)
+
+    if candidates == False:
+        return False
 
     for c in candidates:
         for s in c.subjects:

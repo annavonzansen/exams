@@ -5,7 +5,7 @@ from django.views.generic import TemplateView, DetailView, ListView
 from django.views.generic.base import View
 from django.views.generic.detail import SingleObjectMixin
 from django.shortcuts import get_object_or_404
-
+from django.shortcuts import redirect
 from django.contrib.auth.decorators import user_passes_test
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
@@ -482,10 +482,16 @@ class CandidateUploadView(CreateView):
     
     # TODO: Show feedback/message, based on importer results
     def form_valid(self, form):
-        form.instance.by_user = self.request.user
-        form.instance.school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
-        form.instance.examination = current_examination(self.request)['current_examination']
-        return super(CandidateUploadView, self).form_valid(form)
+        school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
+        try:
+            form.instance.by_user = self.request.user
+            form.instance.school = school
+            form.instance.examination = current_examination(self.request)['current_examination']
+            messages.info(self.request, _('Order pre-filled from XML file'))
+            return super(CandidateUploadView, self).form_valid(form)
+        except IOError:
+            messages.error(self.request, _('Invalid source file!'))
+            return redirect('education:candidateupload', uuid=school.uuid)
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
