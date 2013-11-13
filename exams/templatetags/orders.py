@@ -53,9 +53,9 @@ def order_field_for(order, subject, material_type):
 
     return '<input type="number" size="4" name="%(name)s" value="%(value)d"/>'
 
-@register.simple_tag
-def er_sa_value(er, sa):
+@register.filter
+def er_has_sa(er, sa):
     if isinstance(er, ExamRegistration) and isinstance(sa, SpecialArrangement):
         if sa in er.special_arrangements.all():
-            return 1
-    return 0
+            return True
+    return False
