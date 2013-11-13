@@ -9,7 +9,7 @@
 {% block content %}
 <h1>{% if object.pk %}{% trans "Edit candidate" %} {{ object }}{% else %}{% trans "Create new candidate" %}{% endif %} <small>{{ school.name }}</small></h1>
 <p>{% trans "Using this form, you can add new candidate with special arrangements, ie. order special material for a candidate." %}</p>
-<form method="post" action="">
+<form method="post" action="{% url "education:candidateedit" uuid=school.uuid candidate_uuid=object.uuid %}">
     {% csrf_token %}
     {% crispy form form.helper %}
     {% for i in inlines %}

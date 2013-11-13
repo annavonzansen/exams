@@ -349,7 +349,7 @@ class ExamRegistrationInline(InlineFormSet):
     extra = 0
 
 # TODO: Convert to UpdateWithInlinesView
-class CandidateCreateView(CreateWithInlinesView):
+class CandidateCreateView(UpdateWithInlinesView):
     model = Candidate
     inlines = [ExamRegistrationInline]
     fields = ['last_name', 'first_names', 'candidate_number', 'site',]
@@ -386,15 +386,13 @@ class CandidateCreateView(CreateWithInlinesView):
         messages.success(self.request, _('Candidate added!'))
         return HttpResponseRedirect(self.get_success_url())
 
-    # TODO: Create new candidate, create registration template
-    # def get_object(self):
-    #     examination = current_examination(self.request)['current_examination']
-    #     school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
-    #     candidate = Candidate(examination=examination, school=school)
-    #     candidate.save()
-    #     candidate.append_missing_registrations()
-    #     #candidate = Candidate.objects.get(uuid=self.request.resolver_match.kwargs['candidate_uuid'])
-    #     return candidate
+    def get_object(self):
+        school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
+        candidate = Candidate.objects.initialize_new(school=school)
+        candidate.last_name = None
+        candidate.first_names = None
+        candidate.candidate_number = None
+        return candidate
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
@@ -432,6 +430,8 @@ class CandidateEditView(UpdateWithInlinesView):
     
     def get_object(self):
         candidate = Candidate.objects.get(uuid=self.request.resolver_match.kwargs['candidate_uuid'])
+        if candidate.status == 'i':
+            candidate.status = 'c'
         return candidate
 
     @method_decorator(login_required)
