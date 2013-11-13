@@ -517,6 +517,9 @@ class CandidateType(models.Model):
         verbose_name_plural = _('Candidate Types')
 
 class CandidateManager(models.Manager):
+    def get_queryset(self):
+        return super(CandidateManager, self).get_queryset().filter(status='c')
+    
     def initialize_new(self, school, examination=None):
         if examination is None:
             examination = Examination.objects.get_active()
@@ -524,7 +527,9 @@ class CandidateManager(models.Manager):
                 examination = examination[0]
             else:
                 examination = None
-        cn = Candidate(examination=examination, school=school, status='i', last_name='-', first_names='-', candidate_number=000)
+        from random import randrange
+        candidate_number = 10000 + randrange(70000)
+        cn = Candidate(examination=examination, school=school, status='i', last_name='-%s' % candidate_number, first_names='-%s' % candidate_number, candidate_number=candidate_number)
         cn.save()
         cn.append_missing_registrations()
         return cn
