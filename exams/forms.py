@@ -51,6 +51,11 @@ class ExamRegistrationHelper(FormHelper):
         self.render_required_fields = True
         self.form_tag = False
         self.template = 'bootstrap3/table_inline_formset.html'
+        self.layout = Layout(
+            Field('subject', readonly=True, disabled=True),
+            Field('special_arrangements'),
+            Field('additional_details'),
+        )
 
 class ExamRegistrationForm(ModelForm):
     def __init__(self, *args, **kwargs):
