@@ -232,7 +232,7 @@ class OrderCreateView(UpdateWithInlinesView):
         return HttpResponseRedirect(self.get_success_url())
 
     def get_object(self):
-        examination = current_examination(self.request)['current_examination']
+        examination = current_examination(self.request)['current_examination'] # TODO: Use get_latest
         school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
         site = school.get_default_site()
         new = Order(created_by=self.request.user, examination=examination, status=ORDER_STATUS_INITIALIZED, site=site)
@@ -305,7 +305,7 @@ class CandidatesView(ListView):
     model = Candidate
 
     def get_queryset(self):
-        examination = current_examination(self.request)['current_examination']
+        examination = current_examination(self.request)['current_examination'] # TODO: Use get_latest
         school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
         candidates = Candidate.active.filter(school=school, examination=examination)
         return candidates
@@ -409,7 +409,7 @@ candidatecreate = CandidateCreateView.as_view()
 class CandidateEditView(UpdateWithInlinesView):
     model = Candidate
     inlines = [ExamRegistrationInline]
-    fields = ['last_name', 'first_names', 'identity_number', 'candidate_number', 'candidate_type', 'retrying', 'site',]
+    fields = ['last_name', 'first_names', 'candidate_number', 'site',]
     form_class = CandidateForm
 
     def forms_valid(self, form, inlines):
@@ -486,7 +486,7 @@ class CandidateUploadView(CreateView):
         try:
             form.instance.by_user = self.request.user
             form.instance.school = school
-            form.instance.examination = current_examination(self.request)['current_examination']
+            form.instance.examination = current_examination(self.request)['current_examination'] # TODO: Use Examination.objects.get_latest
             #messages.info(self.request, _('Order pre-filled from XML file'))
             return super(CandidateUploadView, self).form_valid(form)
         except IOError:
