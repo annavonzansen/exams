@@ -260,7 +260,7 @@ class OrderEditView(UpdateWithInlinesView):
         materials = MaterialType.objects.all()
         context['school'] = school
         context['materials'] = materials
-        context['form'].fields['site'].queryset = SchoolSite.objects.filter(school=school)
+        context['form'].fields['site'].queryset = school.get_sites()
         context['helper'] = OrderItemHelper()
         return context    
 
