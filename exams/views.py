@@ -487,7 +487,7 @@ class CandidateUploadView(CreateView):
             form.instance.by_user = self.request.user
             form.instance.school = school
             form.instance.examination = current_examination(self.request)['current_examination']
-            messages.info(self.request, _('Order pre-filled from XML file'))
+            #messages.info(self.request, _('Order pre-filled from XML file'))
             return super(CandidateUploadView, self).form_valid(form)
         except IOError:
             messages.error(self.request, _('Invalid source file!'))
