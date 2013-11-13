@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django import template
-from exams.models import Order, Subject, SubjectGroup, MaterialType
+from exams.models import Order, Subject, SubjectGroup, MaterialType, SpecialArrangement, ExamRegistration
 
 register = template.Library()
 
@@ -52,3 +52,10 @@ def subject_has_material(subject, material_type):
 def order_field_for(order, subject, material_type):
 
     return '<input type="number" size="4" name="%(name)s" value="%(value)d"/>'
+
+@register.simple_tag
+def er_sa_value(er, sa):
+    if isinstance(er, ExamRegistration) and isinstance(sa, SpecialArrangement):
+        if sa in er.special_arrangements.all():
+            return 1
+    return 0

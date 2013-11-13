@@ -15,7 +15,7 @@ from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.utils.translation import ugettext as _
 
-from exams.models import Examination, Test, Assignment, File, Order, Candidate, CandidateUpload, ExamRegistration, OrderItem, MaterialType, ORDER_STATUS_INITIALIZED, ORDER_STATUS_CREATED, ORDER_STATUS_UPDATED, CANDIDATE_STATUS_CREATED, CANDIDATE_STATUS_INITIALIZED
+from exams.models import Examination, Test, Assignment, File, Order, Candidate, CandidateUpload, ExamRegistration, OrderItem, MaterialType, ORDER_STATUS_INITIALIZED, ORDER_STATUS_CREATED, ORDER_STATUS_UPDATED, CANDIDATE_STATUS_CREATED, CANDIDATE_STATUS_INITIALIZED, SpecialArrangement
 #from exams.forms import CandidateFormset
 from exams.forms import OrderForm, CandidateForm, OrderFormset, ExamRegistrationFormset, CandidateUploadForm, ExamRegistrationForm, ExamRegistrationHelper, OrderItemHelper
 from django.http import HttpResponseRedirect
@@ -372,6 +372,7 @@ class CandidateCreateView(UpdateWithInlinesView):
         context = super(CandidateCreateView, self).get_context_data(**kwargs)
         school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
         context['school'] = school
+        context['special_arrangements'] = SpecialArrangement.objects.all()
         context['form'].fields['site'].queryset = school.get_sites()
         context['helper'] = ExamRegistrationHelper()
         return context
@@ -428,6 +429,7 @@ class CandidateEditView(UpdateWithInlinesView):
         context = super(CandidateEditView, self).get_context_data(**kwargs)
         school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
         context['school'] = school
+        context['special_arrangements'] = SpecialArrangement.objects.all()
         context['form'].fields['site'].queryset = school.get_sites()
         context['helper'] = ExamRegistrationHelper()
         return context        
@@ -436,9 +438,8 @@ class CandidateEditView(UpdateWithInlinesView):
         candidate = Candidate.objects.get(uuid=self.request.resolver_match.kwargs['candidate_uuid'])
         if candidate.status == CANDIDATE_STATUS_INITIALIZED:
             candidate.status = CANDIDATE_STATUS_CREATED
-            candidate.last_name = None
-            candidate.first_names = None
-            candidate.candidate_number = None
+            candidate.save()
+        candidate.append_missing_registrations()
         return candidate
 
     @method_decorator(login_required)

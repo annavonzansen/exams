@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load crispy_forms_tags %}
 {% load static %}
+{% load orders %}
 
 {% block breadcrumb %}{{ block.super }}
 <li><a href="{% url "education:candidates" uuid=school.uuid %}">{% trans "Special Arrangements" %}</a></li>
@@ -12,7 +13,9 @@
 <p>{% trans "Using this form, you can add new candidate with special arrangements, ie. order special material for a candidate." %}</p>
 <form method="post" action="{% url "education:candidateedit" uuid=school.uuid candidate_uuid=object.uuid %}">
     {% csrf_token %}
+    }
     {% crispy form form.helper %}
+    {% comment %}
     {% for i in inlines %}
     <fieldset>
         <legend>{% trans "Exam Registrations" %}</legend>
@@ -20,29 +23,53 @@
     </fieldset>
     {% endfor %}
     {{ inlines.management_form|crispy }}
+    {% endcomment %}
 
-    <p><input type="submit" value="{% trans "Submit" %}" class="btn btn-success"/> <input type="reset" value="{% trans "Reset" %}" class="btn btn-danger"/></p>
-{% comment %}
-<table>
+<table class="table table-striped">
 {% for er in object.get_items %}
-{% ifchanged er.subject.group %}
+    {% ifchanged er.subject.group %}
     <thead>
         <tr>
-            <th colspan="4"><h3>{{ oi.subject.group.name }}</h3></th>
+            <th colspan="3"><h3>{{ er.subject.group.name }}</h3></th>
         </tr>
         <tr>
-            <th></th>
-            <th colspan="3" width="30%">{% trans "Amount (pcs)" %}</th>
+            <th>Subject</th>
+            <th>{% trans "Special Arrangements" %}</th>
+            <th>{% trans "Additional Details" %}</th>
         </tr>
-        <tr>
-            <th>{% trans "Subject" %}</th>
-            
-        </tr>
+
     </thead>
-{% endifchanged %}
+    {% endifchanged %}
+
+    {% if forloop.first %}
+        <input type="hidden" name="examregistration_set-TOTAL_FORMS" value="{{ forloop.revcounter }}"/>
+        <input type="hidden" name="examregistration_set-INITIAL_FORMS" value="{{ forloop.revcounter }}"/>
+        <input type="hidden" name="examregistration_set-MAX_NUM_FORMS" value="{{ forloop.revcounter }}"/>
+    {% endif %}
+
+    <tr>
+        <td>
+            {{ er.subject }}
+            <input type="hidden" name="examregistration_set-{{ forloop.counter0 }}-id" value="{{ er.pk }}"/>
+            <input type="hidden" name="examregistration_set-{{ forloop.counter0 }}-subject" value="{{ er.subject.pk }}"/>
+            
+        </td>
+        <td>
+            {% with forloop.counter0 as flc0 %}
+            {% for sa in special_arrangements %}
+                <input type="checkbox" name="examregistration_set-{{ flc0 }}-special_arrangements" value="{{ sa.pk }}"/> <label class="checkbox" for=""><small>{{ sa }}</small></label>
+            {% endfor %}
+            {% endwith %}
+        </td>
+        <td><textarea class="textarea form-control" cols="40" rows="10" name="examregistration_set-{{ forloop.counter0 }}-additional_details">{{ er.additional_details|default_if_none:"" }}</textarea></td>
+    </tr>
+
+
 {% endfor %}
 </table>
-{% endcomment %}
+
+
+<p><input type="submit" value="{% trans "Submit" %}" class="btn btn-success"/> <input type="reset" value="{% trans "Reset" %}" class="btn btn-danger"/></p>
 </form>
 {% endblock %}
 
