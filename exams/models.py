@@ -523,8 +523,8 @@ class CandidateType(models.Model):
         verbose_name_plural = _('Candidate Types')
 
 class CandidateManager(models.Manager):
-    def get_queryset(self):
-        return super(CandidateManager, self).get_queryset().filter(status='c')
+#    def get_queryset(self):
+#        return super(CandidateManager, self).get_queryset().filter(status='c')
 
     def initialize_new(self, school, examination=None):
         if examination is None:
