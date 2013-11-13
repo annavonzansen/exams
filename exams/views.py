@@ -208,7 +208,9 @@ class OrderCreateView(UpdateWithInlinesView):
     def get_context_data(self, **kwargs):
         context = super(OrderCreateView, self).get_context_data(**kwargs)
         school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
+        materials = MaterialType.objects.all()
         context['school'] = school
+        context['materials'] = materials
         context['form'].fields['site'].queryset = SchoolSite.objects.filter(school=school)
         context['helper'] = OrderItemHelper()
         return context
@@ -255,7 +257,9 @@ class OrderEditView(UpdateWithInlinesView):
     def get_context_data(self, **kwargs):
         context = super(OrderEditView, self).get_context_data(**kwargs)
         school = School.objects.get(uuid=self.request.resolver_match.kwargs['uuid'])
+        materials = MaterialType.objects.all()
         context['school'] = school
+        context['materials'] = materials
         context['form'].fields['site'].queryset = SchoolSite.objects.filter(school=school)
         context['helper'] = OrderItemHelper()
         return context    
