@@ -814,6 +814,9 @@ class Order(models.Model):
     objects = OrderManager()
     active = OrderActiveManager()
 
+    def order_id(self):
+        return "%04d-%s-%04d" % (self.site.school.school_id, self.date.strftime('%Y%m%d%H%M%S'), self.created_by.pk)
+
     def get_material_counts(self): # TODO
         #listening = Subject.objects.filter(material_types)
         items = self.get_items()
