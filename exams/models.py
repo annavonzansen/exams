@@ -912,7 +912,7 @@ class OrderItem(models.Model):
     history = HistoricalRecords()
 
     subject = models.ForeignKey(Subject, verbose_name=_('Subject'))
-    amount = models.PositiveIntegerField(verbose_name=_('Amount'))
+    amount = models.PositiveIntegerField(default=0, verbose_name=_('Amount'))
     material_type = models.ForeignKey(MaterialType, verbose_name=_('Material Type'))
 
     created = CreationDateTimeField()
