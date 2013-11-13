@@ -106,6 +106,7 @@ class MaterialType(models.Model):
     short = models.CharField(max_length=2, unique=True, verbose_name=_('Short'))
 
     one_for_x = models.PositiveIntegerField(default=1, verbose_name=_('One item for X candidates'))
+    max_amount = models.PositiveIntegerField(default=0, verbose_name=_('Max amount per subject per order'), help_text=_('How many pcs can be ordered in a single order, for single subject. 0 = no limit.'))
 
     def amount_for_x(self, count):
         """How many materials should be sent to count candidates?"""
