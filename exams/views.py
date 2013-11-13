@@ -169,13 +169,7 @@ class OrdersView(ListView):
         subjects = Subject.objects.all()
         materials = MaterialType.objects.all()
 
-        current = []
-        sites = school.get_sites()
-        for s in sites:
-            try:
-                current.append(s.get_latest_order())
-            except Order.DoesNotExist:
-                pass
+        current = school.get_active_orders()
 
         context['school'] = school
         context['materials'] = materials
@@ -188,6 +182,8 @@ class OrdersView(ListView):
         sites = SchoolSite.objects.filter(school=school)
         examination = Examination.objects.get_latest()
         orders = Order.objects.filter(site__in=sites, examination=examination)
+        # TODO: Show only ORDER_ACTIVE_STATUSES, except the latest
+        #orders = school.get_previous_orders()
         return orders
 
     @method_decorator(login_required)

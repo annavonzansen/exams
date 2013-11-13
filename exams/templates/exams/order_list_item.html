@@ -2,7 +2,7 @@
 {% load orders %}
     <li class="list-group-item">
     
-        <h4 class="list-group-item-heading"><a href="{% url "education:order" uuid=school.uuid order_uuid=o.uuid %}">{% trans "Order" %} {{ o.date }} <small>{{ o.site.name }}</small></a> <a href="{% url "education:orderedit" uuid=school.uuid order_uuid=o.uuid %}" class="btn btn-sm btn-default">{% trans "Update Order" %}</a></h4>
+        <h4 class="list-group-item-heading"><a href="{% url "education:order" uuid=school.uuid order_uuid=o.uuid %}">{% trans "Order" %} {{ o.date }} <small>{{ o.site.name }}</small></a> {% if current_examination.is_active %}<a href="{% url "education:orderedit" uuid=school.uuid order_uuid=o.uuid %}" class="btn btn-sm btn-default">{% trans "Update Order" %}</a>{% endif %}</h4>
         <ul>{% for m in materials %}
             <li><strong>{{ m }}:</strong> {% order_mt_total o m %} {% trans "pcs" %}</li>
         {% endfor %}</ul>

@@ -24,14 +24,18 @@ from simple_history.models import HistoricalRecords
 from django.db.models.signals import post_save
 from people.models import Person
 
-
+CANDIDATE_STATUS_CHOICES = (
+    ('i', _('Initialized')),
+    ('c', _('Created')),
+)
 ORDER_STATUS_INITIALIZED = 'i'
 ORDER_STATUS_UPDATED = 'u'
 ORDER_STATUS_CREATED = 'c'
-ORDER_STATUSES = ( # __in queryset filter is case insensitive, can't use same letter twice...
+ORDER_STATUSES = ( # __in queryset filter is case insensitive, can't use same letter twice... uppercase = changed @ ytl, lowercase = school changed
     (ORDER_STATUS_INITIALIZED, _('Initialized (not yet created)')),
     ('c', _('Order Created')),
     ('u', _('Order Updated')),
+    ('d', _('Deleted')),
     ('N', _('In Packaging')),
     ('P', _('Packaged')),
     ('S', _('Order Shipped')),
@@ -529,6 +533,7 @@ class Candidate(Person):
 
     retrying = models.BooleanField(default=False, verbose_name=_('Candidate is retrying full exam'), help_text=_('Is candidate starting the examination from begin?'))
 
+    status = models.CharField(max_length=1, choices=CANDIDATE_STATUS_CHOICES, editable=False, default='c')
     # TODO: Validate identity number
     # TODO: Gender from identity number
     # TODO: Age
@@ -721,6 +726,10 @@ class OrderManager(models.Manager):
 
     def get_site_latest(self, site):
         return self.get_for_site(site).latest('date')
+
+    def get_site_previous(self, site):
+        latest = self.get_site_latest(site=site)
+        return self.get_active_orders().filter(site=site).exclude(latest)
 
 class Order(models.Model):
     uuid = UUIDField(verbose_name='UUID')
