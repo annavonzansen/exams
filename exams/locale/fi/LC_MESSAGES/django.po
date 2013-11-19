@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: exams 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-19 19:47+0200\n"
+"POT-Creation-Date: 2013-11-19 20:08+0200\n"
 "PO-Revision-Date: 2013-11-19 19:59+0200\n"
 "Last-Translator: Ville Korhonen <ville.korhonen@ylioppilastutkinto.fi>\n"
 "Language-Team: Finnish <digabi@ylioppilastutkinto.fi>\n"
@@ -19,9 +19,7 @@ msgstr ""
 "X-Poedit-Language: Swedish\n"
 "X-Poedit-Country: SWEDEN\n"
 
-#: __init__.py:4
-#: models.py:646
-#: models.py:667
+#: __init__.py:4 models.py:646 models.py:667
 msgid "Exams"
 msgstr ""
 
@@ -33,8 +31,7 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: forms.py:24
-#: forms.py:97
+#: forms.py:24 forms.py:97
 msgid "Reset"
 msgstr ""
 
@@ -130,10 +127,7 @@ msgstr ""
 msgid "Semi"
 msgstr ""
 
-#: models.py:79
-#: models.py:108
-#: models.py:169
-#: models.py:714
+#: models.py:79 models.py:108 models.py:169 models.py:714
 msgid "Short"
 msgstr ""
 
@@ -169,10 +163,7 @@ msgstr ""
 msgid "Math"
 msgstr ""
 
-#: models.py:107
-#: models.py:354
-#: models.py:502
-#: models.py:713
+#: models.py:107 models.py:354 models.py:502 models.py:713
 msgid "Title"
 msgstr ""
 
@@ -185,22 +176,20 @@ msgid "Max amount per subject per order"
 msgstr ""
 
 #: models.py:111
-msgid "How many pcs can be ordered in a single order, for single subject. 0 = no limit."
+msgid ""
+"How many pcs can be ordered in a single order, for single subject. 0 = no "
+"limit."
 msgstr ""
 
-#: models.py:131
-#: models.py:950
+#: models.py:131 models.py:950
 msgid "Material Type"
 msgstr ""
 
-#: models.py:132
-#: models.py:172
-#: models.py:193
+#: models.py:132 models.py:172 models.py:193
 msgid "Material Types"
 msgstr ""
 
-#: models.py:136
-#: models.py:168
+#: models.py:136 models.py:168
 msgid "Name"
 msgstr ""
 
@@ -220,11 +209,7 @@ msgstr ""
 msgid "Group"
 msgstr ""
 
-#: models.py:205
-#: models.py:335
-#: models.py:735
-#: models.py:948
-#: models.py:1097
+#: models.py:205 models.py:335 models.py:735 models.py:948 models.py:1097
 msgid "Subject"
 msgstr ""
 
@@ -237,7 +222,9 @@ msgid "Registration Begin"
 msgstr ""
 
 #: models.py:263
-msgid "Date + time when registration begins, ie. when schools can register students and order materials"
+msgid ""
+"Date + time when registration begins, ie. when schools can register students "
+"and order materials"
 msgstr ""
 
 #: models.py:264
@@ -245,7 +232,9 @@ msgid "Registration End"
 msgstr ""
 
 #: models.py:264
-msgid "Date + time when registration begins, ie. when schools can no longer register students and order materials"
+msgid ""
+"Date + time when registration begins, ie. when schools can no longer "
+"register students and order materials"
 msgstr ""
 
 #: models.py:265
@@ -253,20 +242,18 @@ msgid "Registration Status"
 msgstr ""
 
 #: models.py:265
-msgid "Current registration mode. Enabled = schools can register students and order material, disabled = schools can not register students, scheduled = depends on registration begin/end times."
+msgid ""
+"Current registration mode. Enabled = schools can register students and order "
+"material, disabled = schools can not register students, scheduled = depends "
+"on registration begin/end times."
 msgstr ""
 
-#: models.py:324
-#: models.py:569
-#: models.py:623
-#: models.py:1094
-#: templates/exams/base.html:6
-#: templates/exams/examination_detail.html:10
+#: models.py:324 models.py:569 models.py:623 models.py:1094
+#: templates/exams/base.html:6 templates/exams/examination_detail.html:10
 msgid "Examination"
 msgstr ""
 
-#: models.py:325
-#: templates/exams/base.html:4
+#: models.py:325 templates/exams/base.html:4
 #: templates/exams/examination_detail.html:5
 #: templates/exams/examination_list.html:4
 #: templates/exams/examination_list.html:7
@@ -285,8 +272,7 @@ msgstr ""
 msgid "Test"
 msgstr ""
 
-#: models.py:385
-#: templates/exams/examination_detail.html:18
+#: models.py:385 templates/exams/examination_detail.html:18
 msgid "Tests"
 msgstr ""
 
@@ -312,8 +298,7 @@ msgstr ""
 msgid "Assignment %(title)s (%(uuid)s)"
 msgstr ""
 
-#: models.py:475
-#: templates/exams/assignment_detail.html:4
+#: models.py:475 templates/exams/assignment_detail.html:4
 #: templates/exams/assignment_detail.html:9
 msgid "Assignment"
 msgstr ""
@@ -330,9 +315,7 @@ msgstr ""
 msgid "Answers"
 msgstr ""
 
-#: models.py:503
-#: models.py:523
-#: models.py:980
+#: models.py:503 models.py:523 models.py:980
 msgid "File"
 msgstr ""
 
@@ -345,8 +328,7 @@ msgstr ""
 msgid "Files"
 msgstr ""
 
-#: models.py:539
-#: models.py:579
+#: models.py:539 models.py:579
 msgid "Candidate Type"
 msgstr ""
 
@@ -400,9 +382,7 @@ msgstr ""
 msgid "%(last_name)s, %(first_names)s (%(identity_number)s)"
 msgstr ""
 
-#: models.py:640
-#: models.py:674
-#: models.py:704
+#: models.py:640 models.py:674 models.py:704
 msgid "Candidate"
 msgstr ""
 
@@ -418,13 +398,11 @@ msgstr ""
 msgid "Special Arrangement"
 msgstr ""
 
-#: models.py:728
-#: models.py:738
+#: models.py:728 models.py:738
 msgid "Special Arrangements"
 msgstr ""
 
-#: models.py:739
-#: models.py:807
+#: models.py:739 models.py:807
 msgid "Additional Details"
 msgstr ""
 
@@ -521,7 +499,8 @@ msgid "UUID"
 msgstr ""
 
 #: models.py:980
-msgid "Select file which includes candidate examination registrations in XML format"
+msgid ""
+"Select file which includes candidate examination registrations in XML format"
 msgstr ""
 
 #: models.py:1066
@@ -568,7 +547,10 @@ msgstr ""
 
 #: management/commands/importcandidates.py:25
 #, python-format
-msgid "Import finished! Imported candidates %(candidates_created)d new and %(candidates_updated)d updated, with %(examregistrations)d registrations to exams."
+msgid ""
+"Import finished! Imported candidates %(candidates_created)d new and "
+"%(candidates_updated)d updated, with %(examregistrations)d registrations to "
+"exams."
 msgstr ""
 
 #: management/commands/importcandidates.py:27
@@ -603,4 +585,3 @@ msgstr ""
 #: templates/exams/examination_list.html:18
 msgid "No examinations available."
 msgstr ""
-
