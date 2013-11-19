@@ -120,7 +120,10 @@ class Candidate(object):
             self.school = int(xmltree.xpath('MAS_LUKIONRO')[0].text)
             self.gender = int(xmltree.xpath('MAS_SUKUPUOLI')[0].text)
             self.identity_number = xmltree.xpath('MAS_KKEHETU')[0].text
-            self.retrying = xmltree.xpath('MAS_UUSIJA')[0].text
+            try:
+                self.retrying = xmltree.xpath('MAS_UUSIJA')[0].text
+            except IndexError:
+                self.retrying = None
             self.batch = xmltree.xpath('MAS_ERA')[0].text
             subjects = []
             for field in self.XML_SUBJECT_FIELDS:
