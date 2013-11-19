@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: exams 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-19 20:08+0200\n"
-"PO-Revision-Date: 2013-11-19 19:59+0200\n"
+"PO-Revision-Date: 2013-11-20 01:22+0200\n"
 "Last-Translator: Ville Korhonen <ville.korhonen@ylioppilastutkinto.fi>\n"
 "Language-Team: Finnish <digabi@ylioppilastutkinto.fi>\n"
 "Language: \n"
@@ -19,117 +19,123 @@ msgstr ""
 "X-Poedit-Language: Swedish\n"
 "X-Poedit-Country: SWEDEN\n"
 
-#: __init__.py:4 models.py:646 models.py:667
+#: __init__.py:4
+#: models.py:646
+#: models.py:667
 msgid "Exams"
-msgstr ""
+msgstr "Kokeet"
 
 #: admin.py:12
 msgid "Export selected objects as CSV file"
-msgstr ""
+msgstr "Vie valitut CSV-tiedostoon"
 
 #: forms.py:23
 msgid "Save"
-msgstr ""
+msgstr "Tallenna"
 
-#: forms.py:24 forms.py:97
+#: forms.py:24
+#: forms.py:97
 msgid "Reset"
-msgstr ""
+msgstr "Palauta"
 
 #: forms.py:96
 msgid "Upload and pre-fill Order"
-msgstr ""
+msgstr "Lähetä ja esitäytä tilaus"
 
 #: models.py:30
 msgid "Initialized"
-msgstr ""
+msgstr "Alustettu"
 
 #: models.py:31
 msgid "Created"
-msgstr ""
+msgstr "Luotu"
 
 #: models.py:37
 msgid "Initialized (not yet created)"
-msgstr ""
+msgstr "Alustettu (ei vielä luotu)"
 
 #: models.py:38
 msgid "Order Created"
-msgstr ""
+msgstr "Tilaus luotu"
 
 #: models.py:39
 msgid "Order Updated"
-msgstr ""
+msgstr "Tilaus päivitetty"
 
 #: models.py:40
 msgid "Deleted"
-msgstr ""
+msgstr "Poistettu"
 
 #: models.py:41
 msgid "In Packaging"
-msgstr ""
+msgstr "Pakkauksessa"
 
 #: models.py:42
 msgid "Packaged"
-msgstr ""
+msgstr "Pakattu"
 
 #: models.py:43
 msgid "Order Shipped"
-msgstr ""
+msgstr "Tilaus lähetetty"
 
 #: models.py:49
 msgid "Spring"
-msgstr ""
+msgstr "Kevät"
 
 #: models.py:50
 msgid "Autumn"
-msgstr ""
+msgstr "Syksy"
 
 #: models.py:54
 msgid "Markdown"
-msgstr ""
+msgstr "Markdown"
 
 #: models.py:55
 msgid "HTML"
-msgstr ""
+msgstr "HTML"
 
 #: models.py:56
 msgid "Plaintext"
-msgstr ""
+msgstr "Vain teksti"
 
 #: models.py:62
 msgid "Draft"
-msgstr ""
+msgstr "Luonnos"
 
 #: models.py:63
 msgid "Final"
-msgstr ""
+msgstr "Valmis"
 
 #: models.py:69
 msgid "Text field"
-msgstr ""
+msgstr "Tekstikenttä"
 
 #: models.py:70
 msgid "Textarea"
-msgstr ""
+msgstr "Tekstialue"
 
 #: models.py:71
 msgid "Select multiple"
-msgstr ""
+msgstr "Valitse monta"
 
 #: models.py:72
 msgid "Select one"
-msgstr ""
+msgstr "Valitse yksi"
 
 #: models.py:77
 msgid "Long"
-msgstr ""
+msgstr "Pitkä"
 
 #: models.py:78
 msgid "Semi"
-msgstr ""
+msgstr "Keskipitkä"
 
-#: models.py:79 models.py:108 models.py:169 models.py:714
+#: models.py:79
+#: models.py:108
+#: models.py:169
+#: models.py:714
 msgid "Short"
-msgstr ""
+msgstr "Lyhyt"
 
 #: models.py:80
 msgid "Latin, 7th grade"
@@ -141,138 +147,146 @@ msgstr ""
 
 #: models.py:85
 msgid "Enabled"
-msgstr ""
+msgstr "Käytössä"
 
 #: models.py:86
 msgid "Disabled"
-msgstr ""
+msgstr "Poissa käytöstä"
 
 #: models.py:87
 msgid "Scheduled"
-msgstr ""
+msgstr "Ajastettu"
 
 #: models.py:91
 msgid "Real"
-msgstr ""
+msgstr "Reaali"
 
 #: models.py:92
 msgid "Language"
-msgstr ""
+msgstr "Kieli"
 
 #: models.py:93
 msgid "Math"
-msgstr ""
+msgstr "Matematiikka"
 
-#: models.py:107 models.py:354 models.py:502 models.py:713
+#: models.py:107
+#: models.py:354
+#: models.py:502
+#: models.py:713
 msgid "Title"
-msgstr ""
+msgstr "Otsikko"
 
 #: models.py:110
 msgid "One item for X candidates"
-msgstr ""
+msgstr "Yksi kappale per X kokelasta"
 
 #: models.py:111
 msgid "Max amount per subject per order"
-msgstr ""
+msgstr "Maksimimäärä per tilaus"
 
 #: models.py:111
-msgid ""
-"How many pcs can be ordered in a single order, for single subject. 0 = no "
-"limit."
-msgstr ""
+msgid "How many pcs can be ordered in a single order, for single subject. 0 = no limit."
+msgstr "Kuinka ponta kappaletta voidaan tilata yhdessä tilauksessa, yhtä ainetta kohden. 0 = ei rajoitusta."
 
-#: models.py:131 models.py:950
+#: models.py:131
+#: models.py:950
 msgid "Material Type"
-msgstr ""
+msgstr "Materiaalityyppi"
 
-#: models.py:132 models.py:172 models.py:193
+#: models.py:132
+#: models.py:172
+#: models.py:193
 msgid "Material Types"
-msgstr ""
+msgstr "Materiaalityypit"
 
-#: models.py:136 models.py:168
+#: models.py:136
+#: models.py:168
 msgid "Name"
-msgstr ""
+msgstr "Nimi"
 
 #: models.py:155
 msgid "Subject Group"
-msgstr ""
+msgstr "Aineryhmä"
 
 #: models.py:156
 msgid "Subject Groups"
-msgstr ""
+msgstr "Aineryhmät"
 
 #: models.py:171
 msgid "Subject Type"
-msgstr ""
+msgstr "Ainetyyppi"
 
 #: models.py:174
 msgid "Group"
-msgstr ""
+msgstr "Ryhmä"
 
-#: models.py:205 models.py:335 models.py:735 models.py:948 models.py:1097
+#: models.py:205
+#: models.py:335
+#: models.py:735
+#: models.py:948
+#: models.py:1097
 msgid "Subject"
-msgstr ""
+msgstr "Aine"
 
 #: models.py:206
 msgid "Subjects"
-msgstr ""
+msgstr "Aineet"
 
 #: models.py:263
 msgid "Registration Begin"
-msgstr ""
+msgstr "Ilmoittautuminen alkaa"
 
 #: models.py:263
-msgid ""
-"Date + time when registration begins, ie. when schools can register students "
-"and order materials"
-msgstr ""
+msgid "Date + time when registration begins, ie. when schools can register students and order materials"
+msgstr "Päivämäärä ja aika jolloin koulut voivat alkaa tekemään tilauksia"
 
 #: models.py:264
 msgid "Registration End"
-msgstr ""
+msgstr "Ilmoittautuminen päättyy"
 
 #: models.py:264
-msgid ""
-"Date + time when registration begins, ie. when schools can no longer "
-"register students and order materials"
-msgstr ""
+msgid "Date + time when registration begins, ie. when schools can no longer register students and order materials"
+msgstr "Päivämäärä ja aika jolloin koulut eivät voi enää tehdä materiaalitilauksia"
 
 #: models.py:265
 msgid "Registration Status"
-msgstr ""
+msgstr "Tila"
 
 #: models.py:265
-msgid ""
-"Current registration mode. Enabled = schools can register students and order "
-"material, disabled = schools can not register students, scheduled = depends "
-"on registration begin/end times."
-msgstr ""
+msgid "Current registration mode. Enabled = schools can register students and order material, disabled = schools can not register students, scheduled = depends on registration begin/end times."
+msgstr "Tämänhetkinen ilmoittautumisten tila. Käytössä  = koulut voivat tehdä tilauksia, poissa käytöstä = koulut eivät voi tehdä tilauksia. Ajastettu = riippuu alkamis/päättymisajasta."
 
-#: models.py:324 models.py:569 models.py:623 models.py:1094
-#: templates/exams/base.html:6 templates/exams/examination_detail.html:10
+#: models.py:324
+#: models.py:569
+#: models.py:623
+#: models.py:1094
+#: templates/exams/base.html:6
+#: templates/exams/examination_detail.html:10
 msgid "Examination"
-msgstr ""
+msgstr "Tutkinto"
 
-#: models.py:325 templates/exams/base.html:4
+#: models.py:325
+#: templates/exams/base.html:4
 #: templates/exams/examination_detail.html:5
 #: templates/exams/examination_list.html:4
 #: templates/exams/examination_list.html:7
 msgid "Examinations"
-msgstr ""
+msgstr "Tutkinnot"
 
 #: models.py:342
 msgid "Begin"
-msgstr ""
+msgstr "Alkaa"
 
 #: models.py:343
 msgid "End"
-msgstr ""
+msgstr "Päättyy"
 
 #: models.py:384
 msgid "Test"
 msgstr ""
 
-#: models.py:385 templates/exams/examination_detail.html:18
+#: models.py:385
+#: templates/exams/examination_detail.html:18
 msgid "Tests"
 msgstr ""
 
@@ -291,14 +305,15 @@ msgstr ""
 
 #: models.py:443
 msgid "-- Select --"
-msgstr ""
+msgstr "-- Valitse --"
 
 #: models.py:469
 #, python-format
 msgid "Assignment %(title)s (%(uuid)s)"
 msgstr ""
 
-#: models.py:475 templates/exams/assignment_detail.html:4
+#: models.py:475
+#: templates/exams/assignment_detail.html:4
 #: templates/exams/assignment_detail.html:9
 msgid "Assignment"
 msgstr ""
@@ -315,7 +330,9 @@ msgstr ""
 msgid "Answers"
 msgstr ""
 
-#: models.py:503 models.py:523 models.py:980
+#: models.py:503
+#: models.py:523
+#: models.py:980
 msgid "File"
 msgstr ""
 
@@ -328,37 +345,38 @@ msgstr ""
 msgid "Files"
 msgstr ""
 
-#: models.py:539 models.py:579
+#: models.py:539
+#: models.py:579
 msgid "Candidate Type"
-msgstr ""
+msgstr "Kokelastyyppi"
 
 #: models.py:540
 msgid "Candidate Types"
-msgstr ""
+msgstr "Kokelastyypit"
 
 #: models.py:575
 msgid "School"
-msgstr ""
+msgstr "Koulu"
 
 #: models.py:576
 msgid "Site"
-msgstr ""
+msgstr "Suorituspaikka"
 
 #: models.py:576
 msgid "Site in which this student will attend exams."
-msgstr ""
+msgstr "Suorituspaikka, jossa tämä kokelas osallistuu kokeisiin."
 
 #: models.py:578
 msgid "Candidate Number"
-msgstr ""
+msgstr "Kokelasnumero"
 
 #: models.py:578
 msgid "School-specific identification number for candidate (incrementing)"
-msgstr ""
+msgstr "Koulukohtainen tunniste kokelaalle (kasvava kokonaisluku)"
 
 #: models.py:579
 msgid "What sort of candidate this person is?"
-msgstr ""
+msgstr "Minkä lajin kokelas henkilö on?"
 
 #: models.py:581
 msgid "Candidate is retrying full exam"
@@ -371,124 +389,128 @@ msgstr ""
 #: models.py:614
 #, python-format
 msgid "%(candidate_number)s / %(school)s"
-msgstr ""
+msgstr "%(candidate_number)s / %(school)s"
 
 #: models.py:618
 msgid "Candidate ID / School"
-msgstr ""
+msgstr "Kokelasnumero / koulu"
 
 #: models.py:634
 #, python-format
 msgid "%(last_name)s, %(first_names)s (%(identity_number)s)"
-msgstr ""
+msgstr "%(last_name)s, %(first_names)s (%(identity_number)s)"
 
-#: models.py:640 models.py:674 models.py:704
+#: models.py:640
+#: models.py:674
+#: models.py:704
 msgid "Candidate"
-msgstr ""
+msgstr "Kokelas"
 
 #: models.py:655
 msgid "Last Updated"
-msgstr ""
+msgstr "Viimeksi päivitetty"
 
 #: models.py:705
 msgid "Candidates"
-msgstr ""
+msgstr "Kokelaat"
 
 #: models.py:727
 msgid "Special Arrangement"
-msgstr ""
+msgstr "Erityisjärjestely"
 
-#: models.py:728 models.py:738
+#: models.py:728
+#: models.py:738
 msgid "Special Arrangements"
-msgstr ""
+msgstr "Erityisjärjestelyt"
 
-#: models.py:739 models.py:807
+#: models.py:739
+#: models.py:807
 msgid "Additional Details"
-msgstr ""
+msgstr "Lisätiedot"
 
 #: models.py:758
 msgid "Exam Registration"
-msgstr ""
+msgstr "Tutkintoilmoittautuminen"
 
 #: models.py:759
 msgid "Exam Registrations"
-msgstr ""
+msgstr "Tutkintoilmoittautumiset"
 
 #: models.py:794
 msgid "School Site"
-msgstr ""
+msgstr "Suorituspaikka"
 
 #: models.py:797
 msgid "Created by"
-msgstr ""
+msgstr "Luonut"
 
 #: models.py:802
 msgid "Order Date"
-msgstr ""
+msgstr "Tilauspäivä"
 
 #: models.py:803
 msgid "Status"
-msgstr ""
+msgstr "Tila"
 
 #: models.py:805
 msgid "E-mail"
-msgstr ""
+msgstr "Sähköposti"
 
 #: models.py:805
 msgid "E-mail address to which the order confirmation will be sent."
-msgstr ""
+msgstr "Sähköpostiosoite, johon tilausvahvistus lähetetään."
 
 #: models.py:812
 msgid "Parent Order"
-msgstr ""
+msgstr "Aikaisempi tilaus"
 
 #: models.py:812
 msgid "Which order is an older version of this (parent)"
-msgstr ""
+msgstr "Mihin tilaukseen tämä tilaus on päivitys?"
 
 #: models.py:913
 msgid "Order Content"
-msgstr ""
+msgstr "Tilauksen sisältö"
 
 #: models.py:939
 msgid "Order"
-msgstr ""
+msgstr "Tilaus"
 
 #: models.py:940
 msgid "Orders"
-msgstr ""
+msgstr "Tilaukset"
 
 #: models.py:949
 msgid "Amount"
-msgstr ""
+msgstr "Määrä"
 
 #: models.py:963
 msgid "Order Item"
-msgstr ""
+msgstr "Tilausrivi"
 
 #: models.py:964
 msgid "Order Items"
-msgstr ""
+msgstr "Tilausrivit"
 
 #: models.py:969
 msgid "Uploaded"
-msgstr ""
+msgstr "Lähetetty"
 
 #: models.py:970
 msgid "Processed"
-msgstr ""
+msgstr "Käsitelty"
 
 #: models.py:971
 msgid "Archived"
-msgstr ""
+msgstr "Arkistoitu"
 
 #: models.py:972
 msgid "Removed"
-msgstr ""
+msgstr "Poistettu"
 
 #: models.py:973
 msgid "Invalid"
-msgstr ""
+msgstr "Virheellinen"
 
 #: models.py:974
 msgid "Permissions failed"
@@ -499,46 +521,45 @@ msgid "UUID"
 msgstr ""
 
 #: models.py:980
-msgid ""
-"Select file which includes candidate examination registrations in XML format"
-msgstr ""
+msgid "Select file which includes candidate examination registrations in XML format"
+msgstr "Valitse tiedosto, joka sisältää tutkintoon osallistuvat kokelaat XML-muodossa."
 
 #: models.py:1066
 #, python-format
 msgid "Invalid subject %s"
-msgstr ""
+msgstr "Virheellinen aine %s"
 
 #: models.py:1099
 msgid "Date"
-msgstr ""
+msgstr "Päivämäärä"
 
 #: models.py:1102
 msgid "Packing List"
-msgstr ""
+msgstr "Pakkauslista"
 
 #: views.py:231
 msgid "Order created successfully!"
-msgstr ""
+msgstr "Tilaus luotu onnistuneesti!"
 
 #: views.py:282
 msgid "Order updated successfully!"
-msgstr ""
+msgstr "Tilaus päivitetty onnistuneesti!"
 
 #: views.py:391
 msgid "Candidate added!"
-msgstr ""
+msgstr "Kokelas lisätty!"
 
 #: views.py:425
 msgid "Candidate updated!"
-msgstr ""
+msgstr "Kokelas päivitetty!"
 
 #: views.py:497
 msgid "Invalid source file!"
-msgstr ""
+msgstr "Virheellinen lähdetiedosto!"
 
 #: management/commands/importcandidates.py:10
 msgid "Imports candidates from XML file"
-msgstr ""
+msgstr "Tuo kokelaita XML-tiedostosta"
 
 #: management/commands/importcandidates.py:15
 #, python-format
@@ -547,10 +568,7 @@ msgstr ""
 
 #: management/commands/importcandidates.py:25
 #, python-format
-msgid ""
-"Import finished! Imported candidates %(candidates_created)d new and "
-"%(candidates_updated)d updated, with %(examregistrations)d registrations to "
-"exams."
+msgid "Import finished! Imported candidates %(candidates_created)d new and %(candidates_updated)d updated, with %(examregistrations)d registrations to exams."
 msgstr ""
 
 #: management/commands/importcandidates.py:27
@@ -572,7 +590,7 @@ msgstr ""
 #: templates/exams/examination_detail.html:23
 #: templates/exams/examination_list.html:14
 msgid "Now"
-msgstr ""
+msgstr "Nyt"
 
 #: templates/exams/examination_detail.html:27
 msgid "No tests available."
@@ -585,3 +603,4 @@ msgstr ""
 #: templates/exams/examination_list.html:18
 msgid "No examinations available."
 msgstr ""
+
