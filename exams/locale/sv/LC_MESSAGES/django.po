@@ -3,20 +3,20 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-19 19:28+0200\n"
-"PO-Revision-Date: 2013-11-11 15:00+0200\n"
-"Last-Translator: Pia Jouhki <pia.jouhki@ylioppilastutkinto.fi>\n"
+"POT-Creation-Date: 2013-11-19 19:47+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.5.7\n"
 
 #: __init__.py:4 models.py:646 models.py:667
 msgid "Exams"
@@ -584,13 +584,3 @@ msgstr ""
 #: templates/exams/examination_list.html:18
 msgid "No examinations available."
 msgstr ""
-
-#~ msgid "Need fancy description here."
-#~ msgstr ""
-#~ "Suomeksi tässä lukee:Tässä näet voimassaolevan tilauksen kullekin kokeen "
-#~ "suorituspaikalle erikseen. Voit muokata olemassaolevaa tilausta tai luoda "
-#~ "kokonaan uuden.Vanhat tilaukset on listattuna alhaalla.Kutakin "
-#~ "suorituspaikkaa kohti voi olla vain yksi aktiivinen koemateriaalitilaus."
-
-#~ msgid "Remove this? Distracts user..."
-#~ msgstr "Suomeksi tässä on: Vanhat tilaukset, jotka eivät ole voimassa."
