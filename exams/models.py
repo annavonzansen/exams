@@ -38,7 +38,7 @@ ORDER_STATUSES = ( # __in queryset filter is case insensitive, can't use same le
     ('c', _('Order Created')),
     ('u', _('Order Updated')),
     ('d', _('Deleted')), # ?!?!? is this used anywhere?
-    ('a',, _('Cancelled')),
+    ('a', _('Cancelled')),
     ('N', _('In Packaging')),
     ('P', _('Packaged')),
     ('S', _('Order Shipped')),
