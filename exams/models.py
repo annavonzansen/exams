@@ -20,7 +20,7 @@ import datetime
 import math
 
 
-from simple_history.models import HistoricalRecords
+#from simple_history.models import HistoricalRecords
 from django.db.models.signals import post_save
 from people.models import Person
 
@@ -110,7 +110,7 @@ class MaterialType(models.Model):
     one_for_x = models.PositiveIntegerField(default=1, verbose_name=_('One item for X candidates'))
     max_amount = models.PositiveIntegerField(default=0, verbose_name=_('Max amount per subject per order'), help_text=_('How many pcs can be ordered in a single order, for single subject. 0 = no limit.'))
 
-    history = HistoricalRecords()
+    #history = HistoricalRecords()
 
     def amount_for_x(self, count):
         """How many materials should be sent to count candidates?"""
@@ -135,7 +135,7 @@ class SubjectGroup(models.Model):
     uuid = UUIDField(verbose_name='UUID')
     name = models.CharField(max_length=255, unique=True, verbose_name=_('Name'))
     order = models.PositiveIntegerField(default=100)
-    history = HistoricalRecords()
+    #history = HistoricalRecords()
 
     def has_material(self, material_type):
         subjs = Subject.objects.filter(group=self)
@@ -173,7 +173,7 @@ class Subject(models.Model):
 
     group = models.ForeignKey(SubjectGroup, verbose_name=_('Group'))
 
-    history = HistoricalRecords()
+    #history = HistoricalRecords()
 
     objects = SubjectManager()
 
@@ -264,7 +264,7 @@ class Examination(models.Model):
     registration_end = models.DateTimeField(blank=True, null=True, verbose_name=_('Registration End'), help_text=_('Date + time when registration begins, ie. when schools can no longer register students and order materials'))
     registration_status = models.CharField(max_length=1, choices=REGISTRATION_STATUS_CHOICES, default='D', verbose_name=_('Registration Status'), help_text=_('Current registration mode. Enabled = schools can register students and order material, disabled = schools can not register students, scheduled = depends on registration begin/end times.'))
     
-    history = HistoricalRecords()
+    #history = HistoricalRecords()
     objects = ExaminationManager()
 
     def is_active(self):
@@ -341,7 +341,7 @@ class Test(models.Model):
 
     begin = models.DateTimeField(verbose_name=_('Begin'))
     end = models.DateTimeField(verbose_name=_('End'))
-    history = HistoricalRecords()
+    #history = HistoricalRecords()
 
     created = CreationDateTimeField()
     modified = ModificationDateTimeField()
@@ -527,7 +527,7 @@ class CandidateType(models.Model):
     uuid = UUIDField(verbose_name='UUID')
     title = models.CharField(max_length=255, unique=True)
     code = models.IntegerField(unique=True)
-    history = HistoricalRecords()
+    #history = HistoricalRecords()
 
     def __str__(self):
         return "%02d %s" % (self.code, self.title)
@@ -567,7 +567,7 @@ class CandidateActiveManager(CandidateManager):
 class Candidate(Person):
     #uuid = UUIDField(verbose_name='UUID')
     examination = models.ForeignKey(Examination, verbose_name=_('Examination'))
-    history = HistoricalRecords()
+    #history = HistoricalRecords()
 
     #person = models.ForeignKey('people.Person', verbose_name=_('Person'))
 
@@ -712,7 +712,7 @@ class SpecialArrangement(models.Model):
     uuid = UUIDField(verbose_name='UUID')
     title = models.CharField(max_length=255, unique=True, verbose_name=_('Title'))
     short = models.CharField(max_length=5, unique=True, verbose_name=_('Short'))
-    history = HistoricalRecords()
+    #history = HistoricalRecords()
 
     created = CreationDateTimeField()
     modified = ModificationDateTimeField()
@@ -743,7 +743,7 @@ class ExamRegistration(models.Model):
     created = CreationDateTimeField()
     modified = ModificationDateTimeField()
 
-    history = HistoricalRecords()
+    #history = HistoricalRecords()
 
     def __str__(self):
         return "%(candidate)s > %(subject)s" % {
@@ -792,7 +792,7 @@ class OrderActiveManager(OrderManager):
 class Order(models.Model):
     uuid = UUIDField(verbose_name='UUID')
     site = models.ForeignKey('education.SchoolSite', verbose_name=_('School Site'))
-    history = HistoricalRecords()
+    #history = HistoricalRecords()
 
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('Created by'))
 
@@ -943,7 +943,7 @@ class Order(models.Model):
 class OrderItem(models.Model):
     uuid = UUIDField(verbose_name='UUID')
     order = models.ForeignKey(Order)
-    history = HistoricalRecords()
+    #history = HistoricalRecords()
 
     subject = models.ForeignKey(Subject, verbose_name=_('Subject'))
     amount = models.PositiveIntegerField(default=0, verbose_name=_('Amount'))
@@ -984,7 +984,7 @@ class CandidateUpload(models.Model):
     status = models.CharField(max_length=1, choices=UPLOADED_FILE_CHOICES, default='U')
     order = models.ForeignKey(Order, blank=True, null=True)
 
-    history = HistoricalRecords()
+    #history = HistoricalRecords()
 
     created = CreationDateTimeField()
     modified = ModificationDateTimeField()
