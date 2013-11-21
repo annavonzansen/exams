@@ -8,16 +8,15 @@ msgstr ""
 "Project-Id-Version: exams 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-19 20:08+0200\n"
-"PO-Revision-Date: 2013-11-19 20:07+0200\n"
+"PO-Revision-Date: 2013-11-21 19:37+0200\n"
 "Last-Translator: Ville Korhonen <ville.korhonen@ylioppilastutkinto.fi>\n"
 "Language-Team: Swedish <digabi@ylioppilastutkinto.fi>\n"
-"Language: \n"
+"Language: sv_SE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Poedit-Language: Swedish\n"
-"X-Poedit-Country: SWEDEN\n"
+"X-Generator: Poedit 1.5.7\n"
 
 #: __init__.py:4 models.py:646 models.py:667
 msgid "Exams"
@@ -42,7 +41,7 @@ msgstr "Ladda upp examinander"
 
 #: models.py:30
 msgid "Initialized"
-msgstr ""
+msgstr "Formaterad"
 
 #: models.py:31
 #, fuzzy
@@ -51,7 +50,7 @@ msgstr "Skapad av"
 
 #: models.py:37
 msgid "Initialized (not yet created)"
-msgstr ""
+msgstr "Formaterad (inte ännu skapad)"
 
 #: models.py:38
 msgid "Order Created"
@@ -63,7 +62,7 @@ msgstr "Rekvisition uppdaterad"
 
 #: models.py:40
 msgid "Deleted"
-msgstr ""
+msgstr "Raderad"
 
 #: models.py:41
 msgid "In Packaging"
@@ -175,13 +174,14 @@ msgstr "Ett stycke per X examinander"
 
 #: models.py:111
 msgid "Max amount per subject per order"
-msgstr ""
+msgstr "maximiantal av rekvisitioner"
 
 #: models.py:111
 msgid ""
 "How many pcs can be ordered in a single order, for single subject. 0 = no "
 "limit."
 msgstr ""
+"Hur många stycken kan rekviveras på en gång, per ämne. 0 = inte begränsad"
 
 #: models.py:131 models.py:950
 msgid "Material Type"
@@ -539,9 +539,8 @@ msgid "Candidate updated!"
 msgstr "Examinand uppdaterad!"
 
 #: views.py:497
-#, fuzzy
 msgid "Invalid source file!"
-msgstr "Felaktig läroämne %s"
+msgstr "Felaktig källfil"
 
 #: management/commands/importcandidates.py:10
 msgid "Imports candidates from XML file"
